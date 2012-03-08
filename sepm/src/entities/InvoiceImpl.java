@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-public class InvoiceImpl {
+public class InvoiceImpl implements Invoice{
 	private int id = 0;
 	private double sum = 0;
 	private Date date = Date.valueOf("2000-01-01");
@@ -29,6 +29,10 @@ public class InvoiceImpl {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id){
+		this.id = id;
 	}
 	
 	public double getSum() {
