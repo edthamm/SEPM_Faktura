@@ -6,13 +6,13 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
-public class ConnectionManager implements DatabaseConnector{
+public class DatabaseConnectorImpl implements DatabaseConnector{
 
 	private Connection connection = null;
 	private String url = "jdbc:hsqldb:hsql://localhost/production";
 	private String user = "sa";
 	private String password = "";
-	private Logger logger = Logger.getLogger("dao.ConnectionManager.class");
+	private Logger logger = Logger.getLogger("dao.DatabaseConnectorImpl.class");
 			
 			
 
@@ -66,6 +66,15 @@ public class ConnectionManager implements DatabaseConnector{
 			throw new SQLException("Unable to connect to Database");
 		}
 		else return;
+	}
+	
+	protected void finalize() throws Throwable{
+		try{
+			connection.close();
+		}
+		finally{
+			super.finalize();
+		}
 	}
 
 
