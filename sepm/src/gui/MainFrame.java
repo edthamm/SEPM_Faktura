@@ -17,6 +17,9 @@ public class MainFrame extends JFrame{
 	
 	public MainFrame(String title){
 		super(title);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
 	/**
