@@ -1,5 +1,7 @@
 package gui;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.apache.log4j.Logger;
 
 import javax.swing.JDesktopPane;
@@ -20,6 +22,11 @@ public class MainFrame extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		//TODO make a layout
+		MigLayout layout = new MigLayout();
+		setLayout(layout);
+		
 	}
 	
 	/**
