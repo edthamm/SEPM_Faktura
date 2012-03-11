@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 public class ProductImpl implements Product{
 
-	private final int id;
+	private int id = 0;
 	private String label = "blank";
 	private double purchasePrice = 0;
 	private double retailPrice = 0;
@@ -12,9 +12,8 @@ public class ProductImpl implements Product{
 	private boolean inSale = true;
 	private Logger logger = Logger.getLogger("entities.ProductImpl.class");
 	
-	public ProductImpl(int id){
+	public ProductImpl(){
 		logger.debug("Initializing default product");
-		this.id = id;
 	}
 	
 	
@@ -29,6 +28,10 @@ public class ProductImpl implements Product{
 	
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id){
+		this.id = id;
 	}
 	
 	public String getLabel() {

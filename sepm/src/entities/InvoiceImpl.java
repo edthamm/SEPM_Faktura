@@ -20,11 +20,12 @@ public class InvoiceImpl implements Invoice{
 		logger.debug("Initialize InvoiceImpl to default");
 	}
 	
-	public InvoiceImpl(String date, String time, String waiter){
+	public InvoiceImpl(String date, String time, String waiter, int id){
 		logger.debug("Initializing InvoiceImpl with data");
 		this.date = Date.valueOf(date);
 		this.time = Time.valueOf(time);
 		this.waiter = waiter;
+		this.id = id;
 	}
 	
 	public int getId() {
