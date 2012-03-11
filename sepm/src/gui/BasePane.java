@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Color;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -22,6 +21,7 @@ public class BasePane extends JPanel{
 		MigLayout southLayout = new MigLayout("","grow","[]:push[]");
 		eastButtons.setLayout(southLayout);
 		
+		//TODO Remove colors before going life
 		eastButtons.setBackground(Color.BLACK);
 		westField.setBackground(Color.BLUE);
 		add(westField, "dock west");

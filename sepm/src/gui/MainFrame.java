@@ -65,7 +65,7 @@ public class MainFrame extends JFrame{
 					//TODO
 					e.printStackTrace();
 				}
-				MainFrame frame = new MainFrame("Edis Gui");
+				MainFrame frame = new MainFrame("Faktura 2012");
 				frame.setVisible(true);
 			}
 		});

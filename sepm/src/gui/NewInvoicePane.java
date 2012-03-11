@@ -11,6 +11,36 @@ public class NewInvoicePane extends BasePane{
 	public NewInvoicePane(){
 		super();
 		
+		createButtons();
+		createLabels();
+		createTextFields();
+		createResultFrame();
+		addEverythingToInterface();
+	}
+
+	private void createButtons() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void createLabels() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void createTextFields() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void createResultFrame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addEverythingToInterface() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
