@@ -4,12 +4,12 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-public class PaneBase extends JPanel{
+public class BasePane extends JPanel{
 
 	private static final long serialVersionUID = 4932461605479054032L;
 	protected JPanel southButtons = new JPanel();
 	
-	public PaneBase(){
+	public BasePane(){
 		super();
 		
 		MigLayout layout = new MigLayout();

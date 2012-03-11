@@ -3,7 +3,7 @@ package gui;
 import org.apache.log4j.Logger;
 
 
-public class NewInvoicePane extends PaneBase{
+public class NewInvoicePane extends BasePane{
 
 	private static final long serialVersionUID = 4539993258343834799L;
 	private Logger logger = Logger.getLogger("gui.NewInvoicePane.class");
