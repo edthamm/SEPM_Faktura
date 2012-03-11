@@ -31,10 +31,6 @@ public class InvoiceImpl implements Invoice{
 		return id;
 	}
 	
-	public void setId(int id){
-		this.id = id;
-	}
-	
 	public double getSum() {
 		return sum;
 	}
