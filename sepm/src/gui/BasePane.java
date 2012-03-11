@@ -21,7 +21,7 @@ public class BasePane extends JPanel{
 		MigLayout eastLayout = new MigLayout("","grow","[]:push[]");
 		eastButtons.setLayout(eastLayout);
 		
-		MigLayout westLayout = new MigLayout();
+		MigLayout westLayout = new MigLayout("","grow","");
 		westField.setLayout(westLayout);
 		
 		//TODO Remove colors before going life

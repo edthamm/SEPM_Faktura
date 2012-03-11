@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
 import org.apache.log4j.Logger;
 
 
@@ -40,6 +39,7 @@ public class NewInvoicePane extends BasePane{
 	}
 
 	private void createButtons() {
+		logger.info("Creating Buttons");
 		newInvoice = new JButton("<html>Neue<br>Rechnung</html>");
 		addProduct = new JButton("Hinzufügen");
 		closeInvoice = new JButton("<html>Rechnung<br>abschließen<html>");
@@ -47,10 +47,12 @@ public class NewInvoicePane extends BasePane{
 	}
 	
 	private void createDropDown(){
+		logger.info("Creating Dropdown");
 		openInvoices = new JComboBox();
 	}
 
 	private void createLabels() {
+		logger.info("Creating Labels");
 		pnr = new JLabel("Artikelnummer: ");
 		pname = new JLabel("Artikelbezeichnung: ");
 		qty = new JLabel("Anzahl: ");
@@ -58,6 +60,7 @@ public class NewInvoicePane extends BasePane{
 	}
 
 	private void createTextFields() {
+		logger.info("Creating TextFields");
 		pnrField = new JTextField();
 		pnameField = new JTextField();
 		qtyField = new JTextField();
@@ -65,12 +68,14 @@ public class NewInvoicePane extends BasePane{
 	}
 
 	private void createResultPane() {
+		logger.info("Creating ResultPane");
 		results = new JTable();
 		resultTablePane = new JScrollPane(results);
 		
 	}
 
 	private void addEverythingToInterface() {
+		logger.info("Adding everything to the Interface");
 		JPanel wf = super.westField;
 		JPanel eb = super.eastButtons;
 		
@@ -92,10 +97,11 @@ public class NewInvoicePane extends BasePane{
 	}
 	
 	public void addInvoiceToOpenInvoices(){
-		
+		logger.info("Adding to open Invoices");
 	}
 	
 	public void updateResultsOfProductSearch(){
+		logger.info("Updating Result Table");
 		
 	}
 	

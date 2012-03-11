@@ -6,7 +6,6 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
