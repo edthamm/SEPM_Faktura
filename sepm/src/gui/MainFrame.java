@@ -35,9 +35,9 @@ public class MainFrame extends JFrame{
 	
 	private void addTabs() {
 		logger.info("Adding tabs");
-		tabs.addTab("Rechnung erstellen", new BasePane());
-		tabs.addTab("Rechnungen verwalten", new JPanel());
-		tabs.addTab("Artikel verwalten", new JPanel());
+		tabs.addTab("Rechnung erstellen", new NewInvoicePane());
+		tabs.addTab("Rechnungen verwalten", new AdministrateInvoicePane());
+		tabs.addTab("Artikel verwalten", new AdministrateProductsPane());
 		tabs.addTab("Benutzer verwalten", new AdministrateUserPane());
 	}
 	
