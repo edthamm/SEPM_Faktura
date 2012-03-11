@@ -25,10 +25,10 @@ public class MainFrame extends JFrame{
 		setLayout(layout);
 		
 		logger.info("Adding tabs");
-		tabs.addTab("Rechnung erstellen", new JPanel());
+		tabs.addTab("Rechnung erstellen", new BasePane());
 		tabs.addTab("Rechnungen verwalten", new JPanel());
 		tabs.addTab("Artikel verwalten", new JPanel());
-		tabs.addTab("Benutzer verwalten", new JPanel());
+		tabs.addTab("Benutzer verwalten", new AdministrateUserPane());
 		
 		logger.info("Making tabs visible");
 		add(tabs,"grow, push");
