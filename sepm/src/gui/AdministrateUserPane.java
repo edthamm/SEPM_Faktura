@@ -27,19 +27,23 @@ public class AdministrateUserPane extends BasePane{
 		
 	}
 	private void setUpButtons() {
+		logger.info("Setting up buttons");
 		confirmUser = new JButton("<html>Benutzer<br>Übernehmen</html>");
 	}	
 	
 	private void setUpField() {
+		logger.info("Setting up fields");
 		username = new JLabel("Benutzername:");
 		usernameTextField = new JTextField("Bitte geben Sie hier Ihren Benutzernamen ein");
 	}
 	
 	private void adjustLayoutOfEastButtonsForJustOneButton(){
+		logger.info("Adjusting Layout");
 		super.eastButtons.setLayout(new MigLayout("","grow",":push[]"));
 	}
 	
 	private void addEverythingToTheInterface() {
+		logger.info("Adding everything to interface");
 		super.eastButtons.add(confirmUser);
 		super.westField.add(username);
 		super.westField.add(usernameTextField, "wrap");
