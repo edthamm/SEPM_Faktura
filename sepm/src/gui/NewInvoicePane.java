@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -15,6 +16,7 @@ public class NewInvoicePane extends BasePane{
 	private JButton newInvoice;
 	private JButton addProduct;
 	private JButton closeInvoice;
+	private JComboBox openInvoices;
 	private JLabel pnr;
 	private JLabel pname;
 	private JLabel qty;
@@ -26,9 +28,10 @@ public class NewInvoicePane extends BasePane{
 		super();
 		
 		createButtons();
+		createDropDown();
 		createLabels();
 		createTextFields();
-		createResultFrame();
+		createResultPane();
 		addEverythingToInterface();
 	}
 
@@ -37,6 +40,10 @@ public class NewInvoicePane extends BasePane{
 		addProduct = new JButton("Hinzufügen");
 		closeInvoice = new JButton("<html>Rechnung<br>abschließen<html>");
 		
+	}
+	
+	private void createDropDown(){
+		openInvoices = new JComboBox();
 	}
 
 	private void createLabels() {
@@ -53,7 +60,7 @@ public class NewInvoicePane extends BasePane{
 		
 	}
 
-	private void createResultFrame() {
+	private void createResultPane() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -62,18 +69,23 @@ public class NewInvoicePane extends BasePane{
 		JPanel wf = super.westField;
 		JPanel eb = super.eastButtons;
 		
-		eb.add(newInvoice,"wrap,");
+		eb.add(newInvoice,"wrap");
 		eb.add(closeInvoice,"wrap, south");
 		eb.add(addProduct,"south");
 		
-		//add dropdown
+		wf.add(openInvoices,"wrap, wmin 300, span 2");
+		
 		wf.add(pnr);
-		wf.add(pnrField,"wrap");
+		wf.add(pnrField,"wrap, w 100");
 		wf.add(pname);
-		wf.add(pnameField,"wrap");
+		wf.add(pnameField,"wrap,w 500");
+		
+		
 		//add result window
-		wf.add(qty);
-		wf.add(qtyField);
+		
+		
+		wf.add(qty,"cell 2 4,split , right");
+		wf.add(qtyField,"right, w 100");
 	}
 	
 

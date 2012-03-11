@@ -27,6 +27,7 @@ public class BasePane extends JPanel{
 		//TODO Remove colors before going life
 		eastButtons.setBackground(Color.BLACK);
 		westField.setBackground(Color.BLUE);
+		
 		add(westField, "dock west");
 		add(eastButtons,"dock east");
 		
