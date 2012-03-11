@@ -20,29 +20,41 @@ public class MainFrame extends JFrame{
 	public MainFrame(String title){
 		super(title);
 		
+		setLayoutOfMainFrame();
+		addTabs();
+		makeTabsVisible();
+		setDefaultBehavior();
+		
+	}
+
+	private void setLayoutOfMainFrame() {
 		logger.info("Setting Layout");
 		MigLayout layout = new MigLayout();
 		setLayout(layout);
-		
+	}
+	
+	private void addTabs() {
 		logger.info("Adding tabs");
 		tabs.addTab("Rechnung erstellen", new BasePane());
 		tabs.addTab("Rechnungen verwalten", new JPanel());
 		tabs.addTab("Artikel verwalten", new JPanel());
 		tabs.addTab("Benutzer verwalten", new AdministrateUserPane());
-		
+	}
+	
+	private void makeTabsVisible() {
 		logger.info("Making tabs visible");
 		add(tabs,"grow, push");
-		
+	}
+	
+	private void setDefaultBehavior() {
 		logger.info("Setting default behavior");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		
 	}
+
 	
-	/**
-	 * @param args
-	 */
+	
 	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable(){
 			public void run(){

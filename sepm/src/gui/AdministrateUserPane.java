@@ -14,7 +14,24 @@ public class AdministrateUserPane extends BasePane{
 	public AdministrateUserPane(){
 		super();
 		
+		setUpButtons();
+		setUpPanel();
+		addEverythingToTheInterface();
 		
+	}
+
+	private void addEverythingToTheInterface() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setUpPanel() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setUpButtons() {
+		// TODO Auto-generated method stub
 		
 	}
 }
