@@ -2,7 +2,7 @@ package gui;
 
 
 import net.miginfocom.swing.MigLayout;
-
+import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.swing.JFrame;
@@ -55,6 +55,7 @@ public class MainFrame extends JFrame{
 	
 	
 	public static void main(String[] args) {
+		PropertyConfigurator.configure("log4j.properties");
 		javax.swing.SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
 				try{
