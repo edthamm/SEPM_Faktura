@@ -11,7 +11,7 @@ public class BasePane extends JPanel{
 
 	private static final long serialVersionUID = 4932461605479054032L;
 	protected JPanel eastButtons = new JPanel();
-	protected JPanel westPanel = new JPanel();
+	protected JPanel westField = new JPanel();
 	
 	public BasePane(){
 		super();
@@ -23,8 +23,8 @@ public class BasePane extends JPanel{
 		eastButtons.setLayout(southLayout);
 		
 		eastButtons.setBackground(Color.BLACK);
-		westPanel.setBackground(Color.BLUE);
-		add(westPanel, "dock west");
+		westField.setBackground(Color.BLUE);
+		add(westField, "dock west");
 		add(eastButtons,"dock east");
 		
 		
