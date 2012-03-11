@@ -4,6 +4,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.apache.log4j.Logger;
 
 
@@ -20,6 +22,7 @@ public class AdministrateUserPane extends BasePane{
 		
 		setUpButtons();
 		setUpField();
+		adjustLayoutOfEastButtonsForJustOneButton();
 		addEverythingToTheInterface();
 		
 	}
@@ -30,6 +33,10 @@ public class AdministrateUserPane extends BasePane{
 	private void setUpField() {
 		username = new JLabel("Benutzername:");
 		usernameTextField = new JTextField("Bitte geben Sie hier Ihren Benutzernamen ein");
+	}
+	
+	private void adjustLayoutOfEastButtonsForJustOneButton(){
+		super.eastButtons.setLayout(new MigLayout("","grow",":push[]"));
 	}
 	
 	private void addEverythingToTheInterface() {

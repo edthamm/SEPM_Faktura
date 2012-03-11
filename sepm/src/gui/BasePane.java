@@ -19,7 +19,7 @@ public class BasePane extends JPanel{
 		MigLayout layout = new MigLayout("fill","[]","");
 		setLayout(layout);
 		
-		MigLayout southLayout = new MigLayout();
+		MigLayout southLayout = new MigLayout("","grow","[]:push[]");
 		eastButtons.setLayout(southLayout);
 		
 		eastButtons.setBackground(Color.BLACK);
