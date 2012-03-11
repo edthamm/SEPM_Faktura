@@ -4,6 +4,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
@@ -23,6 +25,8 @@ public class NewInvoicePane extends BasePane{
 	private JTextField pnrField;
 	private JTextField pnameField;
 	private JTextField qtyField;
+	private JScrollPane resultTablePane;
+	private JTable results;
 	
 	public NewInvoicePane(){
 		super();
@@ -61,7 +65,8 @@ public class NewInvoicePane extends BasePane{
 	}
 
 	private void createResultPane() {
-		// TODO Auto-generated method stub
+		results = new JTable();
+		resultTablePane = new JScrollPane(results);
 		
 	}
 
@@ -80,12 +85,18 @@ public class NewInvoicePane extends BasePane{
 		wf.add(pname);
 		wf.add(pnameField,"wrap,w 500");
 		
+		wf.add(resultTablePane, "span 2, grow");
 		
-		//add result window
-		
-		
-		wf.add(qty,"cell 2 4,split , right");
+		wf.add(qty,"cell 1 4,split , right");
 		wf.add(qtyField,"right, w 100");
+	}
+	
+	public void addInvoiceToOpenInvoices(){
+		
+	}
+	
+	public void updateResultsOfProductSearch(){
+		
 	}
 	
 
