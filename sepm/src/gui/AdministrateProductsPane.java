@@ -109,8 +109,8 @@ public class AdministrateProductsPane extends BasePane {
 		wf.add(retailRelation);
 		wf.add(rpriceField,"w 100, wrap");
 		wf.add(resultTablePane,"span 5,grow, wrap");
-		wf.add(showTopsellers,"span 2");
-		wf.add(increasePriceOfTopsellers,"span 2, grow");
+		wf.add(showTopsellers,"span 2,grow");
+		wf.add(increasePriceOfTopsellers,"span 3, grow");
 		
 	}
 

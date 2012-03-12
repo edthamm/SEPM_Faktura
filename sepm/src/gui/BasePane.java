@@ -25,10 +25,10 @@ public class BasePane extends JPanel{
 		westField.setLayout(westLayout);
 		
 		//TODO Remove colors before going life
-		eastButtons.setBackground(Color.BLACK);
-		westField.setBackground(Color.BLUE);
+		//eastButtons.setBackground(Color.BLACK);
+		//westField.setBackground(Color.BLUE);
 		
-		add(westField, "dock west");
+		add(westField, "dock west, w max");
 		add(eastButtons,"dock east");
 		
 		
