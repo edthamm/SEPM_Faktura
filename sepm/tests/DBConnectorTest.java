@@ -1,23 +1,35 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.Before;
+import java.sql.Connection;
+
+import org.apache.log4j.PropertyConfigurator;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import dao.DatabaseConnector;
+import dao.DatabaseConnectorImpl;
 
 
 public class DBConnectorTest {
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
+	
+	private DatabaseConnector dbc;
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception{
+		PropertyConfigurator.configure("log4j.properties");
 	}
 
 	@Test
 	public void testGetConnection() {
-		fail("Not yet implemented");
+		dbc = new DatabaseConnectorImpl();
+		try{
+			Connection c = dbc.getConnection();
+			assertTrue(c != null);
+		}
+		catch(Exception e){
+			fail("Did not get a connection check if DB is running");
+		}
 	}
 
 }

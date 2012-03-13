@@ -16,7 +16,7 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 			
 			
 
-	public Connection getConnection() throws SQLException {
+	public Connection getConnection() throws DatabaseConnectorException{
 		
 		if(connection == null){
 			tryToConnect3Times();
@@ -28,9 +28,9 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 
 
 	/**
-	 * @throws SQLException
+	 * @throws DatabaseConnectorException 
 	 */
-	private void tryToConnect3Times() throws SQLException {
+	private void tryToConnect3Times() throws DatabaseConnectorException {
 		int i = 0;
 		while(i<3){
 			try{
@@ -38,6 +38,7 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 			}
 			catch(SQLException e){
 				logger.warn("Failed connection attempt to db");
+				i++;
 				continue;
 			}
 			return;
@@ -58,12 +59,12 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 
 
 	/**
-	 * @throws SQLException
+	 * @throws DatabaseConnectorException 
 	 */
-	private void checkIfConnectionIsEstablished() throws SQLException {
+	private void checkIfConnectionIsEstablished() throws DatabaseConnectorException {
 		if(connection == null){
 			logger.error("Could not establish database connection");
-			throw new SQLException("Unable to connect to Database");
+			throw new DatabaseConnectorException("Unable to connect to Database");
 		}
 		else return;
 	}
