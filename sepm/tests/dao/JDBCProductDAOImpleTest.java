@@ -1,3 +1,4 @@
+package dao;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -7,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class JDBCInvoiceDAOTest {
+public class JDBCProductDAOImpleTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -26,17 +27,17 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testCreateInvoice() {
+	public void testCreateProduct() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testUpdateInvoice() {
+	public void testUpdateProduct() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testDeleteInvoice() {
+	public void testDeleteProduct() {
 		fail("Not yet implemented");
 	}
 
@@ -51,7 +52,7 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testFindByDate() {
+	public void testFindByName() {
 		fail("Not yet implemented");
 	}
 
