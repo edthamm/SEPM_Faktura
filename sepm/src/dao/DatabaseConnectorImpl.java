@@ -41,8 +41,8 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 				i++;
 				continue;
 			} catch (ClassNotFoundException e) {
-				
-				e.printStackTrace();
+				logger.error("Could not load DatabaseDriver");
+				throw new DatabaseConnectorException("Could not load DatabaseDriver");
 			}
 			return;
 		}
