@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import entities.Invoice;
+import entities.InvoiceImpl;
 
 
 public class JDBCInvoiceDAOImpl implements InvoiceDAO {
@@ -31,7 +32,19 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	@Override
 	public Invoice createInvoice(String date, String time, String waiter) {
 		// TODO Auto-generated method stub
-		return null;
+		InvoiceImpl newInvoice = createInvoiceObject(date, time, waiter);
+		int invoiceid = writeInvoiceToDatabase(newInvoice);
+		newInvoice.setId(invoiceid);
+		return newInvoice;
+	}
+
+	private InvoiceImpl createInvoiceObject(String date, String time, String waiter) {
+		return new InvoiceImpl(date,time,waiter,0);
+	}
+
+	private int writeInvoiceToDatabase(Invoice newInvoice) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -74,6 +87,10 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 
 	protected void commit() throws SQLException{
 		c.commit();
+	}
+	
+	protected Connection getConnection(){
+		return c;
 	}
 
 
