@@ -76,18 +76,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	protected void setAutoCommit(boolean b) throws SQLException {
-		c.setAutoCommit(b);
-	}
-
-	protected void rollback() throws SQLException{
-		c.rollback();
-	}
-
-	protected void commit() throws SQLException{
-		c.commit();
-	}
 	
 	protected Connection getConnection(){
 		return c;
