@@ -19,7 +19,7 @@ public class DBConnectorTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception{
 		dbc = new DatabaseConnectorImpl();
-		PropertyConfigurator.configure("log4j.properties");
+		PropertyConfigurator.configure("tests/log4jtest.properties");
 	}
 
 	@Test
