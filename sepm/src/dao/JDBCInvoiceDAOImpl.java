@@ -76,12 +76,30 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	}
 
 	private int writeInvoiceToDatabase(Invoice newInvoice) throws SQLException {
+		insertNewInvoice(newInvoice);
+		int id = getIdOfJustInsertedInvoice(newInvoice);
+		return id;
+	}
+
+	/**
+	 * @param newInvoice
+	 * @throws SQLException
+	 */
+	private void insertNewInvoice(Invoice newInvoice) throws SQLException {
 		createStatement.setDate(1, newInvoice.getDate());
 		createStatement.setString(2, newInvoice.getWaiter());
 		createStatement.setTime(3, newInvoice.getTime());
 		
 		createStatement.executeUpdate();
-		
+	}
+	
+	/**
+	 * @param newInvoice
+	 * @return
+	 * @throws SQLException
+	 */
+	private int getIdOfJustInsertedInvoice(Invoice newInvoice)
+			throws SQLException {
 		getIdAfterCreate.setDate(1, newInvoice.getDate());
 		getIdAfterCreate.setString(2, newInvoice.getWaiter());
 		getIdAfterCreate.setTime(3, newInvoice.getTime());
