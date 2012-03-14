@@ -57,7 +57,7 @@ public class JDBCInvoiceDAOTest {
 	}
 	
 	@Test
-	public void testIfCreateInsertsToDB() throws SQLException{
+	public void testIfCreateInsertsToDB() throws SQLException, JDBCInvoiceDAOImplException{
 		Connection c = dao.getConnection();
 		Statement s = c.createStatement();
 		ResultSet r = s.executeQuery("SELECT COUNT(*) AS num FROM invoice");
