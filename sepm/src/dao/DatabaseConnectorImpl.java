@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 public class DatabaseConnectorImpl implements DatabaseConnector{
 
 	private Connection connection = null;
-	private String url = "jdbc:hsqldb:hsql://localhost/production";
+	private String url = "jdbc:hsqldb:hsql://localhost/testdb";
 	private String user = "sa";
 	private String password = "";
 	private Logger logger = Logger.getLogger("dao.DatabaseConnectorImpl.class");
@@ -40,6 +40,9 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 				logger.warn("Failed connection attempt to db");
 				i++;
 				continue;
+			} catch (ClassNotFoundException e) {
+				
+				e.printStackTrace();
 			}
 			return;
 		}
@@ -50,9 +53,11 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 
 	/**
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	private void connect() throws SQLException {
+	private void connect() throws SQLException, ClassNotFoundException {
 		logger.debug("Connetiong to DB: "+url);
+		Class.forName("org.hsqldb.jdbc.JDBCDriver");
 		connection = DriverManager.getConnection(url, user, password);
 		logger.debug("Connected.");
 	}

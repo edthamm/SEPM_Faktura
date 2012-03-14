@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="/home/eduard/workspace/sepm/lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/home/eduard/workspace/sepm/lib/miglayout-4.0-swing.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/hsqldb"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
