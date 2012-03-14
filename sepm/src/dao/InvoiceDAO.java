@@ -6,7 +6,7 @@ import java.util.List;
 import entities.Invoice;
 
 public interface InvoiceDAO {
-	public int createInvoice();
+	public Invoice createInvoice(String date, String time, String waiter);
 	public Invoice updateInvoice(Invoice toUpdate);
 	public void deleteInvoice(Invoice toDelete);
 	public List<Invoice> findAll();

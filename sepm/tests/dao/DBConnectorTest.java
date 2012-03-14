@@ -1,8 +1,8 @@
 package dao;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.sql.Connection;
+import java.sql.SQLNonTransientConnectionException;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.BeforeClass;
@@ -42,4 +42,11 @@ public class DBConnectorTest {
 		assertTrue(c1.equals(c2));
 	}
 
+	@Test(expected = SQLNonTransientConnectionException.class)
+	public void someTest() throws Exception{
+		Connection c = dbc.getConnection();
+		c.close();
+		Connection c1 = dbc.getConnection();
+		c1.createStatement();
+	}
 }

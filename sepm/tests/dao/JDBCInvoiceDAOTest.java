@@ -1,8 +1,6 @@
 package dao;
 import static org.junit.Assert.*;
 
-import java.sql.Connection;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -11,12 +9,12 @@ import org.junit.Test;
 
 
 public class JDBCInvoiceDAOTest {
-    private static Connection c;
-    
-	@BeforeClass
+    private static JDBCInvoiceDAOImpl dao;
+	
+    @BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		c = new DatabaseConnectorImpl().getConnection();
-		//TODO if there is funny trouble this is the line to change -> .finalize
+    	dao = new JDBCInvoiceDAOImpl(new DatabaseConnectorImpl());
+    	dao.setAutoCommit(false);
 	}
 
 	@AfterClass
@@ -33,7 +31,8 @@ public class JDBCInvoiceDAOTest {
 
 	@Test
 	public void testCreateInvoice() {
-		fail("Not yet implemented");
+		dao.createInvoice("2012-01-09", "14:12:13", "testWaiter");
+		
 	}
 
 	@Test
