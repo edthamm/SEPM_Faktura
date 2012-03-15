@@ -46,7 +46,7 @@ public class AdministrateUserPane extends BasePane{
 		logger.info("Adding everything to interface");
 		super.eastButtons.add(confirmUser);
 		super.westField.add(username);
-		super.westField.add(usernameTextField, "wrap");
+		super.westField.add(usernameTextField, "wrap, wmin 300");
 		
 	}
 
