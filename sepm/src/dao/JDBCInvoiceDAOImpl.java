@@ -45,6 +45,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 			prepareStatements();
 		} catch (SQLException e) {
 			logger.error("Could not prepare statements");
+			logger.debug(""+e.toString());
 			throw new JDBCInvoiceDAOImplException("Error preparing Statements");
 		}
 	}
@@ -53,8 +54,8 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		createStatement = c.prepareStatement("INSERT INTO INVOICE VALUES (NULL,?,0,?,?)");//date waiter time
 		getIdAfterCreate = c.prepareStatement("SELECT iid FROM invoice WHERE total = 0 AND" +
 											  " date = ? AND waiter = ? AND time = ?");
-		updateInvoice = c.prepareStatement("UPDATE INVOICE SET date = ?, waiter = ?, time = ?, sum = ? where iid = ?");
-		insertIntoContains = c.prepareStatement("INSERT INTO contains VALUES (?,?,?)");
+		updateInvoice = c.prepareStatement("UPDATE INVOICE SET date = ?, waiter = ?, time = ?, total = ? where iid = ?");
+		insertIntoContains = c.prepareStatement("INSERT INTO contains VALUES (?,?,?,?)");
 		
 	}
 
