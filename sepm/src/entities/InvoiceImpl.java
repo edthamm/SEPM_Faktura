@@ -2,7 +2,8 @@ package entities;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -12,7 +13,7 @@ public class InvoiceImpl implements Invoice{
 	private Date date = Date.valueOf("2000-01-01");
 	private Time time = Time.valueOf("00:00:00");
 	private String waiter = "";
-	private HashMap<String,Integer> consumptions = new HashMap<String,Integer>();
+	private List<Consumption> consumptions = new LinkedList<Consumption>();
 	private Logger logger = Logger.getLogger("entities.InvoiceImpl.class");
 	private boolean open = true;
 	
@@ -111,7 +112,7 @@ public class InvoiceImpl implements Invoice{
 		}
 	}
 
-	public HashMap<String, Integer> getConsumptions() {
+	public List<Consumption> getConsumptions() {
 		return consumptions;
 	}
 	/**
@@ -119,7 +120,7 @@ public class InvoiceImpl implements Invoice{
 	 * @param consumptions
 	 * @throws InvoiceClosedException
 	 */
-	public void setConsumptions(HashMap<String, Integer> consumptions) throws InvoiceClosedException {
+	public void setConsumptions(List<Consumption> consumptions) throws InvoiceClosedException {
 		if(open){
 			this.consumptions = consumptions;
 		}
