@@ -155,8 +155,15 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		updateInvoice.setDouble(4, toUpdate.getSum());
 		updateInvoice.setInt(5, toUpdate.getId());
 		
+		updateInvoice.executeUpdate();
+		
 		for(Consumption c : toUpdate.getConsumptions()){
+			insertIntoContains.setInt(1, toUpdate.getId());
+			insertIntoContains.setInt(2, c.getProductID());
+			insertIntoContains.setInt(3, c.getQuantity());
+			insertIntoContains.setDouble(4, c.getPrice());
 			
+			insertIntoContains.executeUpdate();
 		}
 	}
 
