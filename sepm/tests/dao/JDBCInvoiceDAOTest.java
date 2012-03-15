@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import entities.Invoice;
+import entities.InvoiceClosedException;
 
 
 public class JDBCInvoiceDAOTest {
@@ -22,9 +23,9 @@ public class JDBCInvoiceDAOTest {
     
     @BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+    	PropertyConfigurator.configure("tests/log4jtest.properties");
     	dao = new JDBCInvoiceDAOImpl(new DatabaseConnectorImpl());
     	dao.getConnection().setAutoCommit(false);
-		PropertyConfigurator.configure("tests/log4jtest.properties");
 	}
 
 	@AfterClass
@@ -74,8 +75,22 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testUpdateInvoice() {
-		fail("Not yet implemented");
+	public void testUpdateInvoiceWithoutConsumptions() throws InvoiceClosedException, SQLException {
+		Connection c = dao.getConnection();
+		Statement s = c.createStatement();		
+		i.setWaiter("update");
+		
+		dao.updateInvoice(i);
+		
+		ResultSet r = s.executeQuery("select count(*) as num from invoice where waiter = 'update'");
+		r.next();
+		assertTrue(r.getInt("num") == 1);
+		
+	}
+	
+	@Test
+	public void testUpdateInvoiceWithConsumptions(){
+		fail("not yet done");
 	}
 
 	@Test

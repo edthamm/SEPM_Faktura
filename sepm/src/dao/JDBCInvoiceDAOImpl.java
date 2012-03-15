@@ -21,6 +21,8 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	
 	private PreparedStatement createStatement;
 	private PreparedStatement getIdAfterCreate;
+	private PreparedStatement updateInvoice;
+	
 	
 	/**
 	 * 
@@ -50,9 +52,11 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		createStatement = c.prepareStatement("INSERT INTO INVOICE VALUES (NULL,?,0,?,?)");//date waiter time
 		getIdAfterCreate = c.prepareStatement("SELECT iid FROM invoice WHERE total = 0 AND" +
 											  " date = ? AND waiter = ? AND time = ?");
+		updateInvoice = c.prepareStatement("UPDATE INVOICE SET date = ?, waiter = ?, time = ?, sum = ? where iid = ?");
 		
 	}
 
+	
 	@Override
 	public Invoice createInvoice(String date, String time, String waiter) throws JDBCInvoiceDAOImplException {
 		
@@ -70,7 +74,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		
 		return newInvoice;
 	}
-
+	
 	private InvoiceImpl createInvoiceObject(String date, String time, String waiter) {
 		return new InvoiceImpl(date,time,waiter,0);
 	}
@@ -111,6 +115,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		return id;
 	}
 
+	
 	@Override
 	public Invoice updateInvoice(Invoice toUpdate) {
 		// TODO Auto-generated method stub
