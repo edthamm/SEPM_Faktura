@@ -65,7 +65,7 @@ public class JDBCInvoiceDAOTest {
 	}
 	
 	@Test
-	public void testIfCreateInsertsToDB() throws SQLException, JDBCInvoiceDAOImplException{
+	public void testIfCreateInsertsToDB() throws SQLException, InvoiceDAOException{
 		ResultSet r = s.executeQuery("SELECT COUNT(*) AS num FROM invoice");
 		r.next();
 		int initial = r.getInt("num");
@@ -80,7 +80,7 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testUpdateInvoiceWithoutConsumptions() throws InvoiceClosedException, SQLException {		
+	public void testUpdateInvoiceWithoutConsumptions() throws InvoiceClosedException, SQLException, InvoiceDAOException {		
 		i.setWaiter("update");
 		
 		dao.updateInvoice(i);
@@ -92,7 +92,7 @@ public class JDBCInvoiceDAOTest {
 	}
 	
 	@Test
-	public void testUpdateInvoiceWithConsumptions() throws SQLException, InvoiceClosedException{
+	public void testUpdateInvoiceWithConsumptions() throws SQLException, InvoiceClosedException, InvoiceDAOException{
 		s.executeUpdate("insert into products values (7,'beer',1,1,'b',true)");
 	
 		List<Consumption> consumptions = new LinkedList<Consumption>();

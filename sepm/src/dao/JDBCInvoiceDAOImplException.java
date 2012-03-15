@@ -1,6 +1,6 @@
 package dao;
 
-public class JDBCInvoiceDAOImplException extends Exception {
+public class JDBCInvoiceDAOImplException extends InvoiceDAOException {
 
 	public JDBCInvoiceDAOImplException(String string) {
 		super(string);

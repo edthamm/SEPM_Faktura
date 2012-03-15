@@ -120,9 +120,34 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 
 	
 	@Override
-	public Invoice updateInvoice(Invoice toUpdate) {
+	public Invoice updateInvoice(Invoice toUpdate) throws JDBCInvoiceDAOImplException {
+		try{
+		if(toUpdate.getSum() == 0){
+			updateOpenInvoice(toUpdate);
+		}
+		else{
+			updateAndCloseInvoice();
+		}
+		}
+		catch(SQLException e){
+			logger.error("Error updateing Invoice");
+			throw new JDBCInvoiceDAOImplException("Could not update Invoice");
+		}
+		return toUpdate;
+	}
+
+	private void updateOpenInvoice(Invoice toUpdate) throws SQLException {
+		updateInvoice.setDate(1, toUpdate.getDate());
+		updateInvoice.setString(2, toUpdate.getWaiter());
+		updateInvoice.setTime(3, toUpdate.getTime());
+		updateInvoice.setInt(4, 0);
+		updateInvoice.setInt(5, toUpdate.getId());
+		
+	}
+
+	private void updateAndCloseInvoice() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
