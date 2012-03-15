@@ -22,6 +22,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	private PreparedStatement createStatement;
 	private PreparedStatement getIdAfterCreate;
 	private PreparedStatement updateInvoice;
+	private PreparedStatement insertIntoContains;
 	
 	
 	/**
@@ -53,6 +54,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		getIdAfterCreate = c.prepareStatement("SELECT iid FROM invoice WHERE total = 0 AND" +
 											  " date = ? AND waiter = ? AND time = ?");
 		updateInvoice = c.prepareStatement("UPDATE INVOICE SET date = ?, waiter = ?, time = ?, sum = ? where iid = ?");
+		insertIntoContains = c.prepareStatement("INSERT INTO contains VALUES (?,?,?)");
 		
 	}
 
