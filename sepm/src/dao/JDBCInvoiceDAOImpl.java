@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import entities.Consumption;
 import entities.Invoice;
 import entities.InvoiceImpl;
 
@@ -126,7 +127,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 			updateOpenInvoice(toUpdate);
 		}
 		else{
-			updateAndCloseInvoice();
+			updateAndCloseInvoice(toUpdate);
 		}
 		}
 		catch(SQLException e){
@@ -147,9 +148,16 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		
 	}
 
-	private void updateAndCloseInvoice() {
-		// TODO Auto-generated method stub
+	private void updateAndCloseInvoice(Invoice toUpdate) throws SQLException {
+		updateInvoice.setDate(1, toUpdate.getDate());
+		updateInvoice.setString(2, toUpdate.getWaiter());
+		updateInvoice.setTime(3, toUpdate.getTime());
+		updateInvoice.setDouble(4, toUpdate.getSum());
+		updateInvoice.setInt(5, toUpdate.getId());
 		
+		for(Consumption c : toUpdate.getConsumptions()){
+			
+		}
 	}
 
 	@Override
