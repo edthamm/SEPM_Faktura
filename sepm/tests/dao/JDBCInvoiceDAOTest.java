@@ -96,7 +96,7 @@ public class JDBCInvoiceDAOTest {
 		s.executeUpdate("insert into products values (7,'beer',1,1,'b',true)");
 	
 		List<Consumption> consumptions = new LinkedList<Consumption>();
-		Consumption beer = new Consumption(1, 13.5 , "beer");
+		Consumption beer = new Consumption(7,1, 13.5);
 		consumptions.add(beer);
 		i.setConsumptions(consumptions);
 		i.setSum(13.5);

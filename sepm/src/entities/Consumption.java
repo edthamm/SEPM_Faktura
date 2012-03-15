@@ -2,14 +2,14 @@ package entities;
 
 public class Consumption {
 
+	private int productID;
 	private int quantity;
 	private double price;
-	private String name;
 	
-	public Consumption(int quantity, double price, String name) {
+	public Consumption(int productID, int quantity, double price) {
+		this.productID = productID;
 		this.quantity = quantity;
 		this.price = price;
-		this.name = name;
 	}
 
 	public int getQuantity() {
@@ -28,14 +28,12 @@ public class Consumption {
 		this.price = price;
 	}
 
-	public String getName() {
-		return name;
+	public int getProductID() {
+		return productID;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProductID(int productID) {
+		this.productID = productID;
 	}
-	
-	
 	
 }
