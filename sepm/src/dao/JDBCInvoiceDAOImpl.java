@@ -143,6 +143,8 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		updateInvoice.setInt(4, 0);
 		updateInvoice.setInt(5, toUpdate.getId());
 		
+		updateInvoice.executeUpdate();
+		
 	}
 
 	private void updateAndCloseInvoice() {
