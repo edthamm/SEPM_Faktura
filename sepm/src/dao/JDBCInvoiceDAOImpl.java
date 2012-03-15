@@ -149,6 +149,18 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	}
 
 	private void updateAndCloseInvoice(Invoice toUpdate) throws SQLException {
+		
+		updateInvoiceStoringSum(toUpdate);
+		storeConsumptions(toUpdate);
+	
+	}
+
+	/**
+	 * @param toUpdate
+	 * @throws SQLException
+	 */
+	private void updateInvoiceStoringSum(Invoice toUpdate)
+			throws SQLException {
 		updateInvoice.setDate(1, toUpdate.getDate());
 		updateInvoice.setString(2, toUpdate.getWaiter());
 		updateInvoice.setTime(3, toUpdate.getTime());
@@ -156,7 +168,13 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		updateInvoice.setInt(5, toUpdate.getId());
 		
 		updateInvoice.executeUpdate();
-		
+	}
+
+	/**
+	 * @param toUpdate
+	 * @throws SQLException
+	 */
+	private void storeConsumptions(Invoice toUpdate) throws SQLException {
 		for(Consumption c : toUpdate.getConsumptions()){
 			insertIntoContains.setInt(1, toUpdate.getId());
 			insertIntoContains.setInt(2, c.getProductID());
@@ -166,7 +184,8 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 			insertIntoContains.executeUpdate();
 		}
 	}
-
+	
+	
 	@Override
 	public void deleteInvoice(Invoice toDelete) {
 		// TODO Auto-generated method stub
