@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ public class NewInvoicePane extends BasePane{
 	private JButton newInvoice;
 	private JButton addProduct;
 	private JButton closeInvoice;
+	private JButton search;
 	private JComboBox openInvoices;
 	private JLabel pnr;
 	private JLabel pname;
@@ -51,6 +53,7 @@ public class NewInvoicePane extends BasePane{
 		newInvoice = new JButton("<html>Neue<br>Rechnung</html>");
 		addProduct = new JButton("Hinzufügen");
 		closeInvoice = new JButton("<html>Rechnung<br>abschließen<html>");
+		search = new JButton("Suchen");
 		
 	}
 	
@@ -76,6 +79,7 @@ public class NewInvoicePane extends BasePane{
 	}
 	
 	private void initialiseTableModel(){
+		logger.info("initialising TableModel");
 		createUneditableTableModel();
 		setColumnNames();
 	}
@@ -110,7 +114,8 @@ public class NewInvoicePane extends BasePane{
 		JPanel wf = super.westField;
 		JPanel eb = super.eastButtons;
 		
-		eb.add(newInvoice,"wrap");
+		eb.add(newInvoice,"wrap, grow");
+		eb.add(search,"wrap, gapbottom 730, grow");
 		eb.add(closeInvoice,"wrap, south");
 		eb.add(addProduct,"south");
 		
@@ -131,10 +136,35 @@ public class NewInvoicePane extends BasePane{
 		logger.info("Adding to open Invoices");
 	}
 	
-	public void updateResultsOfProductSearch(List<Product> Products){
+	
+	public void updateResultsOfProductSearch(List<Product> products){
 		logger.info("Updating Result Table");
-		
+		resetTableModel();
+		if(products == null || products.isEmpty()){}
+		else{
+			fillTableWithNewEntries(products);
+		}
+		updateDisplayWithNewData();
+	}
+
+	private void resetTableModel() {
+		productTableModel.getDataVector().removeAllElements();
+	}
+
+	private void fillTableWithNewEntries(List<Product> products) {
+		Object[] newRow = new Object[3];
+		Iterator<Product> productIterator = products.iterator();
+		while(productIterator.hasNext()){
+			Product p = productIterator.next();
+			newRow[0] = p.getId(); 
+			newRow[1] = p.getLabel();
+			newRow[2] = p.getRetailPrice();
+			productTableModel.addRow(newRow);
+		}
 	}
 	
+	private void updateDisplayWithNewData() {
+		results.revalidate();
+	}	
 
 }
