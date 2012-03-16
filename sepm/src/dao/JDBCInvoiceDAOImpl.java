@@ -24,6 +24,10 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	private PreparedStatement getIdAfterCreate;
 	private PreparedStatement updateInvoice;
 	private PreparedStatement insertIntoContains;
+	private PreparedStatement findAll;
+	private PreparedStatement findByID;
+	private PreparedStatement findByDate;
+	private PreparedStatement delete;
 	
 	
 	/**
@@ -57,6 +61,10 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 											  " date = ? AND waiter = ? AND time = ?");
 		updateInvoice = c.prepareStatement("UPDATE INVOICE SET date = ?, waiter = ?, time = ?, total = ? where iid = ?");
 		insertIntoContains = c.prepareStatement("INSERT INTO contains VALUES (?,?,?,?)");
+		delete = c.prepareStatement("delete invoice where iid = ? and not exists (select * from contains where iid = ?)");
+		findAll = c.prepareStatement("select * from invoice");
+		findByID = c.prepareStatement("select * from invoice where iid = ?");
+		findByDate = c.prepareStatement("select * from invoice where date = ?");
 		
 	}
 
