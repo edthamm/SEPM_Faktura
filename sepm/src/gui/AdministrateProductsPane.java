@@ -1,5 +1,8 @@
 package gui;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -7,8 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
+
+import entities.Product;
 
 public class AdministrateProductsPane extends BasePane {
 
@@ -31,6 +37,7 @@ public class AdministrateProductsPane extends BasePane {
 	private JTextField supplierField;
 	private JTextField ppriceField;
 	private JTextField rpriceField;
+	private DefaultTableModel productTableModel;
 	private JScrollPane resultTablePane;
 	private JTable results;
 	
@@ -41,6 +48,7 @@ public class AdministrateProductsPane extends BasePane {
 		createDropDowns();
 		createLabels();
 		createTextFields();
+		initialiseTableModel();
 		createResultPane();
 		addEverythingToInterface();
 		
@@ -80,10 +88,37 @@ public class AdministrateProductsPane extends BasePane {
 		ppriceField = new JTextField();
 		rpriceField = new JTextField();
 	}
+	
+	private void initialiseTableModel(){
+		logger.info("initialising TableModel");
+		createUneditableTableModel();
+		setColumnNames();
+	}
+
+	@SuppressWarnings("serial")
+	private void createUneditableTableModel() {
+		productTableModel = new DefaultTableModel(){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+	}
+
+	private void setColumnNames() {
+		Object[] columnNames = new Object[5];
+		columnNames[0] = "Waren ID";
+		columnNames[1] = "Bezeichnung";
+		columnNames[2] = "Preis - Verkauf";
+		columnNames[3] = "Preis - Einkauf";
+		columnNames[4] = "Lieferant";
+		
+		productTableModel.setColumnIdentifiers(columnNames);
+	}
 
 	private void createResultPane() {
 		logger.info("Creating ResultPane");
-		results = new JTable();
+		results = new JTable(productTableModel);
 		resultTablePane = new JScrollPane(results);
 		
 	}
@@ -113,5 +148,38 @@ public class AdministrateProductsPane extends BasePane {
 		wf.add(increasePriceOfTopsellers,"span 3, grow");
 		
 	}
+	
+	public void updateResultsOfProductSearch(List<Product> products){
+		logger.info("Updating Result Table");
+		resetTableModel();
+		if(products == null || products.isEmpty()){}
+		else{
+			fillTableWithNewEntries(products);
+		}
+		updateDisplayWithNewData();
+	}
+
+	private void resetTableModel() {
+		productTableModel.getDataVector().removeAllElements();
+	}
+
+	private void fillTableWithNewEntries(List<Product> products) {
+		Object[] newRow = new Object[3];
+		Iterator<Product> productIterator = products.iterator();
+		while(productIterator.hasNext()){
+			Product p = productIterator.next();
+			newRow[0] = p.getId(); 
+			newRow[1] = p.getLabel();
+			newRow[2] = p.getRetailPrice();
+			newRow[3] = p.getPurchasePrice();
+			newRow[4] = p.getSupplier();
+			productTableModel.addRow(newRow);
+		}
+	}
+	
+	private void updateDisplayWithNewData() {
+		results.revalidate();
+	}	
+
 
 }
