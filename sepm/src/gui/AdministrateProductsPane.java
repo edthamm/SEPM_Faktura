@@ -128,8 +128,8 @@ public class AdministrateProductsPane extends BasePane {
 		JPanel wf = super.westField;
 		JPanel eb = super.eastButtons;
 		
-		eb.add(newProduct,"wrap");
-		eb.add(search);
+		eb.add(newProduct,"wrap, grow");
+		eb.add(search,"span 2 3, grow");
 		
 		wf.add(pnr);
 		wf.add(pnrField,"w 100, wrap");
