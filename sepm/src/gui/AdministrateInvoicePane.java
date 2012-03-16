@@ -95,7 +95,7 @@ public class AdministrateInvoicePane extends BasePane {
 
 	private void createResultPane() {
 		logger.info("Creating ResultPane");
-		results = new JTable();
+		results = new JTable(invoiceTableModel);
 		resultTablePane = new JScrollPane(results);
 		
 	}
