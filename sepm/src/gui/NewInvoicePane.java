@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -7,7 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
 import org.apache.log4j.Logger;
+
+import entities.Product;
 
 
 public class NewInvoicePane extends BasePane{
@@ -24,6 +30,7 @@ public class NewInvoicePane extends BasePane{
 	private JTextField pnrField;
 	private JTextField pnameField;
 	private JTextField qtyField;
+	private DefaultTableModel productTableModel;
 	private JScrollPane resultTablePane;
 	private JTable results;
 	
@@ -34,6 +41,7 @@ public class NewInvoicePane extends BasePane{
 		createDropDown();
 		createLabels();
 		createTextFields();
+		initialiseTableModel();
 		createResultPane();
 		addEverythingToInterface();
 	}
@@ -66,10 +74,33 @@ public class NewInvoicePane extends BasePane{
 		qtyField = new JTextField();
 		
 	}
+	
+	private void initialiseTableModel(){
+		createUneditableTableModel();
+		setColumnNames();
+	}
+
+	@SuppressWarnings("serial")
+	private void createUneditableTableModel() {
+		productTableModel = new DefaultTableModel(){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+	}
+
+	private void setColumnNames() {
+		Object[] columnNames = new Object[3];
+		columnNames[0] = "Waren ID";
+		columnNames[1] = "Bezeichnung";
+		columnNames[2] = "Preis";
+		productTableModel.setColumnIdentifiers(columnNames);
+	}
 
 	private void createResultPane() {
 		logger.info("Creating ResultPane");
-		results = new JTable();
+		results = new JTable(productTableModel);
 		resultTablePane = new JScrollPane(results);
 		
 	}
@@ -100,7 +131,7 @@ public class NewInvoicePane extends BasePane{
 		logger.info("Adding to open Invoices");
 	}
 	
-	public void updateResultsOfProductSearch(){
+	public void updateResultsOfProductSearch(List<Product> Products){
 		logger.info("Updating Result Table");
 		
 	}
