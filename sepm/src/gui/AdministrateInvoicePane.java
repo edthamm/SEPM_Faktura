@@ -16,7 +16,6 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 
 import entities.Invoice;
-import entities.Product;
 
 public class AdministrateInvoicePane extends BasePane {
 
