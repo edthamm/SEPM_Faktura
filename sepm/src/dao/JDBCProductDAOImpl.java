@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	private PreparedStatement createStatement;
 	private PreparedStatement getPidAfterCreate;
 	private PreparedStatement updateProductStmt;
+	private PreparedStatement markProductDeleted;
 	
 	public JDBCProductDAOImpl(DatabaseConnector dbc) throws JDBCProductDAOImplException{
 		logger.info("Initializing new JDBCInvoiceDAOImpl");
@@ -47,6 +49,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 				" purchasePrice = ? and retailPrice = ? and supplier = ?");
 		updateProductStmt = c.prepareStatement("update products set label = ?, purchasePrice = ?, retailPrice = ?," +
 				" supplier = ? where pid = ?");
+		markProductDeleted = c.prepareStatement("update products set inSale = false where pid = ?");
 		
 	}
 
@@ -123,14 +126,22 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	}
 
 	@Override
-	public void deleteProduct(Product toDelete) {
-		// TODO Auto-generated method stub
+	public void deleteProduct(Product toDelete) throws JDBCProductDAOImplException {
+		logger.info("Marking Product as deleted");
+		
+		try {
+			markProductDeleted.setInt(1, toDelete.getId());
+			markProductDeleted.executeUpdate();
+		} catch (SQLException e) {
+			logger.error("Error deleting Product");
+			throw new JDBCProductDAOImplException("Error deleting Product");
+		}
 		
 	}
 
 	@Override
 	public List<Product> findAll() {
-		// TODO Auto-generated method stub
+		List<Product> result = new LinkedList<Product>();
 		return null;
 	}
 

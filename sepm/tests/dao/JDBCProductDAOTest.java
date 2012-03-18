@@ -96,8 +96,12 @@ public class JDBCProductDAOTest {
 	}
 
 	@Test
-	public void testDeleteProduct() {
-		fail("Not yet implemented");
+	public void testDeleteProduct() throws SQLException, JDBCProductDAOImplException {
+		dao.deleteProduct(p);
+		
+		ResultSet r = s.executeQuery("select insale from products where pid = "+p.getId());
+		r.next();
+		assertFalse(r.getBoolean("insale"));
 	}
 
 	@Test
