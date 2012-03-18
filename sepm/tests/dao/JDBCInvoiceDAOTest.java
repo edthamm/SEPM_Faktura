@@ -136,9 +136,13 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testFindAll() throws SQLException {
-		ResultSet before = s.executeQuery("select count(*) as num from invoice");
+	public void testFindAll() throws SQLException, JDBCInvoiceDAOImplException {
+		ResultSet size = s.executeQuery("select count(*) as num from invoice");
 		
+		List<Invoice> result = dao.findAll();
+		
+		size.next();
+		assertTrue(size.getInt("num") == result.size());
 	}
 
 	@Test

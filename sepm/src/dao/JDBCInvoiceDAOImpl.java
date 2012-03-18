@@ -215,9 +215,25 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 
 	
 	@Override
-	public List<Invoice> findAll() {
+	public List<Invoice> findAll() throws JDBCInvoiceDAOImplException {
+		List<Invoice> result = new LinkedList<Invoice>();
+		try {
+			ResultSet r = findAll.executeQuery();
+			while(r.next()){
+				Invoice i = extractInfoAndCreateInvoice(r);
+				ifTheInvoiceIsClosedSetConsumptionsAndTotal(r,i);
+				result.add(i);
+			}
+			
+		} catch (SQLException e) {
+			logger.error("Got an SqlException on findAll");
+			throw new JDBCInvoiceDAOImplException("Could not perform find all");
+		} catch (InvoiceClosedException e) {
+			logger.error("Got an Internal error on findAll");
+			throw new JDBCInvoiceDAOImplException("Could not perform find all");
+		}
 		
-		return null;
+		return result;
 	}
 	
 	private Invoice extractInfoAndCreateInvoice(ResultSet r)
