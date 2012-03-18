@@ -219,12 +219,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		List<Invoice> result = new LinkedList<Invoice>();
 		try {
 			ResultSet r = findAll.executeQuery();
-			while(r.next()){
-				Invoice i = extractInfoAndCreateInvoice(r);
-				ifTheInvoiceIsClosedSetConsumptionsAndTotal(r,i);
-				result.add(i);
-			}
-			
+			constructInvoiceList(result, r);
 		} catch (SQLException e) {
 			logger.error("Got an SqlException on findAll");
 			throw new JDBCInvoiceDAOImplException("Could not perform find all");
@@ -234,6 +229,15 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		}
 		
 		return result;
+	}
+
+	private void constructInvoiceList(List<Invoice> result, ResultSet r)
+			throws SQLException, InvoiceClosedException {
+		while(r.next()){
+			Invoice i = extractInfoAndCreateInvoice(r);
+			ifTheInvoiceIsClosedSetConsumptionsAndTotal(r,i);
+			result.add(i);
+		}
 	}
 	
 	private Invoice extractInfoAndCreateInvoice(ResultSet r)
@@ -300,9 +304,25 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	}
 	
 	@Override
-	public List<Invoice> findByDate(String date) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Invoice> findByDate(String date) throws JDBCInvoiceDAOImplException {
+		List<Invoice> result = new LinkedList<Invoice>();
+		
+		
+		try {
+			findByDate.setString(1,date);
+			ResultSet r = findByDate.executeQuery();
+			constructInvoiceList(result,r);
+			
+		} catch (SQLException e) {
+			logger.error("Could Not execute findByDate got SqlException");
+			logger.debug(""+e.toString());
+			throw new JDBCInvoiceDAOImplException("Could not execute findByDate");
+		} catch (InvoiceClosedException e) {
+			logger.error("Could insert in to invoice something in the order of events got screwed");
+			throw new JDBCInvoiceDAOImplException("Could not execute findByDate got an internal error");
+		}
+		
+		return result;
 	}
 	
 	protected Connection getConnection(){

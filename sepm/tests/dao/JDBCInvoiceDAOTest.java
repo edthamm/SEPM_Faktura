@@ -169,8 +169,13 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testFindByDate() {
-		fail("Not yet implemented");
+	public void testFindByDate() throws SQLException, JDBCInvoiceDAOImplException {
+		ResultSet size = s.executeQuery("select count(*) as num from invoice where date = '2012-01-09'");
+		
+		List<Invoice> result = dao.findByDate("2012-01-09");
+		
+		size.next();
+		assertTrue(result.size() == size.getInt("num"));
 	}
 
 }
