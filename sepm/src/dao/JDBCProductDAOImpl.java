@@ -24,6 +24,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	private PreparedStatement markProductDeleted;
 	private PreparedStatement findAllProducts;
 	private PreparedStatement findProductById;
+	private PreparedStatement findProductByName;
 	
 	public JDBCProductDAOImpl(DatabaseConnector dbc) throws JDBCProductDAOImplException{
 		logger.info("Initializing new JDBCInvoiceDAOImpl");
@@ -54,6 +55,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		markProductDeleted = c.prepareStatement("update products set inSale = false where pid = ?");
 		findAllProducts = c.prepareStatement("select * from products where inSale = true");
 		findProductById = c.prepareStatement("select * from products where pid = ?");
+		findProductByName = c.prepareStatement("select * from products where label = ?");
 		
 	}
 
@@ -192,9 +194,19 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	}
 
 	@Override
-	public List<Product> findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> findByName(String name) throws JDBCProductDAOImplException {
+		List<Product> result = new LinkedList<Product>();
+		try {
+			findProductByName.setString(1, name);
+			ResultSet r = findProductByName.executeQuery();
+			while(r.next()){
+				updateListWithProduct(r, result);
+			}
+			return result;
+		} catch (SQLException e) {
+			logger.error("Error finding Product by name");
+			throw new JDBCProductDAOImplException("Error finding Product by name");
+		}
 	}
 
 	protected Connection getConnection() {

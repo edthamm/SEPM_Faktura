@@ -120,8 +120,10 @@ public class JDBCProductDAOTest {
 	}
 
 	@Test
-	public void testFindByName() {
-		fail("Not yet implemented");
+	public void testFindByName() throws JDBCProductDAOImplException {
+		List<Product> found = dao.findByName(p.getLabel());
+		
+		assertTrue(found.listIterator().next().getId() == p.getId());
 	}
 
 }
