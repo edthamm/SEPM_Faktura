@@ -136,8 +136,9 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testFindAll() {
-		fail("Not yet implemented");
+	public void testFindAll() throws SQLException {
+		ResultSet before = s.executeQuery("select count(*) as num from invoice");
+		
 	}
 
 	@Test
@@ -148,8 +149,19 @@ public class JDBCInvoiceDAOTest {
 	}
 	
 	@Test
-	public void testFindByIdForClosedInvoice(){
-		fail();
+	public void testFindByIdForClosedInvoice() throws SQLException, InvoiceClosedException, JDBCInvoiceDAOImplException{
+		//TODO find a better way to test this
+		s.executeUpdate("insert into products values (7,'beer',1,1,'b',true)");
+		List<Consumption> consumptions = new LinkedList<Consumption>();
+		Consumption beer = new Consumption(7,1, 13.5);
+		consumptions.add(beer);
+		i.setConsumptions(consumptions);
+		i.setSum(13.5);
+		dao.updateInvoice(i);
+		
+		Invoice found = dao.findById(i.getId());
+		
+		assertTrue(found.getConsumptions().listIterator().next().getPrice() == 13.5);
 	}
 
 	@Test

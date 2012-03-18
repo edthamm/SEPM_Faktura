@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -29,6 +30,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	private PreparedStatement findByID;
 	private PreparedStatement findByDate;
 	private PreparedStatement delete;
+	private PreparedStatement findConsumptionsOfInvoice;
 	
 	
 	/**
@@ -66,6 +68,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		findAll = c.prepareStatement("select * from invoice");
 		findByID = c.prepareStatement("select * from invoice where iid = ?");
 		findByDate = c.prepareStatement("select * from invoice where date = ?");
+		findConsumptionsOfInvoice = c.prepareStatement("select * from contains where iid = ?");
 		
 	}
 
@@ -188,6 +191,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 			insertIntoContains.setInt(1, toUpdate.getId());
 			insertIntoContains.setInt(2, c.getProductID());
 			insertIntoContains.setInt(3, c.getQuantity());
+			logger.debug("setting price to "+ c.getPrice());
 			insertIntoContains.setDouble(4, c.getPrice());
 			
 			insertIntoContains.executeUpdate();
@@ -209,9 +213,10 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		
 	}
 
+	
 	@Override
 	public List<Invoice> findAll() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
@@ -233,14 +238,23 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		result.setSum(total);
 	}
 	private void addConsumptionsToInvoice(int id, Invoice result)
-			throws InvoiceClosedException {
+			throws InvoiceClosedException, SQLException {
+		logger.debug("Adding consumptions");
 		List<Consumption> consumptions = getConsumptionsOfInvoice(id);
 		result.setConsumptions(consumptions);
 	}
 
-	private List<Consumption> getConsumptionsOfInvoice(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	private List<Consumption> getConsumptionsOfInvoice(int id) throws SQLException {
+		findConsumptionsOfInvoice.setInt(1, id);
+		ResultSet r = findConsumptionsOfInvoice.executeQuery();
+		List<Consumption> result = new LinkedList<Consumption>();
+		while(r.next()){
+			logger.debug("Adding consumption with: "+r.getInt("pid")+r.getInt("quantity")+r.getDouble("price"));
+			Consumption c = new Consumption(r.getInt("pid"),r.getInt("quantity"),r.getDouble("price"));
+			result.add(c);
+		}
+		
+		return result;
 	}
 
 	
