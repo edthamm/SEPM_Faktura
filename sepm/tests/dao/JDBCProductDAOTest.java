@@ -85,8 +85,14 @@ public class JDBCProductDAOTest {
 	}
 
 	@Test
-	public void testUpdateProduct() {
-		fail("Not yet implemented");
+	public void testUpdateProduct() throws SQLException, JDBCProductDAOImplException {
+		p.setSupplier("update");
+		
+		dao.updateProduct(p);
+		
+		ResultSet r = s.executeQuery("select count(*) as num from products where supplier = 'update'");
+		r.next();
+		assertTrue(r.getInt("num") == 1);
 	}
 
 	@Test
