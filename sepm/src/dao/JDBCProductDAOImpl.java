@@ -22,6 +22,8 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	private PreparedStatement getPidAfterCreate;
 	private PreparedStatement updateProductStmt;
 	private PreparedStatement markProductDeleted;
+	private PreparedStatement findAllProducts;
+	private PreparedStatement findProductById;
 	
 	public JDBCProductDAOImpl(DatabaseConnector dbc) throws JDBCProductDAOImplException{
 		logger.info("Initializing new JDBCInvoiceDAOImpl");
@@ -50,6 +52,8 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		updateProductStmt = c.prepareStatement("update products set label = ?, purchasePrice = ?, retailPrice = ?," +
 				" supplier = ? where pid = ?");
 		markProductDeleted = c.prepareStatement("update products set inSale = false where pid = ?");
+		findAllProducts = c.prepareStatement("select * from products where inSale = true");
+		findProductById = c.prepareStatement("select * from products where pid = ?");
 		
 	}
 
@@ -103,7 +107,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		ResultSet r = getPidAfterCreate.executeQuery();
 		r.next();
 		int id = r.getInt("pid");
-		logger.info("Retungnin id: " + id);
+		logger.info("Returning id: " + id);
 		return id;
 	}
 	
@@ -140,15 +144,51 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	}
 
 	@Override
-	public List<Product> findAll() {
+	public List<Product> findAll() throws JDBCProductDAOImplException {
 		List<Product> result = new LinkedList<Product>();
-		return null;
+		
+		try {
+			ResultSet r = findAllProducts.executeQuery();
+			while(r.next()){
+				updateListWithProduct(r, result);
+			}
+			
+		} catch (SQLException e) {
+			logger.error("Error finding all Products");
+			throw new JDBCProductDAOImplException("Error finding all Products");
+		}
+		
+		return result;
+	}
+
+	private void updateListWithProduct(ResultSet r, List<Product> result) throws SQLException {
+		Product p = createProductFromResult(r);
+		result.add(p);
+		
+	}
+
+	private Product createProductFromResult(ResultSet r) throws SQLException {
+		ProductImpl p = new ProductImpl(r.getString("label"), r.getDouble("purchasePrice"),
+				r.getDouble("retailPrice"),r.getString("supplier"), r.getInt("pid"));
+		p.setInSale(r.getBoolean("insale"));
+		
+		return p;
 	}
 
 	@Override
-	public Product findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product findById(int id) throws JDBCProductDAOImplException {
+		
+		try {
+			findProductById.setInt(1, id);
+			ResultSet r = findProductById.executeQuery();
+			r.next();
+			Product result = createProductFromResult(r);
+			return result;
+		} catch (SQLException e) {
+			logger.error("Error finding Product by id");
+			throw new JDBCProductDAOImplException("Error finding Product by id");
+		}
+
 	}
 
 	@Override

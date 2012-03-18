@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.After;
@@ -105,13 +106,17 @@ public class JDBCProductDAOTest {
 	}
 
 	@Test
-	public void testFindAll() {
-		fail("Not yet implemented");
+	public void testFindAll() throws JDBCProductDAOImplException {
+		List<Product> found = dao.findAll();
+		
+		assertTrue(found.listIterator().next().getId() == p.getId());
 	}
 
 	@Test
-	public void testFindById() {
-		fail("Not yet implemented");
+	public void testFindById() throws JDBCProductDAOImplException {
+		Product found = dao.findById(p.getId());
+		
+		assertTrue(found.getPurchasePrice() == p.getPurchasePrice());
 	}
 
 	@Test
