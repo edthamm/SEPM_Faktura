@@ -141,8 +141,15 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testFindById() {
-		fail("Not yet implemented");
+	public void testFindById() throws JDBCInvoiceDAOImplException {
+		Invoice found = dao.findById(i.getId());
+		
+		assertTrue(found.getId() == i.getId());
+	}
+	
+	@Test
+	public void testFindByIdForClosedInvoice(){
+		fail();
 	}
 
 	@Test

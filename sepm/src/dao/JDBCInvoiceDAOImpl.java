@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import entities.Consumption;
 import entities.Invoice;
+import entities.InvoiceClosedException;
 import entities.InvoiceImpl;
 
 
@@ -213,13 +214,61 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	private Invoice extractInfoAndCreateInvoice(ResultSet r)
+			throws SQLException {
+		Invoice result = new InvoiceImpl(r.getDate("date").toString(),r.getTime("time").toString(),
+										 r.getString("waiter"),r.getInt("iid"));
+		return result;
+	}
+	
+	private void ifTheInvoiceIsClosedSetConsumptionsAndTotal(ResultSet r, Invoice result) throws SQLException,
+	InvoiceClosedException {
+		double total = r.getDouble("total");
 
-	@Override
-	public Invoice findById(int id) {
+		if(total != 0){
+			addConsumptionsToInvoice(r.getInt("iid"), result);
+		}
+
+		result.setSum(total);
+	}
+	private void addConsumptionsToInvoice(int id, Invoice result)
+			throws InvoiceClosedException {
+		List<Consumption> consumptions = getConsumptionsOfInvoice(id);
+		result.setConsumptions(consumptions);
+	}
+
+	private List<Consumption> getConsumptionsOfInvoice(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
+	@Override
+	public Invoice findById(int id) throws JDBCInvoiceDAOImplException {
+	try {
+		
+			ResultSet r = findInvoiceByID(id);
+			r.next();
+			Invoice result = extractInfoAndCreateInvoice(r);
+			ifTheInvoiceIsClosedSetConsumptionsAndTotal(r, result);
+			return result;
+			
+		} catch (SQLException e) {
+			logger.error("Could Not execute findById got SqlException");
+			throw new JDBCInvoiceDAOImplException("Could not execute findById");
+		} catch (InvoiceClosedException e) {
+			logger.error("Could insert in to invoice something in the order of events got screwed");
+			throw new JDBCInvoiceDAOImplException("Could not execute findById got an internal error");
+		}
+	}
+	
+	private ResultSet findInvoiceByID(int id) throws SQLException {
+		findByID.setInt(1, id);
+		ResultSet r = findByID.executeQuery();
+		return r;
+	}
+	
 	@Override
 	public List<Invoice> findByDate(String date) {
 		// TODO Auto-generated method stub
