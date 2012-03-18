@@ -61,7 +61,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 											  " date = ? AND waiter = ? AND time = ?");
 		updateInvoice = c.prepareStatement("UPDATE INVOICE SET date = ?, waiter = ?, time = ?, total = ? where iid = ?");
 		insertIntoContains = c.prepareStatement("INSERT INTO contains VALUES (?,?,?,?)");
-		delete = c.prepareStatement("delete invoice where iid = ? and not exists (select * from contains where iid = ?)");
+		delete = c.prepareStatement("delete from invoice where iid = ? and total = 0");
 		findAll = c.prepareStatement("select * from invoice");
 		findByID = c.prepareStatement("select * from invoice where iid = ?");
 		findByDate = c.prepareStatement("select * from invoice where date = ?");
@@ -195,8 +195,16 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	
 	
 	@Override
-	public void deleteInvoice(Invoice toDelete) {
-		// TODO Auto-generated method stub
+	public void deleteInvoice(Invoice toDelete) throws JDBCInvoiceDAOImplException {
+		try {
+			delete.setInt(1, toDelete.getId());
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			logger.error("SqlException on delete");
+			logger.debug(""+e.toString());
+			throw new JDBCInvoiceDAOImplException("Could not delete Invoice");
+		}
+		
 		
 	}
 

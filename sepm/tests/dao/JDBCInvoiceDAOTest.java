@@ -109,8 +109,30 @@ public class JDBCInvoiceDAOTest {
 	}
 
 	@Test
-	public void testDeleteInvoice() {
-		fail("Not yet implemented");
+	public void testDeleteInvoice() throws SQLException, JDBCInvoiceDAOImplException {
+		ResultSet before = s.executeQuery("select count(*) as num from invoice");
+		
+		dao.deleteInvoice(i);
+		
+		ResultSet after = s.executeQuery("select count(*) as num from invoice");
+		before.next();
+		after.next();
+		assertTrue(before.getInt("num")-1 == after.getInt("num"));
+	}
+	
+	@Test
+	public void testDeleteInvoiceDoesNotDeleteClosedInvoice() throws SQLException, JDBCInvoiceDAOImplException{
+		ResultSet before = s.executeQuery("select count(*) as num from invoice");
+		int l = s.executeUpdate("update invoice set total = 1 where waiter = 'testWaiter'");
+		if(l != 1){fail("Could not close invoice aborting test");}
+		
+		dao.deleteInvoice(i);
+		
+		ResultSet after = s.executeQuery("select count(*) as num from invoice");
+		before.next();
+		after.next();
+		
+		assertTrue(before.getInt("num") == after.getInt("num"));
 	}
 
 	@Test
