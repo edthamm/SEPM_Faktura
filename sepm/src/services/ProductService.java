@@ -12,4 +12,6 @@ public interface ProductService {
 
 	public Product getProductbyId(int id);
 
+	public void setInvoiceService(InvoiceService is);
+
 }

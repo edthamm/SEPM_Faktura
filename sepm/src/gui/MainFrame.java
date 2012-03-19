@@ -10,10 +10,13 @@ import dao.DatabaseConnectorImpl;
 import dao.InvoiceDAO;
 import dao.JDBCInvoiceDAOImpl;
 import dao.JDBCInvoiceDAOImplException;
+import dao.JDBCProductDAOImpl;
+import dao.JDBCProductDAOImplException;
 
 import services.InvoiceService;
 import services.InvoiceServiceImpl;
 import services.ProductService;
+import services.ProductServiceImpl;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -30,6 +33,7 @@ public class MainFrame extends JFrame{
 	
 
 	private JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
+	private JDBCProductDAOImpl pdao;
 	
 	public MainFrame(String title){
 		super(title);
@@ -70,10 +74,13 @@ public class MainFrame extends JFrame{
 
 	private void handleAllTheSetup(){
 		try {
-			
+			pdao = new JDBCProductDAOImpl(dbc);
+			ps = new ProductServiceImpl(pdao);
 			idao = new JDBCInvoiceDAOImpl(dbc);
 			is = new InvoiceServiceImpl(idao, ps);
+			ps.setInvoiceService(is);
 		} catch (JDBCInvoiceDAOImplException e) {
+		} catch (JDBCProductDAOImplException e) {
 		}
 	}
 	
