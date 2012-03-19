@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 
@@ -48,6 +47,7 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 		setDisplayOptions();
 		generateLabels();
 		setLabels();
+		initialiseTableModel();
 		generateTable();
 		fillTableWithData();
 		addEverytingToDisplay();
