@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,6 +53,7 @@ public class AdministrateInvoicePane extends BasePane {
 		createTextFields();
 		initialiseTableModel();
 		createResultPane();
+		setDoubleClickDetectionOnTable();
 		addEverythingToInterface();
 		
 	}
@@ -107,6 +110,23 @@ public class AdministrateInvoicePane extends BasePane {
 		results = new JTable(invoiceTableModel);
 		resultTablePane = new JScrollPane(results);
 		
+	}
+	
+	private void setDoubleClickDetectionOnTable(){
+		results.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e)
+		    {
+		        if (e.getComponent().isEnabled() && e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2)
+		        {
+		        	int id = (Integer) results.getValueAt(results.getSelectedRow(), 1);
+		        	showDialogWithInvoiceDeatils(id);
+		        }
+		    }
+
+			private void showDialogWithInvoiceDeatils(int id) {
+				// TODO Auto-generated method stub
+			}
+		});
 	}
 
 	private void addEverythingToInterface() {

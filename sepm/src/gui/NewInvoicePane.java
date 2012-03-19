@@ -217,6 +217,8 @@ public class NewInvoicePane extends BasePane{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			//TODO what happens if no row is selected
 			logger.info("Adding product to invoice");
 			int iid = Integer.parseInt((String)openInvoices.getSelectedItem());
 			int pid = (Integer) results.getValueAt(results.getSelectedRow(), 1);
