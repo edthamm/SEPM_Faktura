@@ -40,26 +40,21 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
-	public void addProductToInvoice(int pid, int iid, int qty) {
-		Invoice i;
-		try {
-			i = dao.findById(iid);
-			Consumption c = new Consumption(pid, qty, ps.getProductbyId(pid).getRetailPrice());
-			i.getConsumptions().add(c);
-		} catch (InvoiceDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void addProductToInvoice(int pid, Invoice i, int qty) {
+		Consumption c = new Consumption(pid, qty, ps.getProductbyId(pid).getRetailPrice());
+		i.getConsumptions().add(c);
+		logger.debug("Just added pid = "+i.getConsumptions().get(0).getProductID());
 		
 		
 	}
 
 	@Override
-	public double closeInvoice(Integer id) {
+	public double closeInvoice(Invoice i) {
 		try {
-			Invoice i = dao.findById(id);
+			logger.debug("Entering close Invoice");
 			double sum = calculateSum(i);
 			i.setSum(sum);
+			logger.debug("Sum set.");
 			dao.updateInvoice(i);
 			return sum;
 		} catch (Exception e) {
@@ -70,13 +65,16 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	private double calculateSum(Invoice i) {
+		logger.debug("Calculate sum got invoice id "+ i.getId());
 		List<Consumption> cl = i.getConsumptions();
 		Iterator<Consumption> iter = cl.listIterator();
 		double sum = 0;
 		while(iter.hasNext()){
+			logger.debug("Entering Loop.");
 			Consumption c = iter.next();
-			sum += c.getPrice();
+			sum += c.getPrice()*c.getQuantity();
 		}
+		logger.debug("Returning sum "+sum);
 		return sum;
 	}
 

@@ -3,13 +3,16 @@ package services;
 import java.util.List;
 
 import dao.JDBCProductDAOImpl;
+import dao.JDBCProductDAOImplException;
 
 import entities.Product;
 
 public class ProductServiceImpl implements ProductService {
 
+	private JDBCProductDAOImpl dao;
+
 	public ProductServiceImpl(JDBCProductDAOImpl pdao) {
-		// TODO Auto-generated constructor stub
+		this.dao = pdao;
 	}
 
 	@Override
@@ -26,7 +29,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product getProductbyId(int id) {
-		// TODO Auto-generated method stub
+		try {
+			return dao.findById(id);
+		} catch (JDBCProductDAOImplException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

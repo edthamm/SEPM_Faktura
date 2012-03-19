@@ -221,7 +221,7 @@ public class NewInvoicePane extends BasePane{
 			//TODO what happens if no row is selected
 			logger.info("Adding product to invoice");
 			int iid = Integer.parseInt((String)openInvoices.getSelectedItem());
-			int pid = (Integer) results.getValueAt(results.getSelectedRow(), 1);
+			int pid = (Integer) results.getValueAt(results.getSelectedRow(), 0);
 			String qtyString = qtyField.getText();
 			int qty = 0;
 			try{
@@ -235,7 +235,17 @@ public class NewInvoicePane extends BasePane{
 				return;
 			}
 			
-			is.addProductToInvoice(pid, iid, qty);
+			Iterator<Invoice> iter = openInvoiceList.listIterator();
+			Invoice i = null;
+			while(iter.hasNext()){
+				Invoice j = iter.next();
+				if(j.getId() == iid){
+					i = j;
+					break;
+				}
+			}
+			
+			is.addProductToInvoice(pid, i, qty);
 		}
 		
 	}
@@ -245,7 +255,16 @@ public class NewInvoicePane extends BasePane{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			logger.info("Closing invoice");
-			is.closeInvoice((Integer)openInvoices.getSelectedItem());
+			Iterator<Invoice> iter = openInvoiceList.listIterator();
+			Invoice i = null;
+			while(iter.hasNext()){
+				Invoice j = iter.next();
+				if(j.getId() == Integer.parseInt((String) openInvoices.getSelectedItem())){
+					i = j;
+					break;
+				}
+			}
+			is.closeInvoice(i);
 			
 		}
 		
@@ -270,7 +289,8 @@ public class NewInvoicePane extends BasePane{
 			if(!pidString.isEmpty() && labelString.isEmpty()){
 				int id = 0;
 				try{
-					Integer.parseInt(pidString);
+					id = Integer.parseInt(pidString);
+					logger.debug("Got Id: "+id);
 					if(id < 1){throw new Exception();}
 				}
 				catch(Exception e1){
