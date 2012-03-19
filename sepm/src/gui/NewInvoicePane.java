@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -227,7 +228,8 @@ public class NewInvoicePane extends BasePane{
 			}
 			catch(Exception e1){
 				logger.warn("Someone just tryed adding a product to a bill with NAN or Qty <1");
-				//TODO inform user
+				JOptionPane.showMessageDialog(westField, "Bitte geben Sie eine Zahl > 0 in" +
+						"das Anzahl Feld ein.");
 				return;
 			}
 			
@@ -268,8 +270,8 @@ public class NewInvoicePane extends BasePane{
 					if(id < 1){throw new Exception();}
 				}
 				catch(Exception e1){
-					//TODO inform user
 					logger.warn("Invalid transform for id");
+					JOptionPane.showMessageDialog(westField, "Bitte geben Sie eine Zahl > 0 ins Artikelnummern Feld ein.");
 					return;
 				}
 				List<Product> result = new LinkedList<Product>();
@@ -277,7 +279,7 @@ public class NewInvoicePane extends BasePane{
 				updateResultsOfProductSearch(result);
 			}
 			else{
-				//TODO Tell user that he can enter either or
+				JOptionPane.showMessageDialog(westField, "Bitte geben Sie entweder Artikelnummer oder Artikelbezeichnung ein.");
 			}
 		}
 		
