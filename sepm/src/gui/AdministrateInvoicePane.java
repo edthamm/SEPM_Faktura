@@ -197,13 +197,18 @@ public class AdministrateInvoicePane extends BasePane {
 					}
 					catch(Exception e1){
 						logger.warn("Got an illegal date format");
-						JOptionPane.showMessageDialog(westField, "Please check your date format");
+						JOptionPane.showMessageDialog(westField, "Bitte Überprüfen Sie Ihr Datumsformat");
+						return;
 					}
 					searchByDates(datefrom, datetill);
 					return;
 				}
 			}
 			if(!iid.isEmpty()){
+				if(!datefrom.isEmpty() || !datetill.isEmpty() || !waiter.isEmpty()){
+					JOptionPane.showMessageDialog(westField, "Bitte füllen Sie genau eine Zeile der Suchmaske aus.");
+					return;
+				}
 				int id = 0;
 				try{
 					id = Integer.parseInt(iid);
