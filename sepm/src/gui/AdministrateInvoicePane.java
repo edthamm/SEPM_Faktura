@@ -118,7 +118,7 @@ public class AdministrateInvoicePane extends BasePane {
 		    {
 		        if (e.getComponent().isEnabled() && e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2)
 		        {
-		        	int id = (Integer) results.getValueAt(results.getSelectedRow(), 1);
+		        	int id = (Integer) results.getValueAt(results.getSelectedRow(), 0);
 		        	showDialogWithInvoiceDeatils(id);
 		        }
 		    }
@@ -174,7 +174,7 @@ public class AdministrateInvoicePane extends BasePane {
 	}
 
 	private void fillTableWithNewEntries(List<Invoice> invoices) {
-		Object[] newRow = new Object[3];
+		Object[] newRow = new Object[5];
 		Iterator<Invoice> invoiceIterator = invoices.iterator();
 		while(invoiceIterator.hasNext()){
 			Invoice i = invoiceIterator.next();

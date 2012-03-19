@@ -5,7 +5,14 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.Logger;
 
+import dao.DatabaseConnector;
+import dao.DatabaseConnectorImpl;
+import dao.InvoiceDAO;
+import dao.JDBCInvoiceDAOImpl;
+import dao.JDBCInvoiceDAOImplException;
+
 import services.InvoiceService;
+import services.InvoiceServiceImpl;
 import services.ProductService;
 
 import javax.swing.JFrame;
@@ -16,6 +23,8 @@ public class MainFrame extends JFrame{
 
 	private static final long serialVersionUID = 4714864527745266449L;
 	private Logger logger = Logger.getLogger("gui.MainFrame.class");
+	private DatabaseConnector dbc = new DatabaseConnectorImpl();
+	private InvoiceDAO idao;
 	private InvoiceService is;
 	private ProductService ps;
 	
@@ -25,6 +34,7 @@ public class MainFrame extends JFrame{
 	public MainFrame(String title){
 		super(title);
 		
+		handleAllTheSetup();
 		setLayoutOfMainFrame();
 		addTabs();
 		makeTabsVisible();
@@ -58,13 +68,16 @@ public class MainFrame extends JFrame{
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
-	private static void handleAllTheSetup(){
-		
+	private void handleAllTheSetup(){
+		try {
+			idao = new JDBCInvoiceDAOImpl(dbc);
+			is = new InvoiceServiceImpl(idao);
+		} catch (JDBCInvoiceDAOImplException e) {
+		}
 	}
 	
 	public static void main(String[] args) {
 		PropertyConfigurator.configure("log4j.properties");
-		handleAllTheSetup();
 		javax.swing.SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
 				try{
