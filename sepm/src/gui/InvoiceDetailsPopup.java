@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.Iterator;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import net.miginfocom.swing.MigLayout;
 
+import entities.Consumption;
 import entities.Invoice;
 
 import services.InvoiceService;
@@ -114,7 +117,15 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 	}
 
 	private void fillTableWithData() {
-		// TODO Auto-generated method stub
+		Object[] newRow = new Object[3];
+		Iterator<Consumption> consumptionIterator = i.getConsumptions().listIterator();
+		while(consumptionIterator.hasNext()){
+			Consumption c = consumptionIterator.next();
+			newRow[0] = ps.getProductbyId(c.getProductID()).getLabel(); 
+			newRow[1] = c.getQuantity();
+			newRow[2] = c.getPrice();
+			consumptionTableModel.addRow(newRow);
+		}
 		
 	}
 
