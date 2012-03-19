@@ -2,6 +2,10 @@ package gui;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 
@@ -29,6 +33,9 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 	private JLabel waiterl;
 	private JLabel waiter;
 	private Invoice i;
+	private JTable consumptions;
+	private JScrollPane consumptionsTablePane;
+	private DefaultTableModel consumptionTableModel;
 	
 	public InvoiceDetailsPopup(InvoiceService is, ProductService ps){
 		super();
@@ -75,8 +82,34 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 		waiter.setText(i.getWaiter());
 	}
 	
+	private void initialiseTableModel(){
+		createUneditableTableModel();
+		setColumnNames();
+	}
+
+	@SuppressWarnings("serial")
+	private void createUneditableTableModel() {
+		consumptionTableModel = new DefaultTableModel(){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+	}
+
+	private void setColumnNames() {
+		Object[] columnNames = new Object[3];
+		columnNames[0] = "Ware";
+		columnNames[1] = "Menge";
+		columnNames[2] = "Preis";
+
+		
+		consumptionTableModel.setColumnIdentifiers(columnNames);
+	}
+	
 	private void generateTable() {
-		// TODO Auto-generated method stub
+		consumptions = new JTable(consumptionTableModel);
+		consumptionsTablePane = new JScrollPane(consumptions);
 		
 	}
 
@@ -97,6 +130,7 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 		add(time, "wrap");
 		add(waiterl);
 		add(waiter, "wrap");
+		add(consumptionsTablePane);
 		
 	}
 
