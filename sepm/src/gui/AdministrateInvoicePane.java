@@ -22,6 +22,7 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 
 import services.InvoiceService;
+import services.ProductService;
 
 import entities.Invoice;
 
@@ -30,6 +31,7 @@ public class AdministrateInvoicePane extends BasePane {
 	private static final long serialVersionUID = 3523355764154359405L;
 	private Logger logger = Logger.getLogger("gui.AdministrateInvoicePane.class");
 	private InvoiceService is;
+	private ProductService ps;
 	private JButton search;
 	private JLabel inr;
 	private JLabel datefrom;
@@ -44,9 +46,10 @@ public class AdministrateInvoicePane extends BasePane {
 	private JScrollPane resultTablePane;
 	private JTable results;
 	
-	public AdministrateInvoicePane(InvoiceService is){
+	public AdministrateInvoicePane(InvoiceService is, ProductService ps){
 		super();
 		
+		this.ps =ps;
 		this.is = is;
 		createButtons();
 		createLabels();
@@ -128,7 +131,7 @@ public class AdministrateInvoicePane extends BasePane {
 	}
 	
 	private void showDialogWithInvoiceDeatils(int id) {
-		InvoiceDetailsPopup invoiceDetails = new InvoiceDetailsPopup();
+		InvoiceDetailsPopup invoiceDetails = new InvoiceDetailsPopup(is, ps);
 		invoiceDetails.forInvoice(id);
 		invoiceDetails.setVisible(true);
 		invoiceDetails.requestFocus();

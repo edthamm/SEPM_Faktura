@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class AdministrateInvoicePaneTests {
 
-	private AdministrateInvoicePane  ip = new AdministrateInvoicePane(null);
+	private AdministrateInvoicePane  ip = new AdministrateInvoicePane(null, null);
 	private searchListener sl = ip.getSearchListener();
 	
 	@Test
