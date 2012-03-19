@@ -1,10 +1,13 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,18 +18,21 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
 
+import services.InvoiceService;
+
 import entities.Invoice;
 
 public class AdministrateInvoicePane extends BasePane {
 
 	private static final long serialVersionUID = 3523355764154359405L;
 	private Logger logger = Logger.getLogger("gui.AdministrateInvoicePane.class");
-	
+	private InvoiceService is;
 	private JButton search;
 	private JLabel inr;
 	private JLabel datefrom;
 	private JLabel datetill;
 	private JLabel waiter;
+	private JLabel dateFormat;
 	private JTextField inrField;
 	private JTextField datefromField;
 	private JTextField datetillField;
@@ -35,9 +41,10 @@ public class AdministrateInvoicePane extends BasePane {
 	private JScrollPane resultTablePane;
 	private JTable results;
 	
-	public AdministrateInvoicePane(){
+	public AdministrateInvoicePane(InvoiceService is){
 		super();
 		
+		this.is = is;
 		createButtons();
 		createLabels();
 		createTextFields();
@@ -49,6 +56,7 @@ public class AdministrateInvoicePane extends BasePane {
 
 	private void createButtons() {
 		search = new JButton("Suchen");
+		search.addActionListener(new searchListener());
 		
 	}
 
@@ -57,12 +65,13 @@ public class AdministrateInvoicePane extends BasePane {
 		datefrom = new JLabel("Rechnugsdatum von: ");
 		datetill = new JLabel("bis: ");
 		waiter = new JLabel("Kellner: ");
+		dateFormat = new JLabel("(JJJJ-MM-TT)");
 	}
 
 	private void createTextFields() {
 		inrField = new JTextField();
-		datefromField = new JTextField("TT.MM.JJJJ");
-		datetillField = new JTextField("TT.MM.JJJJ");
+		datefromField = new JTextField();
+		datetillField = new JTextField();
 		waiterField = new JTextField();
 	}	
 	private void initialiseTableModel(){
@@ -111,6 +120,7 @@ public class AdministrateInvoicePane extends BasePane {
 		wf.add(inrField, "w 100, wrap");
 		wf.add(datefrom);
 		wf.add(datefromField,"w 100");
+		wf.add(dateFormat);
 		wf.add(datetill);
 		wf.add(datetillField,"w 100, wrap");
 		wf.add(waiter);
@@ -123,7 +133,7 @@ public class AdministrateInvoicePane extends BasePane {
 		super.eastButtons.setLayout(new MigLayout("","grow",":push[]"));
 	}
 	
-	public void updateResultsOfProductSearch(List<Invoice> invoices){
+	public void updateResultsOfInvoiceSearch(List<Invoice> invoices){
 		logger.info("Updating Result Table");
 		resetTableModel();
 		if(invoices == null || invoices.isEmpty()){}
@@ -154,7 +164,70 @@ public class AdministrateInvoicePane extends BasePane {
 	
 	private void updateDisplayWithNewData() {
 		results.revalidate();
-	}	
+	}
+	
+	protected searchListener getSearchListener(){
+		return new searchListener();
+	}
+	
+	protected class searchListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String iid = inrField.getText();
+			String datefrom = datefromField.getText();
+			String datetill = datetillField.getText();
+			String waiter = waiterField.getText();
+			
+			if(iid.isEmpty() && datefrom.isEmpty() && datetill.isEmpty() && waiter.isEmpty()){
+				List<Invoice> result = is.getAllInvoices();
+				updateResultsOfInvoiceSearch(result);
+				return;
+			}
+			if(iid.isEmpty()){
+				if(datefrom.isEmpty() && datetill.isEmpty() && !waiter.isEmpty()){
+					searchByWaiter(waiter);
+					return;
+				}
+				if(!datefrom.isEmpty() && !datetill.isEmpty() && waiter.isEmpty()){
+					try{
+						checkDateFormat(datefrom);
+						checkDateFormat(datetill);
+					}
+					catch(Exception e1){
+						logger.warn("Got an illegal date format");
+						JOptionPane.showMessageDialog(westField, "Please check your date format");
+					}
+					searchByDates(datefrom, datetill);
+					return;
+				}
+			}
+			
+		}
+
+		private void searchByDates(String datefrom, String datetill) {
+			List<Invoice> result = is.getInvoicesByDates(datefrom, datetill);
+			updateResultsOfInvoiceSearch(result);
+			return;
+		}
+
+		private void searchByWaiter(String waiter) {
+			List<Invoice> result = is.getInvoicesByWaiter(waiter);
+			updateResultsOfInvoiceSearch(result);
+			return;
+		}
+		
+		protected void checkDateFormat(String s) throws IllegalArgumentException{
+			String dateRegex = "(19|20)\\d\\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])";
+			if(s.matches(dateRegex)){
+				return;
+			}
+			else{
+				throw new IllegalArgumentException();
+			}
+		}
+		
+	}
 
 
 }

@@ -258,10 +258,12 @@ public class NewInvoicePane extends BasePane{
 			if(pidString.isEmpty() && labelString.isEmpty()){
 				List<Product>  all = ps.getAllProducts();
 				updateResultsOfProductSearch(all);
+				return;
 			}
 			if(pidString.isEmpty() && !labelString.isEmpty()){
 				List<Product> found = ps.getProductsbyLabel(labelString);
 				updateResultsOfProductSearch(found);
+				return;
 			}
 			if(!pidString.isEmpty() && labelString.isEmpty()){
 				int id = 0;
@@ -277,10 +279,9 @@ public class NewInvoicePane extends BasePane{
 				List<Product> result = new LinkedList<Product>();
 				result.add(ps.getProductbyId(id));
 				updateResultsOfProductSearch(result);
+				return;
 			}
-			else{
-				JOptionPane.showMessageDialog(westField, "Bitte geben Sie entweder Artikelnummer oder Artikelbezeichnung ein.");
-			}
+			JOptionPane.showMessageDialog(westField, "Bitte geben Sie entweder Artikelnummer oder Artikelbezeichnung ein.");
 		}
 		
 	}
