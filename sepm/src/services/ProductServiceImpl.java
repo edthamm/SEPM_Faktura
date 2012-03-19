@@ -10,6 +10,7 @@ import entities.Product;
 public class ProductServiceImpl implements ProductService {
 
 	private JDBCProductDAOImpl dao;
+	private InvoiceService is;
 
 	public ProductServiceImpl(JDBCProductDAOImpl pdao) {
 		this.dao = pdao;
@@ -28,7 +29,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getProductsbyLabel(String labelString) {
-		// TODO Auto-generated method stub
+		try {
+			return dao.findByName(labelString);
+		} catch (JDBCProductDAOImplException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -45,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void setInvoiceService(InvoiceService is) {
-		// TODO Auto-generated method stub
+		this.is = is;
 		
 	}
 
