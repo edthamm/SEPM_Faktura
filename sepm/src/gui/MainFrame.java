@@ -70,8 +70,9 @@ public class MainFrame extends JFrame{
 
 	private void handleAllTheSetup(){
 		try {
+			
 			idao = new JDBCInvoiceDAOImpl(dbc);
-			is = new InvoiceServiceImpl(idao);
+			is = new InvoiceServiceImpl(idao, ps);
 		} catch (JDBCInvoiceDAOImplException e) {
 		}
 	}
