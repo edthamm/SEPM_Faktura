@@ -15,7 +15,6 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 	private Logger logger = Logger.getLogger("dao.DatabaseConnectorImpl.class");
 			
 			
-
 	public Connection getConnection() throws DatabaseConnectorException{
 		
 		if(connection == null){
@@ -28,6 +27,8 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 
 
 	/**
+	 * This will try to connect to the Database 3 times.
+	 * On failure it:
 	 * @throws DatabaseConnectorException 
 	 */
 	private void tryToConnect3Times() throws DatabaseConnectorException {
@@ -52,6 +53,7 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 
 
 	/**
+	 * This Class gets the DriverClass and tries to connect.
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
@@ -64,7 +66,10 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 
 
 	/**
-	 * @throws DatabaseConnectorException 
+	 * Just to be on the safe side this method checks for successful connection attempts.
+	 * 
+	 * @throws DatabaseConnectorException
+	 * If no Connection was established 
 	 */
 	private void checkIfConnectionIsEstablished() throws DatabaseConnectorException {
 		if(connection == null){
