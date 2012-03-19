@@ -123,10 +123,15 @@ public class AdministrateInvoicePane extends BasePane {
 		        }
 		    }
 
-			private void showDialogWithInvoiceDeatils(int id) {
-				// TODO Auto-generated method stub
-			}
+
 		});
+	}
+	
+	private void showDialogWithInvoiceDeatils(int id) {
+		InvoiceDetailsPopup invoiceDetails = new InvoiceDetailsPopup();
+		invoiceDetails.forInvoice(id);
+		invoiceDetails.setVisible(true);
+		invoiceDetails.requestFocus();
 	}
 
 	private void addEverythingToInterface() {
