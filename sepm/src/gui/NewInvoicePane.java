@@ -265,6 +265,8 @@ public class NewInvoicePane extends BasePane{
 				}
 			}
 			is.closeInvoice(i);
+			openInvoiceList.remove(i);
+			openInvoices.removeItem(""+i.getId());
 			
 		}
 		

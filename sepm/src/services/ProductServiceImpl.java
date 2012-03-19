@@ -17,7 +17,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getAllProducts() {
-		// TODO Auto-generated method stub
+		try {
+			return dao.findAll();
+		} catch (JDBCProductDAOImplException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
