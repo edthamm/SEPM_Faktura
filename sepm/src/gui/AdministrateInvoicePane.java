@@ -180,7 +180,6 @@ public class AdministrateInvoicePane extends BasePane {
 			Invoice i = invoiceIterator.next();
 			newRow[0] = i.getId(); 
 			newRow[1] = i.getSum();
-			//TODO check if to string is needed here
 			newRow[2] = i.getDate();
 			newRow[3] = i.getTime();
 			newRow[4] = i.getWaiter();
