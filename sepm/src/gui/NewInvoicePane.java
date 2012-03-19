@@ -1,6 +1,9 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -14,6 +17,10 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 
+import services.InvoiceService;
+import services.ProductService;
+
+import entities.Invoice;
 import entities.Product;
 
 
@@ -21,6 +28,8 @@ public class NewInvoicePane extends BasePane{
 
 	private static final long serialVersionUID = 4539993258343834799L;
 	private Logger logger = Logger.getLogger("gui.NewInvoicePane.class");
+	private InvoiceService is;
+	private ProductService ps;
 	private JButton newInvoice;
 	private JButton addProduct;
 	private JButton closeInvoice;
@@ -35,10 +44,18 @@ public class NewInvoicePane extends BasePane{
 	private DefaultTableModel productTableModel;
 	private JScrollPane resultTablePane;
 	private JTable results;
+	private List<Invoice> openInvoiceList = new LinkedList<Invoice>(); 
 	
-	public NewInvoicePane(){
+	
+	public NewInvoicePane(InvoiceService is, ProductService ps){
 		super();
+		this.is = is;
+		this.ps = ps;
 		
+		init();
+	}
+
+	private void init() {
 		createButtons();
 		createDropDown();
 		createLabels();
@@ -47,14 +64,28 @@ public class NewInvoicePane extends BasePane{
 		createResultPane();
 		addEverythingToInterface();
 	}
+	
+	public NewInvoicePane(InvoiceService is, ProductService ps, List<Invoice> openInvoices){
+		super();
+		if(openInvoices != null){
+			this.openInvoiceList = openInvoices;
+		}
+		this.is = is;
+		this.ps = ps;
+		
+		init();
+	}
 
 	private void createButtons() {
 		logger.info("Creating Buttons");
 		newInvoice = new JButton("<html>Neue<br>Rechnung</html>");
+		newInvoice.addActionListener(new newInvoiceListener());
 		addProduct = new JButton("Hinzufügen");
+		addProduct.addActionListener(new addProductListener());
 		closeInvoice = new JButton("<html>Rechnung<br>abschließen<html>");
+		closeInvoice.addActionListener(new closeInvoiceListener());
 		search = new JButton("Suchen");
-		
+		search.addActionListener(new searchListener());
 	}
 	
 	private void createDropDown(){
@@ -132,8 +163,9 @@ public class NewInvoicePane extends BasePane{
 		wf.add(qtyField,"right, w 100");
 	}
 	
-	public void addInvoiceToOpenInvoices(){
+	public void addInvoiceToOpenInvoices(String invoiceName){
 		logger.info("Adding to open Invoices");
+		openInvoices.addItem(invoiceName);
 	}
 	
 	
@@ -166,5 +198,89 @@ public class NewInvoicePane extends BasePane{
 	private void updateDisplayWithNewData() {
 		results.revalidate();
 	}	
+	
+	
+	private class newInvoiceListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			logger.info("Creating new Invoice");
+			Invoice i = is.generateNewInvoice();
+			openInvoiceList.add(i);
+			addInvoiceToOpenInvoices(""+i.getId());
+		}
+		
+	}
+	
+	private class addProductListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			logger.info("Adding product to invoice");
+			int iid = Integer.parseInt((String)openInvoices.getSelectedItem());
+			int pid = (Integer) results.getValueAt(results.getSelectedRow(), 1);
+			String qtyString = qtyField.getText();
+			int qty = 0;
+			try{
+				qty = Integer.parseInt(qtyString);
+				if(qty < 1){throw new Exception();}
+			}
+			catch(Exception e1){
+				logger.warn("Someone just tryed adding a product to a bill with NAN or Qty <1");
+				//TODO inform user
+				return;
+			}
+			
+			is.addProductToInvoice(pid, iid, qty);
+		}
+		
+	}
+	
+	private class closeInvoiceListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			logger.info("Closing invoice");
+			is.closeInvoice((Integer)openInvoices.getSelectedItem());
+			
+		}
+		
+	}
+	
+	private class searchListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String pidString = pnrField.getText();
+			String labelString = pnameField.getText();
+			if(pidString.isEmpty() && labelString.isEmpty()){
+				List<Product>  all = ps.getAllProducts();
+				updateResultsOfProductSearch(all);
+			}
+			if(pidString.isEmpty() && !labelString.isEmpty()){
+				List<Product> found = ps.getProductsbyLabel(labelString);
+				updateResultsOfProductSearch(found);
+			}
+			if(!pidString.isEmpty() && labelString.isEmpty()){
+				int id = 0;
+				try{
+					Integer.parseInt(pidString);
+					if(id < 1){throw new Exception();}
+				}
+				catch(Exception e1){
+					//TODO inform user
+					logger.warn("Invalid transform for id");
+					return;
+				}
+				List<Product> result = new LinkedList<Product>();
+				result.add(ps.getProductbyId(id));
+				updateResultsOfProductSearch(result);
+			}
+			else{
+				//TODO Tell user that he can enter either or
+			}
+		}
+		
+	}
 
 }
