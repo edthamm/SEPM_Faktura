@@ -70,7 +70,12 @@ public class InvoiceServiceImpl implements InvoiceService{
 
 	@Override
 	public Invoice getInvoiceById(int id) {
-		// TODO Auto-generated method stub
+		try {
+			return dao.findById(id);
+		} catch (InvoiceDAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

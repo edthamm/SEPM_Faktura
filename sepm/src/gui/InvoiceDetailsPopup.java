@@ -3,6 +3,8 @@ package gui;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import net.miginfocom.swing.MigLayout;
 
 import entities.Invoice;
@@ -13,6 +15,7 @@ import services.ProductService;
 public class InvoiceDetailsPopup  extends JOptionPane{
 
 	private static final long serialVersionUID = 1600484530072069066L;
+	private Logger logger = Logger.getLogger("gui.InvoiceDetailsPopup.class");
 	private InvoiceService is;
 	private ProductService ps;
 	private JLabel idl;
@@ -83,6 +86,7 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 	}
 
 	private void addEverytingToDisplay() {
+		logger.info("addy everything to display");
 		add(idl);
 		add(id,"wrap");
 		add(suml);

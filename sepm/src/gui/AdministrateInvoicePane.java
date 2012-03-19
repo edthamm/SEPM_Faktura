@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -133,8 +134,10 @@ public class AdministrateInvoicePane extends BasePane {
 	private void showDialogWithInvoiceDeatils(int id) {
 		InvoiceDetailsPopup invoiceDetails = new InvoiceDetailsPopup(is, ps);
 		invoiceDetails.forInvoice(id);
-		invoiceDetails.setVisible(true);
-		invoiceDetails.requestFocus();
+		JDialog j = new JDialog();
+		j.add(invoiceDetails);
+		j.pack();
+		j.setVisible(true);
 	}
 
 	private void addEverythingToInterface() {
