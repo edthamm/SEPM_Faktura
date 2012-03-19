@@ -13,5 +13,6 @@ public interface InvoiceService {
 	public List<Invoice> getAllInvoices();
 	public List<Invoice> getInvoicesByWaiter(String waiter);
 	public List<Invoice> getInvoicesByDates(String datefrom, String datetill);
+	public Invoice getInvoiceById(int id);
 
 }

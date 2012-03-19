@@ -3,6 +3,7 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -202,7 +203,21 @@ public class AdministrateInvoicePane extends BasePane {
 					return;
 				}
 			}
-			
+			if(!iid.isEmpty()){
+				int id = 0;
+				try{
+					id = Integer.parseInt(iid);
+					if(id < 1){throw new Exception();}
+				}
+				catch(Exception e2){
+					JOptionPane.showMessageDialog(westField, "Bitte geben Sie eine Rechnungsnummer > 0 ein.");
+				}
+				List<Invoice> result = new LinkedList<Invoice>();
+				result.add(is.getInvoiceById(id));
+				updateResultsOfInvoiceSearch(result);
+				return;
+			}
+			JOptionPane.showMessageDialog(westField, "Bitte füllen Sie genau eine Zeile der Suchmaske aus.");
 		}
 
 		private void searchByDates(String datefrom, String datetill) {
