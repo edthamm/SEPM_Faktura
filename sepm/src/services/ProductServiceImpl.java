@@ -10,7 +10,6 @@ import entities.Product;
 public class ProductServiceImpl implements ProductService {
 
 	private JDBCProductDAOImpl dao;
-	private InvoiceService is;
 
 	public ProductServiceImpl(JDBCProductDAOImpl pdao) {
 		this.dao = pdao;
@@ -50,9 +49,10 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void setInvoiceService(InvoiceService is) {
-		this.is = is;
+	public void increasePriceByFivePercent(Product p) {
+		// TODO Auto-generated method stub
 		
 	}
+	
 
 }

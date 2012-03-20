@@ -78,7 +78,6 @@ public class MainFrame extends JFrame{
 			ps = new ProductServiceImpl(pdao);
 			idao = new JDBCInvoiceDAOImpl(dbc);
 			is = new InvoiceServiceImpl(idao, ps);
-			ps.setInvoiceService(is);
 		} catch (JDBCInvoiceDAOImplException e) {
 		} catch (JDBCProductDAOImplException e) {
 		}
