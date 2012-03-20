@@ -1,0 +1,23 @@
+Name: View Invoices
+
+Short Description: An Employee wishes to view a list of invoices.
+
+Precondition: At least one Invoice exists.
+
+Postcondition: A list of invoices has been viewed.
+
+Error Condition: No invoice exists.
+
+System state on error condition: No invoice is viewed.
+
+Actors: Employee
+
+Trigger: Employee wishes to view a list of invoices.
+
+Standard procedure:
+(1) Employee wishes to view invoices.
+(2) Employee searches for invoices.
+(3) Employee sees a list of invoices.
+
+Alternate procedure:
+(3') Employee is informed that no invoices exist. 
