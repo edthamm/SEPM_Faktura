@@ -14,13 +14,17 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 
+import services.ProductService;
+import services.StatisticService;
+
 import entities.Product;
 
 public class AdministrateProductsPane extends BasePane {
 
 	private static final long serialVersionUID = -5874966514832873507L;
 	private Logger logger = Logger.getLogger("gui.AdministrateProductsPane.class");
-	
+	private ProductService ps;
+	private StatisticService stats;
 	private JButton newProduct;
 	private JButton search;
 	private JButton increasePriceOfTopsellers;
@@ -41,8 +45,10 @@ public class AdministrateProductsPane extends BasePane {
 	private JScrollPane resultTablePane;
 	private JTable results;
 	
-	public AdministrateProductsPane(){
+	public AdministrateProductsPane(ProductService ps, StatisticService stats){
 		super();
+		this.ps = ps;
+		this.stats = stats;
 		
 		createButtons();
 		createDropDowns();

@@ -17,6 +17,7 @@ import services.InvoiceService;
 import services.InvoiceServiceImpl;
 import services.ProductService;
 import services.ProductServiceImpl;
+import services.StatisticService;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -34,6 +35,7 @@ public class MainFrame extends JFrame{
 
 	private JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
 	private JDBCProductDAOImpl pdao;
+	private StatisticService stats;
 	
 	public MainFrame(String title){
 		super(title);
@@ -56,7 +58,7 @@ public class MainFrame extends JFrame{
 		logger.info("Adding tabs");
 		tabs.addTab("Rechnung erstellen", new NewInvoicePane(is,ps));
 		tabs.addTab("Rechnungen verwalten", new AdministrateInvoicePane(is, ps));
-		tabs.addTab("Artikel verwalten", new AdministrateProductsPane());
+		tabs.addTab("Artikel verwalten", new AdministrateProductsPane(ps, stats));
 		tabs.addTab("Benutzer verwalten", new AdministrateUserPane(is));
 	}
 	
@@ -78,6 +80,7 @@ public class MainFrame extends JFrame{
 			ps = new ProductServiceImpl(pdao);
 			idao = new JDBCInvoiceDAOImpl(dbc);
 			is = new InvoiceServiceImpl(idao, ps);
+		//TODO initialize Statistic Service
 		} catch (JDBCInvoiceDAOImplException e) {
 		} catch (JDBCProductDAOImplException e) {
 		}
