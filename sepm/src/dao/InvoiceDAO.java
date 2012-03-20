@@ -16,7 +16,7 @@ public interface InvoiceDAO {
 	 * @param time the time
 	 * @param waiter the waiter
 	 * @return the invoice
-	 * @throws InvoiceDAOException 
+	 * @throws InvoiceDAOException - if the Invoice can not be made persistent 
 	 */
 	public Invoice createInvoice(String date, String time, String waiter) throws InvoiceDAOException;
 	

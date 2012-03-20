@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 
 import services.InvoiceService;
+import services.InvoiceServiceException;
 import services.ProductService;
 
 import entities.Invoice;
@@ -206,9 +207,15 @@ public class NewInvoicePane extends BasePane{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			logger.info("Creating new Invoice");
-			Invoice i = is.generateNewInvoice();
+			Invoice i;
+			try {
+				i = is.generateNewInvoice();
 			openInvoiceList.add(i);
 			addInvoiceToOpenInvoices(""+i.getId());
+			} catch (Exception e) {
+				logger.error("Something just blew most likely the db went boom. Heres The error "+e.toString());
+				JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
+				}
 		}
 		
 	}
@@ -264,7 +271,13 @@ public class NewInvoicePane extends BasePane{
 					break;
 				}
 			}
-			is.closeInvoice(i);
+			try {
+				is.closeInvoice(i);
+			} catch (InvoiceServiceException e) {
+				logger.error("Could not close Invoice");
+				JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
+				return;
+			}
 			openInvoiceList.remove(i);
 			openInvoices.removeItem(""+i.getId());
 			

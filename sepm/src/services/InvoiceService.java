@@ -6,13 +6,13 @@ import entities.Invoice;
 
 public interface InvoiceService {
 
-	public Invoice generateNewInvoice();
+	public Invoice generateNewInvoice() throws InvoiceServiceException;
 	public void addProductToInvoice(int pid, Invoice i, int qty);
-	public double closeInvoice(Invoice i);
+	public double closeInvoice(Invoice i) throws InvoiceServiceException;
 	public void setWaiter(String name);
-	public List<Invoice> getAllInvoices();
+	public List<Invoice> getAllInvoices() throws InvoiceServiceException;
 	public List<Invoice> getInvoicesByWaiter(String waiter);
-	public List<Invoice> getInvoicesByDates(String datefrom, String datetill);
-	public Invoice getInvoiceById(int id);
+	public List<Invoice> getInvoicesByDates(String datefrom, String datetill) throws InvoiceServiceException, IllegalArgumentException;
+	public Invoice getInvoiceById(int id) throws InvoiceServiceException;
 
 }

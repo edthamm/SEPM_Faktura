@@ -16,6 +16,7 @@ import entities.Consumption;
 import entities.Invoice;
 
 import services.InvoiceService;
+import services.InvoiceServiceException;
 import services.ProductService;
 
 public class InvoiceDetailsPopup  extends JOptionPane{
@@ -146,7 +147,12 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 	}
 
 	public void forInvoice(int id) {
-		i = is.getInvoiceById(id);
+		try {
+			i = is.getInvoiceById(id);
+		} catch (InvoiceServiceException e) {
+			logger.error("Failed to retrieve Invoice.");
+			JOptionPane.showMessageDialog(consumptionsTablePane, "Ihre Rechnung konte nicht aufgerugen werden.");
+		}
 		init();
 		
 	}

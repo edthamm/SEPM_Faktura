@@ -29,14 +29,15 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
-	public Invoice generateNewInvoice() {
+	public Invoice generateNewInvoice() throws InvoiceServiceException {
+		Invoice i = null;
 		try {
-			return dao.createInvoice(getCurrentDate(), getCurrentTime(), waiter);
+			i = dao.createInvoice(getCurrentDate(), getCurrentTime(), waiter);
 		} catch (InvoiceDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Could not persist Invoice");
+			throw new InvoiceServiceException();
 		}
-		return null;
+		return i;
 	}
 
 	@Override
@@ -49,18 +50,19 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
-	public double closeInvoice(Invoice i) {
+	public double closeInvoice(Invoice i) throws InvoiceServiceException {
+		double sum = 0;
 		try {
 			logger.debug("Entering close Invoice");
-			double sum = calculateSum(i);
+			sum = calculateSum(i);
 			i.setSum(sum);
 			logger.debug("Sum set.");
 			dao.updateInvoice(i);
-			return sum;
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.error("Closing Invoice failed most likely DB but might be someone screwed with a closed invoice");
+			throw new InvoiceServiceException();
 		}
-		return 0;
+		return sum;
 		
 	}
 
@@ -84,32 +86,30 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
-	public List<Invoice> getAllInvoices() {
+	public List<Invoice> getAllInvoices() throws InvoiceServiceException {
 		try {
 			List<Invoice> result = dao.findAll();
 			logger.debug("Fine till before Return");
 			return result;
 		} catch (InvoiceDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Could not perform a search.");
+			throw new InvoiceServiceException();
 		}
-		logger.error("should not get here");
-		return null;
 	}
 
 	@Override
 	public List<Invoice> getInvoicesByWaiter(String waiter) {
-		//TODO
+		//TODO talk to tutor about this feature
 		return null;
 	}
 
 	@Override
-	public List<Invoice> getInvoicesByDates(String datefrom, String datetill) {
+	public List<Invoice> getInvoicesByDates(String datefrom, String datetill) throws InvoiceServiceException, IllegalArgumentException {
 		List<Invoice> result = new LinkedList<Invoice>();
 		Date startDate = Date.valueOf(datefrom);
 		Date endDate = Date.valueOf(datetill);
 		if(endDate.before(startDate)){
-			//TODO
+			throw new IllegalArgumentException();
 		}
 		
 		Calendar start = Calendar.getInstance();
@@ -121,22 +121,21 @@ public class InvoiceServiceImpl implements InvoiceService{
 			try {
 				result.addAll(dao.findByDate(d.toString()));
 			} catch (InvoiceDAOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Could not perform a search.");
+				throw new InvoiceServiceException();
 			}
 		}
 		return result;
 	}
 
 	@Override
-	public Invoice getInvoiceById(int id) {
+	public Invoice getInvoiceById(int id) throws InvoiceServiceException {
 		try {
 			return dao.findById(id);
 		} catch (InvoiceDAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Could not perform a search.");
+			throw new InvoiceServiceException();
 		}
-		return null;
 	}
 	
 	private String getCurrentTime(){

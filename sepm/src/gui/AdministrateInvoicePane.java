@@ -23,6 +23,7 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 
 import services.InvoiceService;
+import services.InvoiceServiceException;
 import services.ProductService;
 
 import entities.Invoice;
@@ -211,8 +212,15 @@ public class AdministrateInvoicePane extends BasePane {
 			String waiter = waiterField.getText();
 			
 			if(iid.isEmpty() && datefrom.isEmpty() && datetill.isEmpty() && waiter.isEmpty()){
-				List<Invoice> result = is.getAllInvoices();
-				updateResultsOfInvoiceSearch(result);
+				List<Invoice> result;
+				try {
+					result = is.getAllInvoices();
+					updateResultsOfInvoiceSearch(result);
+				} catch (InvoiceServiceException e1) {
+					logger.error("Database semms to be unavailable");
+					JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen."); 
+				}
+
 				return;
 			}
 			if(iid.isEmpty()){
@@ -248,7 +256,12 @@ public class AdministrateInvoicePane extends BasePane {
 					JOptionPane.showMessageDialog(westField, "Bitte geben Sie eine Rechnungsnummer > 0 ein.");
 				}
 				List<Invoice> result = new LinkedList<Invoice>();
-				result.add(is.getInvoiceById(id));
+				try {
+					result.add(is.getInvoiceById(id));
+				} catch (InvoiceServiceException e1) {
+					logger.error("Database semms to be unavailable");
+					JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
+				}
 				updateResultsOfInvoiceSearch(result);
 				return;
 			}
@@ -256,8 +269,18 @@ public class AdministrateInvoicePane extends BasePane {
 		}
 
 		private void searchByDates(String datefrom, String datetill) {
-			List<Invoice> result = is.getInvoicesByDates(datefrom, datetill);
-			updateResultsOfInvoiceSearch(result);
+			List<Invoice> result;
+			try {
+				result = is.getInvoicesByDates(datefrom, datetill);
+				updateResultsOfInvoiceSearch(result);
+			} catch (IllegalArgumentException e) {
+				logger.warn("User tried to search with enddate before start date");
+				JOptionPane.showMessageDialog(westField, "Bitte Startdatum vor Enddatum wählen");
+			} catch (InvoiceServiceException e) {
+				logger.error("Database semms to be unavailable");
+				JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
+			}
+			
 			return;
 		}
 
