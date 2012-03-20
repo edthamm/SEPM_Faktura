@@ -1,6 +1,10 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -10,7 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
 
@@ -44,6 +52,7 @@ public class AdministrateProductsPane extends BasePane {
 	private DefaultTableModel productTableModel;
 	private JScrollPane resultTablePane;
 	private JTable results;
+	private TableRowSorter<TableModel> sorter;
 	
 	public AdministrateProductsPane(ProductService ps, StatisticService stats){
 		super();
@@ -64,6 +73,7 @@ public class AdministrateProductsPane extends BasePane {
 		logger.info("Creating Buttons");
 		newProduct = new JButton("<html>Neuer<br>Artikel</html>");
 		search = new JButton("Suchen");
+		search.addActionListener(new searchListener());
 		increasePriceOfTopsellers = new JButton("Preis der Top 3 um 5% erhöhen");
 		showTopsellers = new JButton("Top 3 der letzten 30 Tage anzeigen");
 		
@@ -71,7 +81,7 @@ public class AdministrateProductsPane extends BasePane {
 
 	private void createDropDowns() {
 		logger.info("Creating DropDowns");
-		String [] relation = {"=","<",">","<=",">="};
+		String [] relation = {"=","<",">"};
 		purchaseRelation = new JComboBox(relation);
 		retailRelation = new JComboBox(relation);
 	}
@@ -126,7 +136,8 @@ public class AdministrateProductsPane extends BasePane {
 		logger.info("Creating ResultPane");
 		results = new JTable(productTableModel);
 		resultTablePane = new JScrollPane(results);
-		
+		sorter = new TableRowSorter<TableModel>(results.getModel());
+		results.setRowSorter(sorter);
 	}
 
 	private void addEverythingToInterface() {
@@ -170,7 +181,7 @@ public class AdministrateProductsPane extends BasePane {
 	}
 
 	private void fillTableWithNewEntries(List<Product> products) {
-		Object[] newRow = new Object[3];
+		Object[] newRow = new Object[5];
 		Iterator<Product> productIterator = products.iterator();
 		while(productIterator.hasNext()){
 			Product p = productIterator.next();
@@ -187,5 +198,61 @@ public class AdministrateProductsPane extends BasePane {
 		results.revalidate();
 	}	
 
+	private class searchListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			filterTable();
+		}
+		private void filterTable() {
+			RowFilter<? super TableModel, Object> rf = createFilter();
+			if(rf == null){
+				sorter.setRowFilter(null);
+				fillTableWithAllProducts();
+				return;
+			}
+			sorter.setRowFilter(rf);
+		}
+		
+		private RowFilter<? super TableModel, Object> createFilter() {
+			List<RowFilter<? super TableModel, Object>> filters = new LinkedList<RowFilter<? super TableModel, Object>>();
+			filters = createAndAddSubfilters(filters);
+			if(filters.isEmpty()){return null;}
+			return RowFilter.andFilter(filters);
+		}
+		
+		private List<RowFilter<? super TableModel, Object>> createAndAddSubfilters(
+				List<RowFilter<? super TableModel, Object>> filters) {
+			filters.add(createIdFilter());
+			filters.add(createLabelFilter());
+			filters.add(createSupplierFilter());
+			filters.add(createPriceFilters());
+			
+			filters.removeAll(Collections.singletonList(null));
+			
+			return filters;
+			
+		}
+		private RowFilter<? super TableModel, Object> createIdFilter() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		private RowFilter<? super TableModel, Object> createLabelFilter() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		private RowFilter<? super TableModel, Object> createSupplierFilter() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		private RowFilter<? super TableModel, Object> createPriceFilters() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		private void fillTableWithAllProducts() {
+			List<Product> result = ps.getAllProducts();
+			updateResultsOfProductSearch(result);
+		}
+		
+	}
 
 }
