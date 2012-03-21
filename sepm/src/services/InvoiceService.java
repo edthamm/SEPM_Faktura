@@ -11,7 +11,6 @@ public interface InvoiceService {
 	public double closeInvoice(Invoice i) throws InvoiceServiceException;
 	public void setWaiter(String name);
 	public List<Invoice> getAllInvoices() throws InvoiceServiceException;
-	public List<Invoice> getInvoicesByWaiter(String waiter);
 	public List<Invoice> getInvoicesByDates(String datefrom, String datetill) throws InvoiceServiceException, IllegalArgumentException;
 	public Invoice getInvoiceById(int id) throws InvoiceServiceException;
 

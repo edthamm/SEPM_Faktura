@@ -98,12 +98,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
-	public List<Invoice> getInvoicesByWaiter(String waiter) {
-		//TODO talk to tutor about this feature
-		return null;
-	}
-
-	@Override
 	public List<Invoice> getInvoicesByDates(String datefrom, String datetill) throws InvoiceServiceException, IllegalArgumentException {
 		List<Invoice> result = new LinkedList<Invoice>();
 		Date startDate = Date.valueOf(datefrom);
