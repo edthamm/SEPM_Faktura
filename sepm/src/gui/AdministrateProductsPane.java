@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
-import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -205,11 +204,8 @@ public class AdministrateProductsPane extends BasePane {
 		}
 		private void filterTable() {
 			RowFilter<? super TableModel, Object> rf = createFilter();
-			if(rf == null){
-				sorter.setRowFilter(null);
-				fillTableWithAllProducts();
-				return;
-			}
+			sorter.setRowFilter(null);
+			fillTableWithAllProducts();
 			sorter.setRowFilter(rf);
 		}
 		
@@ -225,7 +221,8 @@ public class AdministrateProductsPane extends BasePane {
 			filters.add(createIdFilter());
 			filters.add(createLabelFilter());
 			filters.add(createSupplierFilter());
-			filters.add(createPriceFilters());
+			filters.add(createRPriceFilter());
+			filters.add(createPPriceFilter());
 			
 			filters.removeAll(Collections.singletonList(null));
 			
@@ -233,21 +230,60 @@ public class AdministrateProductsPane extends BasePane {
 			
 		}
 		private RowFilter<? super TableModel, Object> createIdFilter() {
-			// TODO Auto-generated method stub
+			try{
+				logger.debug("Creating id filter");
+				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, Integer.parseInt(pnrField.getText()), 0);
+			}
+			catch(Exception e){}
 			return null;
 		}
 		private RowFilter<? super TableModel, Object> createLabelFilter() {
-			// TODO Auto-generated method stub
+			try{
+				logger.debug("Creating label filter");
+				return RowFilter.regexFilter(pnameField.getText(), 1);
+			}
+			catch(Exception e){}
 			return null;
 		}
 		private RowFilter<? super TableModel, Object> createSupplierFilter() {
-			// TODO Auto-generated method stub
+			try{
+				logger.debug("Creating supplier filter");
+				return RowFilter.regexFilter(supplierField.getText(), 4);
+			}
+			catch(Exception e){}
 			return null;
 		}
-		private RowFilter<? super TableModel, Object> createPriceFilters() {
-			// TODO Auto-generated method stub
+		
+		@SuppressWarnings("static-access")
+		private RowFilter<? super TableModel, Object> createRPriceFilter() {
+			try{
+				logger.debug("Creating RPrice filter");
+				RowFilter.ComparisonType ct = null;
+				int v = retailRelation.getSelectedIndex();
+				if(v == 0){ct = ct.EQUAL;}
+				if(v == 1){ct = ct.BEFORE;}
+				if(v == 2){ct = ct.AFTER;}
+				return RowFilter.numberFilter(ct, Double.parseDouble(rpriceField.getText()), 2);
+			}
+			catch(Exception e){}
 			return null;
 		}
+		
+		@SuppressWarnings("static-access")
+		private RowFilter<? super TableModel, Object> createPPriceFilter() {
+			try{
+				logger.debug("Creating PPrice filter");
+				RowFilter.ComparisonType ct = null;
+				int v = purchaseRelation.getSelectedIndex();
+				if(v == 0){ct = ct.EQUAL;}
+				if(v == 1){ct = ct.BEFORE;}
+				if(v == 2){ct = ct.AFTER;}
+				return RowFilter.numberFilter(ct, Double.parseDouble(ppriceField.getText()), 3);
+			}
+			catch(Exception e){}
+			return null;
+		}
+		
 		private void fillTableWithAllProducts() {
 			List<Product> result = ps.getAllProducts();
 			updateResultsOfProductSearch(result);
