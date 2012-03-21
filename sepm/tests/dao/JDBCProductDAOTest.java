@@ -26,7 +26,7 @@ public class JDBCProductDAOTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	  	PropertyConfigurator.configure("tests/log4jtest.properties");
-    	dao = new JDBCProductDAOImpl(new DatabaseConnectorImpl());
+    	dao = new JDBCProductDAOImpl(new DatabaseConnectorImpl("tests/dao/testdb.properties"));
 		c = dao.getConnection();
     	c.setAutoCommit(false);
 		s = c.createStatement();

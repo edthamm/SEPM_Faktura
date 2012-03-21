@@ -2,6 +2,8 @@ package gui;
 
 import javax.swing.JOptionPane;
 
+import net.miginfocom.swing.MigLayout;
+
 import entities.Product;
 
 import services.ProductService;
@@ -19,14 +21,21 @@ public class ProductDetailsPopup extends JOptionPane {
 	
 	private void init(){
 		
-		createLabels();
+		setDisplayOptions();
+		generateLabels();
 		createFields();
 		createButtons();
 		removeAll();
 		addEverythingToDisplay();
 	}
 	
-	private void createLabels() {
+	private void setDisplayOptions() {
+		MigLayout l = new MigLayout();
+		setLayout(l);
+		
+	}
+
+	private void generateLabels() {
 		// TODO Auto-generated method stub
 		
 	}

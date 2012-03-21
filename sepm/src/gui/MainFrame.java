@@ -28,7 +28,7 @@ public class MainFrame extends JFrame{
 
 	private static final long serialVersionUID = 4714864527745266449L;
 	private Logger logger = Logger.getLogger("gui.MainFrame.class");
-	private DatabaseConnector dbc = new DatabaseConnectorImpl();
+	private DatabaseConnector dbc = new DatabaseConnectorImpl("productiondb.properties");
 	private InvoiceDAO idao;
 	private InvoiceService is;
 	private ProductService ps;

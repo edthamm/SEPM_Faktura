@@ -29,7 +29,7 @@ public class JDBCInvoiceDAOTest {
     @BeforeClass
 	public static void setUpBeforeClass() throws Exception {
     	PropertyConfigurator.configure("tests/log4jtest.properties");
-    	dao = new JDBCInvoiceDAOImpl(new DatabaseConnectorImpl());
+    	dao = new JDBCInvoiceDAOImpl(new DatabaseConnectorImpl("tests/dao/testdb.properties"));
 		c = dao.getConnection();
     	c.setAutoCommit(false);
 		s = c.createStatement();

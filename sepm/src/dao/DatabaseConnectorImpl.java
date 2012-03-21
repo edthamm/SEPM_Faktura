@@ -1,8 +1,12 @@
 package dao;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -13,9 +17,46 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 	private String user = "sa";
 	private String password = "";
 	private Logger logger = Logger.getLogger("dao.DatabaseConnectorImpl.class");
+	
+	public DatabaseConnectorImpl(String pathToPropertiesFile){
+		configureWithFile(pathToPropertiesFile);
+	}
 			
 			
+	private void configureWithFile(String pathToPropertiesFile) {
+		try {
+			logger.debug("Start configutation");
+			Properties properties = loadProperties(pathToPropertiesFile);
+			setValues(properties);
+		} catch (FileNotFoundException e) {
+			logger.warn("Could not open properties file falling back to defaults");
+			return;
+		} catch (IOException e) {
+			logger.warn("Could not read from properties file falling back to defaults");
+			return;
+		}
+		
+	}
+
+
+	private Properties loadProperties(String pathToPropertiesFile)
+			throws FileNotFoundException, IOException {
+		Properties properties = new Properties();
+		FileInputStream inStream = new FileInputStream(pathToPropertiesFile);
+		properties.load(inStream);
+		return properties;
+	}
+
+
+	private void setValues(Properties properties) {
+		url = properties.getProperty("url");
+		user = properties.getProperty("user");
+		password = properties.getProperty("password");
+	}
+
+
 	public Connection getConnection() throws DatabaseConnectorException{
+		
 		
 		if(connection == null){
 			tryToConnect3Times();

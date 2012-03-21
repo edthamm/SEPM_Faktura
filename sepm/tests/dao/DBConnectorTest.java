@@ -18,13 +18,14 @@ public class DBConnectorTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception{
-		dbc = new DatabaseConnectorImpl();
 		PropertyConfigurator.configure("tests/log4jtest.properties");
+		dbc = new DatabaseConnectorImpl("tests/dao/testdb.properties");
+		
 	}
 
 	@Test
 	public void testGetConnection() {
-		dbc = new DatabaseConnectorImpl();
+		dbc = new DatabaseConnectorImpl("tests/dao/testdb.properties");
 		try{
 			Connection c = dbc.getConnection();
 			assertTrue(c != null);
