@@ -54,6 +54,7 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 		initialiseTableModel();
 		generateTable();
 		fillTableWithData();
+		removeAll();
 		addEverytingToDisplay();
 	}
 

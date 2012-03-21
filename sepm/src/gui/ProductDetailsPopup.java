@@ -19,16 +19,40 @@ public class ProductDetailsPopup extends JOptionPane {
 	
 	private void init(){
 		
-		
+		createLabels();
+		createFields();
+		createButtons();
+		removeAll();
+		addEverythingToDisplay();
 	}
 	
+	private void createLabels() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void createFields() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void createButtons() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addEverythingToDisplay() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void forProduct(Product t){
 		p = ps.getProductbyId(t.getId());
 		init();
 	}
 
 	public void forProduct(int id) {
-		// TODO Auto-generated method stub
-		
+		p = ps.getProductbyId(id);
+		init();
 	}
 }
