@@ -53,6 +53,19 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void increasePriceByFivePercent(List<Product> l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Product generateNewProduct() {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

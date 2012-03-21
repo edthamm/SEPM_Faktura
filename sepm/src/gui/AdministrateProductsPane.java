@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -71,10 +72,13 @@ public class AdministrateProductsPane extends BasePane {
 	private void createButtons() {
 		logger.info("Creating Buttons");
 		newProduct = new JButton("<html>Neuer<br>Artikel</html>");
+		newProduct.addActionListener(new newProductListener());
 		search = new JButton("Suchen");
 		search.addActionListener(new searchListener());
 		increasePriceOfTopsellers = new JButton("Preis der Top 3 um 5% erhöhen");
+		increasePriceOfTopsellers.addActionListener(new top3increaserListener());
 		showTopsellers = new JButton("Top 3 der letzten 30 Tage anzeigen");
+		showTopsellers.addActionListener(new top3listListener());
 		
 	}
 
@@ -196,6 +200,44 @@ public class AdministrateProductsPane extends BasePane {
 	private void updateDisplayWithNewData() {
 		results.revalidate();
 	}	
+	
+	private void showPopupForProduct(Product p){
+		ProductDetailsPopup productDetails = new ProductDetailsPopup(ps);
+		productDetails.forProduct(p);
+		JDialog j = new JDialog();
+		j.add(productDetails);
+		j.pack();
+		j.setVisible(true);
+	}
+	
+	private class newProductListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Product p = ps.generateNewProduct();
+			showPopupForProduct(p);
+		}
+		
+	}
+	
+	private class top3listListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			updateResultsOfProductSearch(stats.getTopThreeProductsOfLastThirtyDays());
+		}
+		
+	}
+	
+	private class top3increaserListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			List<Product> l = stats.getTopThreeProductsOfLastThirtyDays();
+			ps.increasePriceByFivePercent(l);
+		}
+		
+	}
 
 	private class searchListener implements ActionListener{
 		@Override

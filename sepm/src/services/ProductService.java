@@ -13,4 +13,8 @@ public interface ProductService {
 	public Product getProductbyId(int id);
 
 	public void increasePriceByFivePercent(Product p);
+
+	public void increasePriceByFivePercent(List<Product> l);
+
+	public Product generateNewProduct();
 }
