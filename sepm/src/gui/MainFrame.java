@@ -102,7 +102,5 @@ public class MainFrame extends JFrame{
 				frame.setVisible(true);
 			}
 		});
-
 	}
-
 }
