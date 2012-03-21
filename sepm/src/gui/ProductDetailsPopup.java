@@ -1,9 +1,14 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import org.apache.log4j.Logger;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -14,6 +19,7 @@ import services.ProductService;
 public class ProductDetailsPopup extends JOptionPane {
 
 	private static final long serialVersionUID = -6004357805402889270L;
+	private Logger logger = Logger.getLogger("gui.ProductDetailsPopup.class");
 	private ProductService ps;
 	private Product p;
 	private JLabel pnrLabel;
@@ -70,7 +76,9 @@ public class ProductDetailsPopup extends JOptionPane {
 
 	private void createButtons() {
 		deleteButton = new JButton("Produkt löschen");
+		deleteButton.addActionListener(new deleteListener());
 		storeChangesButton = new JButton("Änderungen übernehmen");
+		storeChangesButton.addActionListener(new storeChangeListener());
 		
 	}
 	
@@ -105,5 +113,49 @@ public class ProductDetailsPopup extends JOptionPane {
 	public void forProduct(int id) {
 		p = ps.getProductbyId(id);
 		init();
+	}
+	
+	private class storeChangeListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			updateProduct();
+			storeProductToDb();
+			
+		}
+
+		private void updateProduct() {
+			try{
+				p.setPurchasePrice(Double.parseDouble(ppriceField.getText()));
+				p.setRetailPrice(Double.parseDouble(rpriceField.getText()));
+			}
+			catch(Exception e){
+				JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die Preisfelder auf Fehler");
+				return;
+			}
+			p.setSupplier(supplierField.getText());
+			p.setLabel(labelField.getText());
+			
+		}
+
+		private void storeProductToDb() {
+			ps.updateProduct(p);
+			
+		}
+		
+	}
+	
+	private class deleteListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int respone = JOptionPane.showConfirmDialog(null, "Dieses Produkt wirklich Löschen?", "Bitte bestätigen" , JOptionPane.YES_NO_OPTION);
+			if(respone == JOptionPane.YES_OPTION){
+				logger.debug("Deleting Product now");
+				ps.deleteProduct(p);
+				//TODO close pane
+			}
+		}
+		
 	}
 }

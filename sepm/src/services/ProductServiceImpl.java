@@ -80,6 +80,28 @@ public class ProductServiceImpl implements ProductService {
 		return null;
 		
 	}
+
+	@Override
+	public void updateProduct(Product p) {
+		try {
+			dao.updateProduct(p);
+		} catch (JDBCProductDAOImplException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void deleteProduct(Product p) {
+		try {
+			dao.deleteProduct(p);
+		} catch (JDBCProductDAOImplException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 
 }

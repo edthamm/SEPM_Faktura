@@ -17,4 +17,8 @@ public interface ProductService {
 	public void increasePriceByFivePercent(List<Product> l);
 
 	public Product generateNewProduct();
+
+	public void updateProduct(Product p);
+
+	public void deleteProduct(Product p);
 }
