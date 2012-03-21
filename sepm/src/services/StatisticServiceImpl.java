@@ -10,8 +10,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
@@ -90,6 +88,7 @@ public class StatisticServiceImpl implements StatisticService{
 		HashMap<Integer, Consumption> m = new HashMap<Integer, Consumption>();
 
 		for(Consumption c : cList){
+			logger.debug("Processing "+ c.toString());
 			if(m.containsKey(c.getProductID())){
 				Consumption infoInMap = m.get(c.getProductID());
 				logger.debug("Product already in list increasing count");
@@ -111,6 +110,7 @@ public class StatisticServiceImpl implements StatisticService{
 		Iterator<Entry<Integer, Consumption>> mEntries = m.entrySet().iterator();
 		while(mEntries.hasNext()){
 			Consumption c = mEntries.next().getValue();
+			logger.debug("Adding to List in Build " +c.toString());
 			result.add(c);
 		}
 		
@@ -121,7 +121,12 @@ public class StatisticServiceImpl implements StatisticService{
 	
 	private List<Consumption> orderListConsumtptions(
 			List<Consumption> compressed) {
+		logger.info("Ordering Sublist");
 		Collections.sort(compressed, new ConsumptionComparer());
+		logger.debug("Order after ordering:");
+		for(Consumption c : compressed){
+			logger.debug(c.toString());
+		}
 		return compressed;
 	}
 	
@@ -148,10 +153,10 @@ public class StatisticServiceImpl implements StatisticService{
 			int c0qty = c0.getQuantity();
 			int c1qty = c1.getQuantity();
 			if(c0qty > c1qty){
-				return 1;
+				return -1;
 			}
 			if(c1qty > c0qty){
-				return -1;
+				return 1;
 			}
 			return 0;
 		}

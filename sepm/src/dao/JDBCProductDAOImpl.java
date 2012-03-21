@@ -172,7 +172,9 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	private Product createProductFromResult(ResultSet r) throws SQLException {
 		ProductImpl p = new ProductImpl(r.getString("label"), r.getDouble("purchasePrice"),
 				r.getDouble("retailPrice"),r.getString("supplier"), r.getInt("pid"));
-		p.setInSale(r.getBoolean("insale"));
+		if(!r.getBoolean("insale")){
+			p.setInSale(r.getBoolean("insale"));
+		}
 		
 		return p;
 	}

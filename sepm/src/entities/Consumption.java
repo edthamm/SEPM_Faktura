@@ -36,4 +36,8 @@ public class Consumption {
 		this.productID = productID;
 	}
 	
+	public String toString(){
+		return "Consumption "+productID+" "+quantity+" "+price;
+	}
+	
 }

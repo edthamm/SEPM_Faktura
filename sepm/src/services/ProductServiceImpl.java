@@ -50,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void increasePriceByFivePercent(Product p) {
+		//TODO ask about rounding
 		p.setRetailPrice(p.getRetailPrice()*1.05);
 		try {
 			dao.updateProduct(p);
