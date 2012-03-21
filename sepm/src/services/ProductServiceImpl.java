@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product generateNewProduct() {
 		try {
-			Product p = dao.createProduct("Bezeichnung", 1, 1, "Lieverant");
+			Product p = dao.createProduct("Bezeichnung", 1, 1, "Lieferant");
 			return p;
 		} catch (JDBCProductDAOImplException e) {
 			// TODO Auto-generated catch block
