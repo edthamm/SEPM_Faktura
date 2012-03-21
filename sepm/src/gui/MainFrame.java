@@ -21,6 +21,7 @@ import services.StatisticService;
 import services.StatisticServiceImpl;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
@@ -84,6 +85,8 @@ public class MainFrame extends JFrame{
 			stats = new StatisticServiceImpl(ps, is);
 		} catch (JDBCInvoiceDAOImplException e) {
 		} catch (JDBCProductDAOImplException e) {
+			JOptionPane.showConfirmDialog(null, "Es konnte keine Datenbankverbindung aufgebaut werden. Das Programm wird geschlossen.");
+			System.exit(1);
 		}
 	}
 	

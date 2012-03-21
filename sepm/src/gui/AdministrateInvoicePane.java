@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -47,6 +52,7 @@ public class AdministrateInvoicePane extends BasePane {
 	private DefaultTableModel invoiceTableModel;
 	private JScrollPane resultTablePane;
 	private JTable results;
+	private TableRowSorter<TableModel> sorter;
 	
 	public AdministrateInvoicePane(InvoiceService is, ProductService ps){
 		super();
@@ -114,6 +120,8 @@ public class AdministrateInvoicePane extends BasePane {
 		logger.info("Creating ResultPane");
 		results = new JTable(invoiceTableModel);
 		resultTablePane = new JScrollPane(results);
+		sorter = new TableRowSorter<TableModel>(results.getModel());
+		results.setRowSorter(sorter);
 		
 	}
 	
@@ -205,93 +213,101 @@ public class AdministrateInvoicePane extends BasePane {
 	protected class searchListener implements ActionListener{
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			String iid = inrField.getText();
+		public void actionPerformed(ActionEvent arg0) {
 			String datefrom = datefromField.getText();
 			String datetill = datetillField.getText();
-			String waiter = waiterField.getText();
-			
-			if(iid.isEmpty() && datefrom.isEmpty() && datetill.isEmpty() && waiter.isEmpty()){
-				List<Invoice> result;
-				try {
-					result = is.getAllInvoices();
-					updateResultsOfInvoiceSearch(result);
-				} catch (InvoiceServiceException e1) {
-					logger.error("Database semms to be unavailable");
-					JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen."); 
-				}
-
+			try{
+				checkDateFormat(datefrom);
+				checkDateFormat(datetill);
+			}
+			catch(Exception e){
+				logger.warn("User tried invalid date");
+				JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie Ihre Datumseingabe auf korrekte Formatierung.");
 				return;
 			}
-			if(iid.isEmpty()){
-				if(datefrom.isEmpty() && datetill.isEmpty() && !waiter.isEmpty()){
-					searchByWaiter(waiter);
-					return;
-				}
-				if(!datefrom.isEmpty() && !datetill.isEmpty() && waiter.isEmpty()){
-					try{
-						checkDateFormat(datefrom);
-						checkDateFormat(datetill);
-					}
-					catch(Exception e1){
-						logger.warn("Got an illegal date format");
-						JOptionPane.showMessageDialog(westField, "Bitte Überprüfen Sie Ihr Datumsformat");
-						return;
-					}
-					searchByDates(datefrom, datetill);
-					return;
-				}
-			}
-			if(!iid.isEmpty()){
-				if(!datefrom.isEmpty() || !datetill.isEmpty() || !waiter.isEmpty()){
-					JOptionPane.showMessageDialog(westField, "Bitte füllen Sie genau eine Zeile der Suchmaske aus.");
-					return;
-				}
-				int id = 0;
-				try{
-					id = Integer.parseInt(iid);
-					if(id < 1){throw new Exception();}
-				}
-				catch(Exception e2){
-					JOptionPane.showMessageDialog(westField, "Bitte geben Sie eine Rechnungsnummer > 0 ein.");
-				}
-				List<Invoice> result = new LinkedList<Invoice>();
-				try {
-					result.add(is.getInvoiceById(id));
-				} catch (InvoiceServiceException e1) {
-					logger.error("Database semms to be unavailable");
-					JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
-				}
-				updateResultsOfInvoiceSearch(result);
-				return;
-			}
-			JOptionPane.showMessageDialog(westField, "Bitte füllen Sie genau eine Zeile der Suchmaske aus.");
-		}
-
-		private void searchByDates(String datefrom, String datetill) {
-			List<Invoice> result;
-			try {
-				result = is.getInvoicesByDates(datefrom, datetill);
-				updateResultsOfInvoiceSearch(result);
-			} catch (IllegalArgumentException e) {
-				logger.warn("User tried to search with enddate before start date");
-				JOptionPane.showMessageDialog(westField, "Bitte Startdatum vor Enddatum wählen");
-			} catch (InvoiceServiceException e) {
-				logger.error("Database semms to be unavailable");
-				JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
-			}
-			
-			return;
-		}
-
-		private void searchByWaiter(String waiter) {
-			List<Invoice> result = is.getInvoicesByWaiter(waiter);
-			updateResultsOfInvoiceSearch(result);
-			return;
+			filterTable();
 		}
 		
+		private void filterTable() {
+			RowFilter<? super TableModel, Object> rf = createFilter();
+			sorter.setRowFilter(null);
+			fillTableWithAllInvoices();
+			sorter.setRowFilter(rf);
+		}
+		
+		private RowFilter<? super TableModel, Object> createFilter() {
+			List<RowFilter<? super TableModel, Object>> filters = new LinkedList<RowFilter<? super TableModel, Object>>();
+			filters = createAndAddSubfilters(filters);
+			if(filters.isEmpty()){return null;}
+			return RowFilter.andFilter(filters);
+		}
+		
+		private List<RowFilter<? super TableModel, Object>> createAndAddSubfilters(
+				List<RowFilter<? super TableModel, Object>> filters) {
+			filters.add(createIdFilter());
+			filters.add(createDateFromFilter());
+			filters.add(createDateTillFilter());
+			filters.add(createWaiterFilter());
+			
+			filters.removeAll(Collections.singletonList(null));
+			
+			return filters;
+			
+		}
+		
+		private RowFilter<? super TableModel, Object> createIdFilter() {
+			try{
+				logger.debug("Creating id filter");
+				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, Integer.parseInt(inrField.getText()), 0);
+			}
+			catch(Exception e){}
+			return null;
+		}
+
+		private RowFilter<? super TableModel, Object> createDateFromFilter() {
+			try{
+				String date = datefromField.getText();
+				logger.debug("Got Date: "+date);
+				return RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, Date.valueOf(date), 2);
+			}
+			catch(Exception e){
+				logger.debug("Got an exception creating Date Filter "+e.toString());
+			}
+			return null;
+		}
+
+		private RowFilter<? super TableModel, Object> createDateTillFilter() {
+			try{
+				String date = datetillField.getText();
+				logger.debug("Got Date: "+date);
+				return RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, Date.valueOf(date), 2);
+			}
+			catch(Exception e){
+				logger.debug("Got an exception creating Date Filter "+e.toString());
+			}
+			return null;
+		}
+
+		private RowFilter<? super TableModel, Object> createWaiterFilter() {
+			try{
+				return RowFilter.regexFilter(waiterField.getText(), 4);
+			}
+			catch(Exception e){}
+			return null;
+		}
+		private void fillTableWithAllInvoices() {
+			List<Invoice> result;
+			try {
+				result = is.getAllInvoices();
+				updateResultsOfInvoiceSearch(result);
+			} catch (InvoiceServiceException e) {
+				logger.error("Could not load Invoices From Database");
+			}
+			
+		}
+
 		protected void checkDateFormat(String s) throws IllegalArgumentException{
-			String dateRegex = "(19|20)\\d\\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])";
+			String dateRegex = "((19|20)\\d\\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]))|";
 			if(s.matches(dateRegex)){
 				return;
 			}

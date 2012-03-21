@@ -286,6 +286,7 @@ public class AdministrateProductsPane extends BasePane {
 		public void actionPerformed(ActionEvent arg0) {
 			filterTable();
 		}
+		
 		private void filterTable() {
 			RowFilter<? super TableModel, Object> rf = createFilter();
 			sorter.setRowFilter(null);
