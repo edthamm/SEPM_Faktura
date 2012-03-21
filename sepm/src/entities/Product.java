@@ -1,5 +1,8 @@
 package entities;
 
+/**
+ * The Interface Product.
+ */
 public interface Product {
 	public int getId() ;	
 	public String getLabel() ;

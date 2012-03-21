@@ -21,6 +21,14 @@ public class InvoiceImpl implements Invoice{
 		logger.debug("Initialize InvoiceImpl to default");
 	}
 	
+	/**
+	 * Instantiates a new invoice impl.
+	 *
+	 * @param date the date of creation
+	 * @param time the time of creation
+	 * @param waiter the waiter
+	 * @param id the id
+	 */
 	public InvoiceImpl(String date, String time, String waiter, int id){
 		logger.debug("Initializing InvoiceImpl with data");
 		this.date = Date.valueOf(date);
@@ -43,7 +51,7 @@ public class InvoiceImpl implements Invoice{
 	/**
 	 * 
 	 * @param sum
-	 * @throws InvoiceClosedException
+	 * @throws InvoiceClosedException if Invoice is closed
 	 */
 	public void setSum(double sum) throws InvoiceClosedException {
 		if(open){
@@ -64,7 +72,7 @@ public class InvoiceImpl implements Invoice{
 	 * 
 	 * 
 	 * @param date
-	 * @throws InvoiceClosedException 
+	 * @throws InvoiceClosedException if Invoice is closed
 	 */
 	public void setDate(Date date) throws InvoiceClosedException {
 		if (open) {
@@ -82,7 +90,7 @@ public class InvoiceImpl implements Invoice{
 	/**
 	 * 
 	 * @param time
-	 * @throws InvoiceClosedException
+	 * @throws InvoiceClosedException if Invoice is closed
 	 */
 	public void setTime(Time time) throws InvoiceClosedException {
 		if (open) {
@@ -100,7 +108,7 @@ public class InvoiceImpl implements Invoice{
 	/**
 	 * 
 	 * @param waiter
-	 * @throws InvoiceClosedException
+	 * @throws InvoiceClosedException if Invoice is closed
 	 */
 	public void setWaiter(String waiter) throws InvoiceClosedException {
 		if (open) {
@@ -118,7 +126,7 @@ public class InvoiceImpl implements Invoice{
 	/**
 	 * 
 	 * @param consumptions
-	 * @throws InvoiceClosedException
+	 * @throws InvoiceClosedException if Invoice is closed
 	 */
 	public void setConsumptions(List<Consumption> consumptions) throws InvoiceClosedException {
 		if(open){

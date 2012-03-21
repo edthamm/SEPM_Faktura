@@ -1,11 +1,21 @@
 package entities;
 
+/**
+ * The Class Consumption.
+ */
 public class Consumption {
 
 	private int productID;
 	private int quantity;
 	private double price;
 	
+	/**
+	 * Instantiates a new consumption.
+	 *
+	 * @param productID the product id
+	 * @param quantity the quantity consumed
+	 * @param price the price at the time of sale
+	 */
 	public Consumption(int productID, int quantity, double price) {
 		this.productID = productID;
 		this.quantity = quantity;

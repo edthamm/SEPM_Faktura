@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
+/**
+ * The Interface Invoice.
+ */
 public interface Invoice {
 	public int getId() ;
 	public double getSum() ;

@@ -2,6 +2,9 @@ package entities;
 
 import org.apache.log4j.Logger;
 
+/**
+ * The Class ProductImpl.
+ */
 public class ProductImpl implements Product{
 
 	private int id = 0;
@@ -12,11 +15,23 @@ public class ProductImpl implements Product{
 	private boolean inSale = true;
 	private Logger logger = Logger.getLogger("entities.ProductImpl.class");
 	
+	/**
+	 * Instantiates a new product.
+	 */
 	public ProductImpl(){
 		logger.debug("Initializing default product");
 	}
 	
 	
+	/**
+	 * Instantiates a new product.
+	 *
+	 * @param label the label
+	 * @param purchasePrice the purchase price
+	 * @param retailPrice the retail price
+	 * @param supplier the supplier
+	 * @param id the id
+	 */
 	public ProductImpl(String label, double purchasePrice, double retailPrice,
 			String supplier, int id) {
 		this.label = label;
