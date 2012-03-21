@@ -10,6 +10,9 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+/**
+ * The Class DatabaseConnectorImpl.
+ */
 public class DatabaseConnectorImpl implements DatabaseConnector{
 
 	private Connection connection = null;
@@ -18,11 +21,15 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 	private String password = "";
 	private Logger logger = Logger.getLogger("dao.DatabaseConnectorImpl.class");
 	
+	/**
+	 * Instantiates a new database connector.
+	 *
+	 * @param pathToPropertiesFile the path to properties file
+	 */
 	public DatabaseConnectorImpl(String pathToPropertiesFile){
 		configureWithFile(pathToPropertiesFile);
 	}
-			
-			
+					
 	private void configureWithFile(String pathToPropertiesFile) {
 		try {
 			logger.debug("Start configutation");
@@ -38,7 +45,6 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 		
 	}
 
-
 	private Properties loadProperties(String pathToPropertiesFile)
 			throws FileNotFoundException, IOException {
 		Properties properties = new Properties();
@@ -47,14 +53,13 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 		return properties;
 	}
 
-
 	private void setValues(Properties properties) {
 		url = properties.getProperty("url");
 		user = properties.getProperty("user");
 		password = properties.getProperty("password");
 	}
 
-
+	
 	public Connection getConnection() throws DatabaseConnectorException{
 		
 		
@@ -65,13 +70,6 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 		return connection;
 	}
 
-
-
-	/**
-	 * This will try to connect to the Database 3 times.
-	 * On failure it:
-	 * @throws DatabaseConnectorException 
-	 */
 	private void tryToConnect3Times() throws DatabaseConnectorException {
 		int i = 0;
 		while(i<3){
@@ -91,13 +89,6 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 		checkIfConnectionIsEstablished();//i dont think i need to check but just to be on the safe side
 	}
 
-
-
-	/**
-	 * This Class gets the DriverClass and tries to connect.
-	 * @throws SQLException
-	 * @throws ClassNotFoundException 
-	 */
 	private void connect() throws SQLException, ClassNotFoundException {
 		logger.debug("Connetiong to DB: "+url);
 		Class.forName("org.hsqldb.jdbc.JDBCDriver");
@@ -105,13 +96,6 @@ public class DatabaseConnectorImpl implements DatabaseConnector{
 		logger.debug("Connected.");
 	}
 
-
-	/**
-	 * Just to be on the safe side this method checks for successful connection attempts.
-	 * 
-	 * @throws DatabaseConnectorException
-	 * If no Connection was established 
-	 */
 	private void checkIfConnectionIsEstablished() throws DatabaseConnectorException {
 		if(connection == null){
 			logger.error("Could not establish database connection");

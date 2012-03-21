@@ -12,6 +12,9 @@ import org.apache.log4j.Logger;
 import entities.Product;
 import entities.ProductImpl;
 
+/**
+ * The Class JDBCProductDAOImpl.
+ */
 public class JDBCProductDAOImpl implements ProductDAO{
 	
 	@SuppressWarnings("unused")
@@ -26,6 +29,13 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	private PreparedStatement findProductById;
 	private PreparedStatement findProductByName;
 	
+	/**
+	 * Instantiates a new jDBC product dao impl.
+	 *
+	 * @param dbc the DatabaseConnector
+	 * @throws JDBCProductDAOImplException  if Connection can not be established or statements can
+	 * not be prepared.
+	 */
 	public JDBCProductDAOImpl(DatabaseConnector dbc) throws JDBCProductDAOImplException{
 		logger.info("Initializing new JDBCInvoiceDAOImpl");
 		this.dbc = dbc;
@@ -59,6 +69,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		
 	}
 
+	
 	@Override
 	public Product createProduct(String label, double purchasePrice, double retailPrice,
 	String supplier) throws JDBCProductDAOImplException {
@@ -82,7 +93,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		logger.info("Creating new Product");
 		return new ProductImpl(label, purchasePrice, retailPrice, supplier, 0);
 	}
-	
+
 	private int writeProductToDatabase(ProductImpl newProduct) throws SQLException{
 		insertNewProduct(newProduct);
 		int id = getIdOfJustInsertedProduct(newProduct);
@@ -113,7 +124,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		return id;
 	}
 	
-	
+
 	@Override
 	public void updateProduct(Product toUpdate) throws JDBCProductDAOImplException {
 		try {
@@ -131,6 +142,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		
 	}
 
+	
 	@Override
 	public void deleteProduct(Product toDelete) throws JDBCProductDAOImplException {
 		logger.info("Marking Product as deleted");
@@ -144,6 +156,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		}
 		
 	}
+
 
 	@Override
 	public List<Product> findAll() throws JDBCProductDAOImplException {
@@ -179,6 +192,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		return p;
 	}
 
+	
 	@Override
 	public Product findById(int id) throws JDBCProductDAOImplException {
 		
@@ -194,6 +208,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 		}
 
 	}
+
 
 	@Override
 	public List<Product> findByName(String name) throws JDBCProductDAOImplException {

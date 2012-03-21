@@ -1,6 +1,3 @@
-/*
- * 
- */
 package dao;
 
 import java.sql.Connection;
@@ -17,8 +14,6 @@ import entities.Invoice;
 import entities.InvoiceClosedException;
 import entities.InvoiceImpl;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class JDBCInvoiceDAOImpl.
  */
@@ -66,11 +61,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		}
 	}
 	
-	/**
-	 * Prepare statements.
-	 *
-	 * @throws SQLException the sQL exception
-	 */
 	private void prepareStatements() throws SQLException {
 		createStatement = c.prepareStatement("INSERT INTO INVOICE VALUES (NULL,?,0,?,?)");//date waiter time
 		getIdAfterCreate = c.prepareStatement("SELECT iid FROM invoice WHERE total = 0 AND" +
@@ -85,7 +75,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		
 	}
 
-	
 	
 	@Override
 	public Invoice createInvoice(String date, String time, String waiter) throws JDBCInvoiceDAOImplException {
@@ -104,38 +93,17 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		
 		return newInvoice;
 	}
-	
-	/**
-	 * Creates the invoice object.
-	 *
-	 * @param date the date
-	 * @param time the time
-	 * @param waiter the waiter
-	 * @return the invoice impl
-	 */
+
 	private InvoiceImpl createInvoiceObject(String date, String time, String waiter) {
 		return new InvoiceImpl(date,time,waiter,0);
 	}
 
-	/**
-	 * Write invoice to database.
-	 *
-	 * @param newInvoice the new invoice
-	 * @return the id of the new invoice
-	 * @throws SQLException
-	 */
 	private int writeInvoiceToDatabase(Invoice newInvoice) throws SQLException {
 		insertNewInvoice(newInvoice);
 		int id = getIdOfJustInsertedInvoice(newInvoice);
 		return id;
 	}
 
-	/**
-	 * Insert new invoice.
-	 *
-	 * @param newInvoice the new invoice
-	 * @throws SQLException 
-	 */
 	private void insertNewInvoice(Invoice newInvoice) throws SQLException {
 		createStatement.setDate(1, newInvoice.getDate());
 		createStatement.setString(2, newInvoice.getWaiter());
@@ -143,14 +111,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		
 		createStatement.executeUpdate();
 	}
-	
-	/**
-	 * Gets the id of just inserted invoice.
-	 *
-	 * @param newInvoice the new invoice
-	 * @return the id of just inserted invoice
-	 * @throws SQLException
-	 */
+
 	private int getIdOfJustInsertedInvoice(Invoice newInvoice)
 			throws SQLException {
 		getIdAfterCreate.setDate(1, newInvoice.getDate());
@@ -182,12 +143,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		return toUpdate;
 	}
 
-	/**
-	 * Update open invoice.
-	 *
-	 * @param toUpdate the to update
-	 * @throws SQLException
-	 */
 	private void updateOpenInvoice(Invoice toUpdate) throws SQLException {
 		updateInvoice.setDate(1, toUpdate.getDate());
 		updateInvoice.setString(2, toUpdate.getWaiter());
@@ -199,12 +154,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		
 	}
 
-	/**
-	 * Update and close invoice.
-	 *
-	 * @param toUpdate the to update
-	 * @throws SQLException
-	 */
 	private void updateAndCloseInvoice(Invoice toUpdate) throws SQLException {
 		
 		updateInvoiceStoringSum(toUpdate);
@@ -212,12 +161,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	
 	}
 
-	/**
-	 * Update invoice storing sum.
-	 *
-	 * @param toUpdate the Invoice to update
-	 * @throws SQLException
-	 */
 	private void updateInvoiceStoringSum(Invoice toUpdate)
 			throws SQLException {
 		updateInvoice.setDate(1, toUpdate.getDate());
@@ -229,12 +172,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		updateInvoice.executeUpdate();
 	}
 
-	/**
-	 * Store consumptions.
-	 *
-	 * @param toUpdate the Invoice to update
-	 * @throws SQLException
-	 */
 	private void storeConsumptions(Invoice toUpdate) throws SQLException {
 		for(Consumption c : toUpdate.getConsumptions()){
 			insertIntoContains.setInt(1, toUpdate.getId());
@@ -280,14 +217,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		return result;
 	}
 
-	/**
-	 * Construct invoice list.
-	 *
-	 * @param result the ResultList
-	 * @param r the ResultSet
-	 * @throws SQLException the sQL exception
-	 * @throws InvoiceClosedException the invoice closed exception
-	 */
 	private void constructInvoiceList(List<Invoice> result, ResultSet r)
 			throws SQLException, InvoiceClosedException {
 		while(r.next()){
@@ -297,28 +226,13 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		}
 	}
 	
-	/**
-	 * Extract info and create invoice.
-	 *
-	 * @param r the r
-	 * @return the invoice
-	 * @throws SQLException the sQL exception
-	 */
 	private Invoice extractInfoAndCreateInvoice(ResultSet r)
 			throws SQLException {
 		Invoice result = new InvoiceImpl(r.getDate("date").toString(),r.getTime("time").toString(),
 										 r.getString("waiter"),r.getInt("iid"));
 		return result;
 	}
-	
-	/**
-	 * If the invoice is closed set consumptions and total.
-	 *
-	 * @param r the r
-	 * @param result the result
-	 * @throws SQLException the sQL exception
-	 * @throws InvoiceClosedException the invoice closed exception
-	 */
+
 	private void ifTheInvoiceIsClosedSetConsumptionsAndTotal(ResultSet r, Invoice result) throws SQLException,
 	InvoiceClosedException {
 		double total = r.getDouble("total");
@@ -329,15 +243,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 
 		result.setSum(total);
 	}
-	
-	/**
-	 * Adds the consumptions to invoice.
-	 *
-	 * @param id the id
-	 * @param result the result
-	 * @throws InvoiceClosedException the invoice closed exception
-	 * @throws SQLException the sQL exception
-	 */
+
 	private void addConsumptionsToInvoice(int id, Invoice result)
 			throws InvoiceClosedException, SQLException {
 		logger.debug("Adding consumptions");
@@ -345,13 +251,6 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		result.setConsumptions(consumptions);
 	}
 
-	/**
-	 * Gets the consumptions of invoice.
-	 *
-	 * @param id the id
-	 * @return the consumptions of invoice
-	 * @throws SQLException the sQL exception
-	 */
 	private List<Consumption> getConsumptionsOfInvoice(int id) throws SQLException {
 		findConsumptionsOfInvoice.setInt(1, id);
 		ResultSet r = findConsumptionsOfInvoice.executeQuery();
@@ -385,18 +284,12 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		}
 	}
 	
-	/**
-	 * Find invoice by id.
-	 *
-	 * @param id the id
-	 * @return the result set
-	 * @throws SQLException the sQL exception
-	 */
 	private ResultSet findInvoiceByID(int id) throws SQLException {
 		findByID.setInt(1, id);
 		ResultSet r = findByID.executeQuery();
 		return r;
 	}
+	
 	
 	@Override
 	public List<Invoice> findByDate(String date) throws JDBCInvoiceDAOImplException {
@@ -419,12 +312,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 		
 		return result;
 	}
-	
-	/**
-	 * Gets the connection.
-	 *
-	 * @return the connection
-	 */
+
 	protected Connection getConnection(){
 		return c;
 	}
