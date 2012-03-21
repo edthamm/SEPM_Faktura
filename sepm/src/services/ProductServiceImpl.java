@@ -50,20 +50,33 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void increasePriceByFivePercent(Product p) {
-		// TODO Auto-generated method stub
-		
+		p.setRetailPrice(p.getRetailPrice()*1.05);
+		try {
+			dao.updateProduct(p);
+		} catch (JDBCProductDAOImplException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void increasePriceByFivePercent(List<Product> l) {
-		// TODO Auto-generated method stub
-		
+		for(Product p: l){
+			increasePriceByFivePercent(p);
+		}
 	}
 
 	@Override
 	public Product generateNewProduct() {
+		try {
+			Product p = dao.createProduct("Bezeichnung", 1, 1, "Lieverant");
+			return p;
+		} catch (JDBCProductDAOImplException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
-		// TODO Auto-generated method stub
 		
 	}
 	

@@ -18,6 +18,7 @@ import services.InvoiceServiceImpl;
 import services.ProductService;
 import services.ProductServiceImpl;
 import services.StatisticService;
+import services.StatisticServiceImpl;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -80,7 +81,7 @@ public class MainFrame extends JFrame{
 			ps = new ProductServiceImpl(pdao);
 			idao = new JDBCInvoiceDAOImpl(dbc);
 			is = new InvoiceServiceImpl(idao, ps);
-		//TODO initialize Statistic Service
+			stats = new StatisticServiceImpl(ps, is);
 		} catch (JDBCInvoiceDAOImplException e) {
 		} catch (JDBCProductDAOImplException e) {
 		}
