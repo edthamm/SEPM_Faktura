@@ -24,10 +24,6 @@ public class BasePane extends JPanel{
 		MigLayout westLayout = new MigLayout("","grow","");
 		westField.setLayout(westLayout);
 		
-		//TODO Remove colors before going life
-		//eastButtons.setBackground(Color.BLACK);
-		//westField.setBackground(Color.BLUE);
-		
 		add(westField, "dock west, w max");
 		add(eastButtons,"dock east");
 		

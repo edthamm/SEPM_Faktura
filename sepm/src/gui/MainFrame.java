@@ -95,8 +95,7 @@ public class MainFrame extends JFrame{
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				}
 				catch (Exception e){
-					//TODO
-					e.printStackTrace();
+					System.out.println("Could not aquire nativie Look&Feel");
 				}
 				MainFrame frame = new MainFrame("Faktura 2012");
 				frame.setVisible(true);

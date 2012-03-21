@@ -51,11 +51,9 @@ public class StatisticServiceImpl implements StatisticService{
 			logger.debug("Got Invoicelist of last 30 Days with: "+result.size()+" elements");
 			return result;
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("Since these values are generated I should not run in to this "+e.toString());
 		} catch (InvoiceServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("Since these values are generated I should not run in to this "+e.toString());
 		}
 		logger.debug("get invoices of last 30 returns null. this should not happen.");
 		return null;

@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,6 +26,7 @@ import javax.swing.table.TableRowSorter;
 import org.apache.log4j.Logger;
 
 import services.ProductService;
+import services.ProductServiceException;
 import services.StatisticService;
 
 import entities.Product;
@@ -242,7 +244,14 @@ public class AdministrateProductsPane extends BasePane {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Product p = ps.generateNewProduct();
+			Product p;
+			try {
+				p = ps.generateNewProduct();
+			} catch (ProductServiceException e1) {
+				logger.error("Could not create Product");
+				JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
+				return;
+			}
 			showPopupForProduct(p);
 		}
 		
@@ -262,7 +271,12 @@ public class AdministrateProductsPane extends BasePane {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			List<Product> l = stats.getTopThreeProductsOfLastThirtyDays();
-			ps.increasePriceByFivePercent(l);
+			try {
+				ps.increasePriceByFivePercent(l);
+			} catch (ProductServiceException e1) {
+				logger.error("Could not increase price of Products");
+				JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
+			}
 		}
 		
 	}

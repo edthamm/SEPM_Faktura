@@ -15,6 +15,7 @@ import net.miginfocom.swing.MigLayout;
 import entities.Product;
 
 import services.ProductService;
+import services.ProductServiceException;
 
 public class ProductDetailsPopup extends JOptionPane {
 
@@ -139,7 +140,12 @@ public class ProductDetailsPopup extends JOptionPane {
 		}
 
 		private void storeProductToDb() {
-			ps.updateProduct(p);
+			try {
+				ps.updateProduct(p);
+			} catch (ProductServiceException e) {
+				logger.error("Could not update Product");
+				JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
+			}
 			
 		}
 		
@@ -152,7 +158,12 @@ public class ProductDetailsPopup extends JOptionPane {
 			int respone = JOptionPane.showConfirmDialog(null, "Dieses Produkt wirklich Löschen?", "Bitte bestätigen" , JOptionPane.YES_NO_OPTION);
 			if(respone == JOptionPane.YES_OPTION){
 				logger.debug("Deleting Product now");
-				ps.deleteProduct(p);
+				try {
+					ps.deleteProduct(p);
+				} catch (ProductServiceException e1) {
+					logger.error("Could not delete Product");
+					JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
+				}
 				//TODO close pane
 			}
 		}

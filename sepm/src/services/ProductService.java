@@ -12,13 +12,13 @@ public interface ProductService {
 
 	public Product getProductbyId(int id);
 
-	public void increasePriceByFivePercent(Product p);
+	public void increasePriceByFivePercent(Product p) throws ProductServiceException;
 
-	public void increasePriceByFivePercent(List<Product> l);
+	public void increasePriceByFivePercent(List<Product> l) throws ProductServiceException;
 
-	public Product generateNewProduct();
+	public Product generateNewProduct() throws ProductServiceException;
 
-	public void updateProduct(Product p);
+	public void updateProduct(Product p) throws ProductServiceException;
 
-	public void deleteProduct(Product p);
+	public void deleteProduct(Product p) throws ProductServiceException;
 }
