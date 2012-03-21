@@ -85,7 +85,8 @@ public class MainFrame extends JFrame{
 			stats = new StatisticServiceImpl(ps, is);
 		} catch (JDBCInvoiceDAOImplException e) {
 		} catch (JDBCProductDAOImplException e) {
-			JOptionPane.showConfirmDialog(null, "Es konnte keine Datenbankverbindung aufgebaut werden. Das Programm wird geschlossen.");
+			JOptionPane.showMessageDialog(null, "Es konnte keine Datenbankverbindung aufgebaut werden. Das Programm wird geschlossen.");
+			logger.fatal("Could not connect to persistence Layer terminating");
 			System.exit(1);
 		}
 	}
