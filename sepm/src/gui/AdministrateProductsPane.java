@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -65,6 +67,7 @@ public class AdministrateProductsPane extends BasePane {
 		createTextFields();
 		initialiseTableModel();
 		createResultPane();
+		setDoubleClickDetectionOnTable();
 		addEverythingToInterface();
 		
 	}
@@ -142,6 +145,38 @@ public class AdministrateProductsPane extends BasePane {
 		sorter = new TableRowSorter<TableModel>(results.getModel());
 		results.setRowSorter(sorter);
 	}
+	
+	private void setDoubleClickDetectionOnTable(){
+		results.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e)
+		    {
+		        if (e.getComponent().isEnabled() && e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2)
+		        {
+		        	int id = (Integer) results.getValueAt(results.getSelectedRow(), 0);
+		        	showPopupForProduct(id);
+		        }
+		    }
+		});
+	}
+	
+	private void showPopupForProduct(int id) {
+		ProductDetailsPopup productDetails = new ProductDetailsPopup(ps);
+		productDetails.forProduct(id);
+		JDialog j = new JDialog();
+		j.add(productDetails);
+		j.pack();
+		j.setVisible(true);
+		
+	}
+	
+	private void showPopupForProduct(Product p){
+		ProductDetailsPopup productDetails = new ProductDetailsPopup(ps);
+		productDetails.forProduct(p);
+		JDialog j = new JDialog();
+		j.add(productDetails);
+		j.pack();
+		j.setVisible(true);
+	}
 
 	private void addEverythingToInterface() {
 		logger.info("Adding everything together");
@@ -199,16 +234,9 @@ public class AdministrateProductsPane extends BasePane {
 	
 	private void updateDisplayWithNewData() {
 		results.revalidate();
-	}	
-	
-	private void showPopupForProduct(Product p){
-		ProductDetailsPopup productDetails = new ProductDetailsPopup(ps);
-		productDetails.forProduct(p);
-		JDialog j = new JDialog();
-		j.add(productDetails);
-		j.pack();
-		j.setVisible(true);
 	}
+	
+
 	
 	private class newProductListener implements ActionListener{
 

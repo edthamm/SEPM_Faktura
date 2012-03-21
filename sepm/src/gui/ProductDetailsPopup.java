@@ -26,4 +26,9 @@ public class ProductDetailsPopup extends JOptionPane {
 		p = ps.getProductbyId(t.getId());
 		init();
 	}
+
+	public void forProduct(int id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
