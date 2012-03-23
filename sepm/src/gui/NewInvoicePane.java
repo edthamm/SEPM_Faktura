@@ -226,6 +226,7 @@ public class NewInvoicePane extends BasePane{
 		public void actionPerformed(ActionEvent e) {
 			
 			//TODO how about feedback
+			//TODO multi add desirable? - think not -> scanner/touch
 			logger.info("Adding product to invoice");
 			int iid = Integer.parseInt((String)openInvoices.getSelectedItem());
 			int pid = 0;
