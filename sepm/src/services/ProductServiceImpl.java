@@ -1,5 +1,6 @@
 package services;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -70,14 +71,19 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	public void increasePriceByFivePercent(Product p) throws ProductServiceException {
-		//TODO ask about rounding
-		p.setRetailPrice(p.getRetailPrice()*1.05);
+		double newPrice = roundTwoDecimals(p.getRetailPrice()*1.05);
+		p.setRetailPrice(newPrice);
 		try {
 			dao.updateProduct(p);
 		} catch (JDBCProductDAOImplException e) {
 			logger.error("Could not persist Product");
 			throw new ProductServiceException("Could not persist product");
 		}
+	}
+	
+	private double roundTwoDecimals(double d) {
+		DecimalFormat twoDForm = new DecimalFormat("#.##");
+		return Double.valueOf(twoDForm.format(d));
 	}
 
 	/* (non-Javadoc)

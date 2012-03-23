@@ -159,7 +159,6 @@ public class JDBCInvoiceDAOTest {
 	
 	@Test
 	public void testFindByIdForClosedInvoice() throws SQLException, InvoiceClosedException, JDBCInvoiceDAOImplException{
-		//TODO find a better way to test this
 		s.executeUpdate("insert into products values (7,'beer',1,1,'b',true)");
 		List<Consumption> consumptions = new LinkedList<Consumption>();
 		Consumption beer = new Consumption(7,1, 13.5);

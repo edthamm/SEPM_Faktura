@@ -323,11 +323,14 @@ public class AdministrateProductsPane extends BasePane {
 		}
 		private RowFilter<? super TableModel, Object> createIdFilter() {
 			try{
-				//TODO ask if warning should be given
 				logger.debug("Creating id filter");
 				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, Integer.parseInt(pnrField.getText()), 0);
 			}
-			catch(Exception e){}
+			catch(Exception e){
+				if(!pnrField.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die ID. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+				}
+			}
 			return null;
 		}
 		private RowFilter<? super TableModel, Object> createLabelFilter() {
@@ -358,7 +361,11 @@ public class AdministrateProductsPane extends BasePane {
 				if(v == 2){ct = ct.AFTER;}
 				return RowFilter.numberFilter(ct, Double.parseDouble(rpriceField.getText()), 2);
 			}
-			catch(Exception e){}
+			catch(Exception e){
+				if(!rpriceField.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie den Verkaufspreis. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+				}
+			}
 			return null;
 		}
 		
@@ -373,7 +380,11 @@ public class AdministrateProductsPane extends BasePane {
 				if(v == 2){ct = ct.AFTER;}
 				return RowFilter.numberFilter(ct, Double.parseDouble(ppriceField.getText()), 3);
 			}
-			catch(Exception e){}
+			catch(Exception e){
+				if(!ppriceField.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie den Einkaufspreis. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+				}
+			}
 			return null;
 		}
 		

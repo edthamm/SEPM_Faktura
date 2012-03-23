@@ -1,6 +1,5 @@
 package gui;
 
-//TODO should enter be used to accept form values
 
 import javax.swing.JPanel;
 

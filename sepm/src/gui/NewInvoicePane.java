@@ -225,10 +225,15 @@ public class NewInvoicePane extends BasePane{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			//TODO how about feedback
-			//TODO multi add desirable? - think not -> scanner/touch
 			logger.info("Adding product to invoice");
-			int iid = Integer.parseInt((String)openInvoices.getSelectedItem());
+			int iid = 0;
+			try{
+				iid = Integer.parseInt((String)openInvoices.getSelectedItem());
+			}
+			catch(NullPointerException e1){
+				logger.debug("Cought a nullpointer exception trying to add to invoice.");
+				return;
+			}
 			int pid = 0;
 			try{
 				pid = (Integer) results.getValueAt(results.getSelectedRow(), 0);

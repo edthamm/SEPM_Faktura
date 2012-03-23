@@ -258,11 +258,14 @@ public class AdministrateInvoicePane extends BasePane {
 		
 		private RowFilter<? super TableModel, Object> createIdFilter() {
 			try{
-				//TODO ask if warning should be given
 				logger.debug("Creating id filter");
 				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, Integer.parseInt(inrField.getText()), 0);
 			}
-			catch(Exception e){}
+			catch(Exception e){
+				if(!inrField.getText().isEmpty()){
+					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die ID. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+				}
+			}
 			return null;
 		}
 

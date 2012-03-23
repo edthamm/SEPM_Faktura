@@ -77,7 +77,7 @@ public class ProductDetailsPopup extends JOptionPane {
 
 	private void createButtons() {
 		deleteButton = new JButton("Produkt löschen");
-		deleteButton.addActionListener(new deleteListener());
+		deleteButton.addActionListener(new deleteListener(this));
 		storeChangesButton = new JButton("Änderungen übernehmen");
 		storeChangesButton.addActionListener(new storeChangeListener());
 		
@@ -120,20 +120,25 @@ public class ProductDetailsPopup extends JOptionPane {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			updateProduct();
+			try{
+				updateProduct();
+			}
+			catch(IllegalArgumentException e){
+				return;
+			}
 			storeProductToDb();
 			JOptionPane.showMessageDialog(null, "Änderungen übernommen");
 			
 		}
 
-		private void updateProduct() {
+		private void updateProduct() throws IllegalArgumentException{
 			try{
 				p.setPurchasePrice(Double.parseDouble(ppriceField.getText()));
 				p.setRetailPrice(Double.parseDouble(rpriceField.getText()));
 			}
 			catch(Exception e){
 				JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die Preisfelder auf Fehler");
-				return;
+				throw new IllegalArgumentException();
 			}
 			p.setSupplier(supplierField.getText());
 			p.setLabel(labelField.getText());
@@ -153,6 +158,12 @@ public class ProductDetailsPopup extends JOptionPane {
 	}
 	
 	private class deleteListener implements ActionListener{
+		
+		private ProductDetailsPopup popup;
+		
+		private deleteListener(ProductDetailsPopup popup){
+			this.popup = popup;
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -165,7 +176,7 @@ public class ProductDetailsPopup extends JOptionPane {
 					logger.error("Could not delete Product");
 					JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
 				}
-				//TODO close pane
+				popup.setVisible(false);
 			}
 		}
 		
