@@ -17,16 +17,29 @@ import entities.Consumption;
 import entities.Invoice;
 import entities.Product;
 
+/**
+ * The Class StatisticServiceImpl.
+ */
 public class StatisticServiceImpl implements StatisticService{
 	
 	private Logger logger = Logger.getLogger("service.StatisticService.class");
 	private InvoiceService is;
 	private ProductService ps;
 	
+	/**
+	 * Instantiates a new statistic service impl.
+	 *
+	 * @param ps the ProductServiceInstance
+	 * @param is the InvoiceServiceInstance
+	 */
 	public StatisticServiceImpl(ProductService ps, InvoiceService is){
 		this.is = is;
 		this.ps = ps;
 	}
+	
+	/* (non-Javadoc)
+	 * @see services.StatisticService#getTopThreeProductsOfLastThirtyDays()
+	 */
 	@Override
 	public List<Product> getTopThreeProductsOfLastThirtyDays() {
 		logger.info("Entering get top sellers");

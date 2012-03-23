@@ -152,6 +152,11 @@ public class JDBCInvoiceDAOTest {
 		assertTrue(found.getId() == i.getId());
 	}
 	
+	@Test(expected = JDBCInvoiceDAOImplException.class)
+	public void testFindByIdFail() throws JDBCInvoiceDAOImplException {
+		dao.findById(800000);
+	}
+	
 	@Test
 	public void testFindByIdForClosedInvoice() throws SQLException, InvoiceClosedException, JDBCInvoiceDAOImplException{
 		//TODO find a better way to test this

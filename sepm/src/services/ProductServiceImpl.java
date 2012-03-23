@@ -9,15 +9,26 @@ import dao.JDBCProductDAOImplException;
 
 import entities.Product;
 
+/**
+ * The Class ProductServiceImpl.
+ */
 public class ProductServiceImpl implements ProductService {
 
 	private JDBCProductDAOImpl dao;
 	private Logger logger = Logger.getLogger("services.ProductServiceImpl.class");
 
+	/**
+	 * Instantiates a new product service.
+	 *
+	 * @param pdao the DataAccessObject
+	 */
 	public ProductServiceImpl(JDBCProductDAOImpl pdao) {
 		this.dao = pdao;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.ProductService#getAllProducts()
+	 */
 	@Override
 	public List<Product> getAllProducts() {
 		try {
@@ -28,6 +39,9 @@ public class ProductServiceImpl implements ProductService {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.ProductService#getProductsbyLabel(java.lang.String)
+	 */
 	@Override
 	public List<Product> getProductsbyLabel(String labelString) {
 		try {
@@ -38,6 +52,9 @@ public class ProductServiceImpl implements ProductService {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.ProductService#getProductbyId(int)
+	 */
 	@Override
 	public Product getProductbyId(int id) {
 		try {
@@ -48,6 +65,9 @@ public class ProductServiceImpl implements ProductService {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.ProductService#increasePriceByFivePercent(entities.Product)
+	 */
 	@Override
 	public void increasePriceByFivePercent(Product p) throws ProductServiceException {
 		//TODO ask about rounding
@@ -60,6 +80,9 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see services.ProductService#increasePriceByFivePercent(java.util.List)
+	 */
 	@Override
 	public void increasePriceByFivePercent(List<Product> l) throws ProductServiceException {
 		try{
@@ -73,6 +96,9 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see services.ProductService#generateNewProduct()
+	 */
 	@Override
 	public Product generateNewProduct() throws ProductServiceException {
 		try {
@@ -85,6 +111,9 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see services.ProductService#updateProduct(entities.Product)
+	 */
 	@Override
 	public void updateProduct(Product p) throws ProductServiceException {
 		try {
@@ -96,6 +125,9 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see services.ProductService#deleteProduct(entities.Product)
+	 */
 	@Override
 	public void deleteProduct(Product p) throws ProductServiceException {
 		try {

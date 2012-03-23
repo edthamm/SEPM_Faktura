@@ -15,6 +15,9 @@ import dao.InvoiceDAOException;
 import entities.Consumption;
 import entities.Invoice;
 
+/**
+ * The Class InvoiceServiceImpl.
+ */
 public class InvoiceServiceImpl implements InvoiceService{
 	
 	private InvoiceDAO dao;
@@ -23,11 +26,20 @@ public class InvoiceServiceImpl implements InvoiceService{
 	private Calendar cal = Calendar.getInstance();
 	private String waiter = "default";
 	
+	/**
+	 * Instantiates a new invoice service impl.
+	 *
+	 * @param dao the DataAccessObject
+	 * @param ps the ProductService instance
+	 */
 	public InvoiceServiceImpl(InvoiceDAO dao, ProductService ps){
 		this.dao = dao;
 		this.ps = ps;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.InvoiceService#generateNewInvoice()
+	 */
 	@Override
 	public Invoice generateNewInvoice() throws InvoiceServiceException {
 		Invoice i = null;
@@ -40,6 +52,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return i;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.InvoiceService#addProductToInvoice(int, entities.Invoice, int)
+	 */
 	@Override
 	public void addProductToInvoice(int pid, Invoice i, int qty) {
 		Consumption c = new Consumption(pid, qty, ps.getProductbyId(pid).getRetailPrice());
@@ -49,6 +64,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see services.InvoiceService#closeInvoice(entities.Invoice)
+	 */
 	@Override
 	public double closeInvoice(Invoice i) throws InvoiceServiceException {
 		double sum = 0;
@@ -80,11 +98,17 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return sum;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.InvoiceService#setWaiter(java.lang.String)
+	 */
 	@Override
 	public void setWaiter(String name) {
 		waiter = name;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.InvoiceService#getAllInvoices()
+	 */
 	@Override
 	public List<Invoice> getAllInvoices() throws InvoiceServiceException {
 		try {
@@ -97,6 +121,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see services.InvoiceService#getInvoicesByDates(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<Invoice> getInvoicesByDates(String datefrom, String datetill) throws InvoiceServiceException, IllegalArgumentException {
 		List<Invoice> result = new LinkedList<Invoice>();
@@ -122,6 +149,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see services.InvoiceService#getInvoiceById(int)
+	 */
 	@Override
 	public Invoice getInvoiceById(int id) throws InvoiceServiceException {
 		try {
