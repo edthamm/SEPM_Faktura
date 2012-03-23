@@ -81,7 +81,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 			newProduct.setId(invoiceid);
 		
 		} catch (SQLException e) {
-			logger.error("Could not insert new Product in to Database");
+			logger.error("Could not insert new Product in to Database: " +e.toString());
 			throw new JDBCProductDAOImplException("Error inserting in to Database");
 		}
 		
