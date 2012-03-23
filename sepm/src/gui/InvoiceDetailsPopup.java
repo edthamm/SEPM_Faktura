@@ -143,7 +143,7 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 		add(time, "wrap");
 		add(waiterl);
 		add(waiter, "wrap");
-		add(consumptionsTablePane);
+		add(consumptionsTablePane, "span 2");
 		
 	}
 

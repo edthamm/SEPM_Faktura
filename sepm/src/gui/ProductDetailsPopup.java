@@ -95,13 +95,13 @@ public class ProductDetailsPopup extends JOptionPane {
 		add(pnrLabel);
 		add(pnr,"wrap");
 		add(label);
-		add(labelField,"wrap");
+		add(labelField,"wrap, wmin 100");
 		add(pprice);
-		add(ppriceField,"wrap");
+		add(ppriceField,"wrap, wmin 100");
 		add(rprice);
-		add(rpriceField,"wrap");
+		add(rpriceField,"wrap, wmin 100");
 		add(supplier);
-		add(supplierField,"wrap");
+		add(supplierField,"wrap, wmin 100");
 		add(deleteButton);
 		add(storeChangesButton);
 	}
@@ -122,6 +122,7 @@ public class ProductDetailsPopup extends JOptionPane {
 		public void actionPerformed(ActionEvent arg0) {
 			updateProduct();
 			storeProductToDb();
+			JOptionPane.showMessageDialog(null, "Änderungen übernommen");
 			
 		}
 
