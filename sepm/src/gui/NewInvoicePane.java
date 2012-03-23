@@ -280,7 +280,8 @@ public class NewInvoicePane extends BasePane{
 				}
 			}
 			try {
-				is.closeInvoice(i);
+				double total = is.closeInvoice(i);
+				JOptionPane.showMessageDialog(null, "Bitte "+total+" kassieren");
 			} catch (InvoiceServiceException e) {
 				logger.error("Could not close Invoice");
 				JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
