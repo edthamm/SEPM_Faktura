@@ -217,24 +217,31 @@ public class AdministrateProductsPane extends BasePane {
 	}
 
 	private void resetTableModel() {
+		logger.debug("Resetting table model");
 		productTableModel.getDataVector().removeAllElements();
+		results.getRowSorter().allRowsChanged();
 	}
 
 	private void fillTableWithNewEntries(List<Product> products) {
+		logger.debug("Filling tabel with new entries");
 		Object[] newRow = new Object[5];
 		Iterator<Product> productIterator = products.iterator();
+		
 		while(productIterator.hasNext()){
+			logger.debug("Entering Loop");
 			Product p = productIterator.next();
 			newRow[0] = p.getId(); 
 			newRow[1] = p.getLabel();
 			newRow[2] = p.getRetailPrice();
 			newRow[3] = p.getPurchasePrice();
 			newRow[4] = p.getSupplier();
+			logger.debug("Will now add Row");
 			productTableModel.addRow(newRow);
 		}
 	}
 	
 	private void updateDisplayWithNewData() {
+		logger.debug("Updateing display with new data");
 		results.revalidate();
 	}
 	
