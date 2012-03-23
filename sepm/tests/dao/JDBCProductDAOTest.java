@@ -15,6 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import entities.Product;
+import entities.ProductImpl;
 
 
 public class JDBCProductDAOTest {
@@ -95,6 +96,20 @@ public class JDBCProductDAOTest {
 		r.next();
 		assertTrue(r.getInt("num") == 1);
 	}
+	
+	@Test
+	public void testUpdateProductFail() throws SQLException, JDBCProductDAOImplException {
+		p.setSupplier("update");
+		ProductImpl pi = (ProductImpl) p;
+		pi.setId(3);
+		
+		
+		dao.updateProduct(pi);
+		
+		ResultSet r = s.executeQuery("select count(*) as num from products where supplier = 'update'");
+		r.next();
+		assertTrue(r.getInt("num") == 0);
+	}
 
 	@Test
 	public void testDeleteProduct() throws SQLException, JDBCProductDAOImplException {
@@ -118,12 +133,25 @@ public class JDBCProductDAOTest {
 		
 		assertTrue(found.getPurchasePrice() == p.getPurchasePrice());
 	}
+	
+	@Test(expected = JDBCProductDAOImplException.class)
+	public void testFindByIdFail() throws JDBCProductDAOImplException {
+		dao.findById(7);
+	}
 
 	@Test
 	public void testFindByName() throws JDBCProductDAOImplException {
 		List<Product> found = dao.findByName(p.getLabel());
 		
 		assertTrue(found.listIterator().next().getId() == p.getId());
+	}
+
+	@Test
+	public void testFindByNameFail() throws JDBCProductDAOImplException {
+		List<Product> found = dao.findByName("r");
+		
+		assertTrue(found.isEmpty());
+
 	}
 
 }
