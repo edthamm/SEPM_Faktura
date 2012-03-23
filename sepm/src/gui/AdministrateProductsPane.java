@@ -323,6 +323,7 @@ public class AdministrateProductsPane extends BasePane {
 		}
 		private RowFilter<? super TableModel, Object> createIdFilter() {
 			try{
+				//TODO ask if warning should be given
 				logger.debug("Creating id filter");
 				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, Integer.parseInt(pnrField.getText()), 0);
 			}

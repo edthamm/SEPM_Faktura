@@ -186,6 +186,7 @@ public class AdministrateInvoicePane extends BasePane {
 
 	private void resetTableModel() {
 		invoiceTableModel.getDataVector().removeAllElements();
+		results.getRowSorter().allRowsChanged();
 	}
 
 	private void fillTableWithNewEntries(List<Invoice> invoices) {
@@ -257,6 +258,7 @@ public class AdministrateInvoicePane extends BasePane {
 		
 		private RowFilter<? super TableModel, Object> createIdFilter() {
 			try{
+				//TODO ask if warning should be given
 				logger.debug("Creating id filter");
 				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, Integer.parseInt(inrField.getText()), 0);
 			}
