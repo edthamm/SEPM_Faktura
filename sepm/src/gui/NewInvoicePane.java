@@ -46,7 +46,7 @@ public class NewInvoicePane extends BasePane{
 	private DefaultTableModel productTableModel;
 	private JScrollPane resultTablePane;
 	private JTable results;
-	private List<Invoice> openInvoiceList = new LinkedList<Invoice>(); 
+	 
 	
 	
 	public NewInvoicePane(InvoiceService is, ProductService ps){
@@ -69,11 +69,12 @@ public class NewInvoicePane extends BasePane{
 	
 	public NewInvoicePane(InvoiceService is, ProductService ps, List<Invoice> openInvoices){
 		super();
-		if(openInvoices != null){
-			this.openInvoiceList = openInvoices;
-		}
+
 		this.is = is;
 		this.ps = ps;
+		if(openInvoices != null){
+			this.is.setOpenInvoices(openInvoices);
+		}
 		
 		init();
 	}
@@ -210,8 +211,9 @@ public class NewInvoicePane extends BasePane{
 			Invoice i;
 			try {
 				i = is.generateNewInvoice();
-			openInvoiceList.add(i);
-			addInvoiceToOpenInvoices(""+i.getId());
+				//TODO see if this works in java
+				is.getListOfOpenInvoices().add(i);
+				addInvoiceToOpenInvoices(""+i.getId());
 			} catch (Exception e) {
 				logger.error("Something just blew most likely the db went boom. Heres The error "+e.toString());
 				JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
@@ -256,7 +258,7 @@ public class NewInvoicePane extends BasePane{
 				return;
 			}
 			
-			Iterator<Invoice> iter = openInvoiceList.listIterator();
+			Iterator<Invoice> iter = is.getListOfOpenInvoices().listIterator();
 			Invoice i = null;
 			while(iter.hasNext()){
 				Invoice j = iter.next();
@@ -276,7 +278,7 @@ public class NewInvoicePane extends BasePane{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			logger.info("Closing invoice");
-			Iterator<Invoice> iter = openInvoiceList.listIterator();
+			Iterator<Invoice> iter = is.getListOfOpenInvoices().listIterator();
 			Invoice i = null;
 			while(iter.hasNext()){
 				Invoice j = iter.next();
@@ -293,7 +295,8 @@ public class NewInvoicePane extends BasePane{
 				JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
 				return;
 			}
-			openInvoiceList.remove(i);
+			//TODO see if this works in java
+			is.getListOfOpenInvoices().remove(i);
 			openInvoices.removeItem(""+i.getId());
 			
 		}

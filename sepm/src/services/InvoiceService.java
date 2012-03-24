@@ -70,4 +70,8 @@ public interface InvoiceService {
 	 */
 	public Invoice getInvoiceById(int id) throws InvoiceServiceException;
 
+	public List<Invoice> getListOfOpenInvoices();
+
+	public void setOpenInvoices(List<Invoice> openInvoices);
+
 }

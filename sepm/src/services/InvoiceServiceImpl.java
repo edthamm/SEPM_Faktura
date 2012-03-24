@@ -25,6 +25,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 	private ProductService ps;
 	private Calendar cal = Calendar.getInstance();
 	private String waiter = "default";
+	private List<Invoice> openInvoiceList = new LinkedList<Invoice>();
 	
 	/**
 	 * Instantiates a new invoice service impl.
@@ -170,5 +171,16 @@ public class InvoiceServiceImpl implements InvoiceService{
 	private String getCurrentDate(){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	    return sdf.format(cal.getTime());
+	}
+
+	@Override
+	public List<Invoice> getListOfOpenInvoices() {
+		return openInvoiceList;
+	}
+
+	@Override
+	public void setOpenInvoices(List<Invoice> openInvoices) {
+		openInvoiceList = openInvoices;
+		
 	}
 }
