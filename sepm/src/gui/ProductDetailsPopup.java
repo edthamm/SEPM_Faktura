@@ -194,6 +194,7 @@ public class ProductDetailsPopup extends JOptionPane {
 					logger.error("Could not delete Product");
 					JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
 				}
+				//TODO this does not work
 				popup.setVisible(false);
 			}
 		}
