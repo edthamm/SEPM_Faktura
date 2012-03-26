@@ -119,6 +119,18 @@ public class JDBCProductDAOTest {
 		r.next();
 		assertFalse(r.getBoolean("insale"));
 	}
+	
+	@Test
+	public void testDeleteProductFail() throws SQLException, JDBCProductDAOImplException {
+		ProductImpl pi = (ProductImpl) p;
+		int oldId = pi.getId();
+		pi.setId(3);
+		dao.deleteProduct(pi);
+		
+		ResultSet r = s.executeQuery("select insale from products where pid = "+oldId);
+		r.next();
+		assertTrue(r.getBoolean("insale"));
+	}
 
 	@Test
 	public void testFindAll() throws JDBCProductDAOImplException {
