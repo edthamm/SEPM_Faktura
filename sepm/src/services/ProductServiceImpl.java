@@ -81,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 	
-	private double roundTwoDecimals(double d) {
+	protected double roundTwoDecimals(double d) {
 		DecimalFormat twoDForm = new DecimalFormat("#.##");
 		return Double.valueOf(twoDForm.format(d));
 	}

@@ -95,7 +95,7 @@ public class StatisticServiceImpl implements StatisticService{
 		return result;
 	}
 
-	private HashMap<Integer, Consumption> compress(List<Consumption> cList) {
+	protected HashMap<Integer, Consumption> compress(List<Consumption> cList) {
 		HashMap<Integer, Consumption> m = new HashMap<Integer, Consumption>();
 
 		for(Consumption c : cList){
@@ -130,7 +130,7 @@ public class StatisticServiceImpl implements StatisticService{
 	}
 	
 	
-	private List<Consumption> orderListConsumtptions(
+	protected List<Consumption> orderListConsumtptions(
 			List<Consumption> compressed) {
 		logger.info("Ordering Sublist");
 		Collections.sort(compressed, new ConsumptionComparer());
