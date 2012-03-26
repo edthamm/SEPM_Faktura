@@ -1,0 +1,22 @@
+Name: Issue Invoice
+
+Short Description: Once a customer wants to pay the waiter will issue an invoice.
+
+Precondition: An open invoice for the customer exists.
+
+Postcondition: The invoice is closed and can not be edited any more.
+
+Error Condition: No open invoice exists.
+
+System state on error condition: No invoice is issued.
+
+Actors: Waiter
+
+Trigger: Customer wishes to pay.
+
+Standard procedure:
+(1) Customer has consumed goods.
+(2) Customer wishes to pay.
+(3) Waiter closes invoice.
+(4) Customer pays.
+(5) Customer leaves.

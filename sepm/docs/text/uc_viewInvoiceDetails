@@ -1,0 +1,23 @@
+Name: View details invoice
+
+Short Description: An employee views an invoices details.
+
+Precondition: A invoice exists
+
+Postcondition: The invoice details have been viewed.
+
+Error Condition: No invoice exists
+
+System state on error condition: No invoice details were viewed.
+
+Actors: Employee
+
+Trigger: Employee wishes to view invoice details.
+
+Standard procedure:
+(1) Employee wants to view invoice details.
+(2) Employee searches for invoice.
+(3) Employee views an invoices detail.
+
+Alternate procedure:
+(3') Employee is informed that no invoice exists. 
