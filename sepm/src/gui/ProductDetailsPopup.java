@@ -17,6 +17,9 @@ import entities.Product;
 import services.ProductService;
 import services.ProductServiceException;
 
+/**
+ * The Class ProductDetailsPopup.
+ */
 public class ProductDetailsPopup extends JOptionPane {
 
 	private static final long serialVersionUID = -6004357805402889270L;
@@ -36,6 +39,11 @@ public class ProductDetailsPopup extends JOptionPane {
 	private JButton deleteButton;
 	private JButton storeChangesButton;
 	
+	/**
+	 * Instantiates a new product details popup.
+	 *
+	 * @param ps the ProductService
+	 */
 	public ProductDetailsPopup(ProductService ps){
 		super();
 		this.ps = ps;
@@ -106,11 +114,21 @@ public class ProductDetailsPopup extends JOptionPane {
 		add(storeChangesButton);
 	}
 
+	/**
+	 * For product.
+	 *
+	 * @param t the product to be displayed
+	 */
 	public void forProduct(Product t){
 		p = ps.getProductbyId(t.getId());
 		init();
 	}
 
+	/**
+	 * For product.
+	 *
+	 * @param id the id of the product to be displayed
+	 */
 	public void forProduct(int id) {
 		p = ps.getProductbyId(id);
 		init();

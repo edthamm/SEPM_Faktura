@@ -26,6 +26,9 @@ import entities.Invoice;
 import entities.Product;
 
 
+/**
+ * The Class NewInvoicePane.
+ */
 public class NewInvoicePane extends BasePane{
 
 	private static final long serialVersionUID = 4539993258343834799L;
@@ -36,7 +39,7 @@ public class NewInvoicePane extends BasePane{
 	private JButton addProduct;
 	private JButton closeInvoice;
 	private JButton search;
-	private JComboBox openInvoices;
+	private JComboBox openInvoicesBox;
 	private JLabel pnr;
 	private JLabel pname;
 	private JLabel qty;
@@ -49,6 +52,12 @@ public class NewInvoicePane extends BasePane{
 	 
 	
 	
+	/**
+	 * Instantiates a new new invoice pane.
+	 *
+	 * @param is the InvoiceService
+	 * @param ps the ProductService
+	 */
 	public NewInvoicePane(InvoiceService is, ProductService ps){
 		super();
 		this.is = is;
@@ -67,6 +76,13 @@ public class NewInvoicePane extends BasePane{
 		addEverythingToInterface();
 	}
 	
+	/**
+	 * Instantiates a new new invoice pane.
+	 *
+	 * @param is the InvoiceService
+	 * @param ps the ProductService
+	 * @param openInvoices the currently open invoices
+	 */
 	public NewInvoicePane(InvoiceService is, ProductService ps, List<Invoice> openInvoices){
 		super();
 
@@ -93,7 +109,7 @@ public class NewInvoicePane extends BasePane{
 	
 	private void createDropDown(){
 		logger.info("Creating Dropdown");
-		openInvoices = new JComboBox();
+		openInvoicesBox = new JComboBox();
 	}
 
 	private void createLabels() {
@@ -153,7 +169,7 @@ public class NewInvoicePane extends BasePane{
 		eb.add(closeInvoice,"wrap, south");
 		eb.add(addProduct,"south");
 		
-		wf.add(openInvoices,"wrap, wmin 300, span 2");
+		wf.add(openInvoicesBox,"wrap, wmin 300, span 2");
 		
 		wf.add(pnr);
 		wf.add(pnrField,"wrap, w 100");
@@ -166,12 +182,22 @@ public class NewInvoicePane extends BasePane{
 		wf.add(qtyField,"right, w 100");
 	}
 	
+	/**
+	 * Adds the invoice to open invoices box.
+	 *
+	 * @param invoiceName the invoice name
+	 */
 	public void addInvoiceToOpenInvoices(String invoiceName){
-		logger.info("Adding to open Invoices");
-		openInvoices.addItem(invoiceName);
+		logger.info("Adding to open Invoices box");
+		openInvoicesBox.addItem(invoiceName);
 	}
 	
 	
+	/**
+	 * Update results of product search.
+	 *
+	 * @param products the products to be displayed
+	 */
 	public void updateResultsOfProductSearch(List<Product> products){
 		logger.info("Updating Result Table");
 		resetTableModel();
@@ -211,7 +237,6 @@ public class NewInvoicePane extends BasePane{
 			Invoice i;
 			try {
 				i = is.generateNewInvoice();
-				//TODO see if this works in java
 				is.getListOfOpenInvoices().add(i);
 				addInvoiceToOpenInvoices(""+i.getId());
 			} catch (Exception e) {
@@ -230,7 +255,7 @@ public class NewInvoicePane extends BasePane{
 			logger.info("Adding product to invoice");
 			int iid = 0;
 			try{
-				iid = Integer.parseInt((String)openInvoices.getSelectedItem());
+				iid = Integer.parseInt((String)openInvoicesBox.getSelectedItem());
 			}
 			catch(NullPointerException e1){
 				logger.debug("Cought a nullpointer exception trying to add to invoice.");
@@ -282,7 +307,7 @@ public class NewInvoicePane extends BasePane{
 			Invoice i = null;
 			while(iter.hasNext()){
 				Invoice j = iter.next();
-				if(j.getId() == Integer.parseInt((String) openInvoices.getSelectedItem())){
+				if(j.getId() == Integer.parseInt((String) openInvoicesBox.getSelectedItem())){
 					i = j;
 					break;
 				}
@@ -295,9 +320,8 @@ public class NewInvoicePane extends BasePane{
 				JOptionPane.showMessageDialog(westField, "Da stimmt was mit der Datenbank nicht. Bitte mal den Techniker holen.");
 				return;
 			}
-			//TODO see if this works in java
 			is.getListOfOpenInvoices().remove(i);
-			openInvoices.removeItem(""+i.getId());
+			openInvoicesBox.removeItem(""+i.getId());
 			
 		}
 		

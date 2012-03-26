@@ -1,3 +1,4 @@
+
 package gui;
 
 import java.awt.event.ActionEvent;
@@ -31,6 +32,9 @@ import services.StatisticService;
 
 import entities.Product;
 
+/**
+ * The Class AdministrateProductsPane.
+ */
 public class AdministrateProductsPane extends BasePane {
 
 	private static final long serialVersionUID = -5874966514832873507L;
@@ -58,6 +62,12 @@ public class AdministrateProductsPane extends BasePane {
 	private JTable results;
 	private TableRowSorter<TableModel> sorter;
 	
+	/**
+	 * Instantiates a new administrate products pane.
+	 *
+	 * @param ps the ProductService
+	 * @param stats the StatisticService
+	 */
 	public AdministrateProductsPane(ProductService ps, StatisticService stats){
 		super();
 		this.ps = ps;
@@ -206,6 +216,11 @@ public class AdministrateProductsPane extends BasePane {
 		
 	}
 	
+	/**
+	 * Update results of product search.
+	 *
+	 * @param products the products to be displayed
+	 */
 	public void updateResultsOfProductSearch(List<Product> products){
 		logger.info("Updating Result Table");
 		resetTableModel();

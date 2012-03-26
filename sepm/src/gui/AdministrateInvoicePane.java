@@ -33,6 +33,9 @@ import services.ProductService;
 
 import entities.Invoice;
 
+/**
+ * The Class AdministrateInvoicePane.
+ */
 public class AdministrateInvoicePane extends BasePane {
 
 	private static final long serialVersionUID = 3523355764154359405L;
@@ -54,6 +57,12 @@ public class AdministrateInvoicePane extends BasePane {
 	private JTable results;
 	private TableRowSorter<TableModel> sorter;
 	
+	/**
+	 * Instantiates a new administrate invoice pane.
+	 *
+	 * @param is the InvoiceService
+	 * @param ps the ProductService
+	 */
 	public AdministrateInvoicePane(InvoiceService is, ProductService ps){
 		super();
 		
@@ -174,6 +183,11 @@ public class AdministrateInvoicePane extends BasePane {
 		super.eastButtons.setLayout(new MigLayout("","grow",":push[]"));
 	}
 	
+	/**
+	 * Update results of invoice search.
+	 *
+	 * @param invoices the invoices to be displayed
+	 */
 	public void updateResultsOfInvoiceSearch(List<Invoice> invoices){
 		logger.info("Updating Result Table");
 		resetTableModel();

@@ -19,6 +19,9 @@ import services.InvoiceService;
 import services.InvoiceServiceException;
 import services.ProductService;
 
+/**
+ * The Class InvoiceDetailsPopup.
+ */
 public class InvoiceDetailsPopup  extends JOptionPane{
 
 	private static final long serialVersionUID = 1600484530072069066L;
@@ -40,6 +43,12 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 	private JScrollPane consumptionsTablePane;
 	private DefaultTableModel consumptionTableModel;
 	
+	/**
+	 * Instantiates a new invoice details popup.
+	 *
+	 * @param is the InvoiceService
+	 * @param ps the ProductService
+	 */
 	public InvoiceDetailsPopup(InvoiceService is, ProductService ps){
 		super();
 		this.is = is;
@@ -147,6 +156,11 @@ public class InvoiceDetailsPopup  extends JOptionPane{
 		
 	}
 
+	/**
+	 * This method sets the invoice to be displayed in this popup.
+	 *
+	 * @param id the of the Invoice
+	 */
 	public void forInvoice(int id) {
 		try {
 			i = is.getInvoiceById(id);

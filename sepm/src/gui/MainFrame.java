@@ -25,6 +25,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
+/**
+ * The Class MainFrame.
+ */
 public class MainFrame extends JFrame{
 
 	private static final long serialVersionUID = 4714864527745266449L;
@@ -39,6 +42,11 @@ public class MainFrame extends JFrame{
 	private JDBCProductDAOImpl pdao;
 	private StatisticService stats;
 	
+	/**
+	 * Instantiates a new main frame.
+	 *
+	 * @param title the title
+	 */
 	public MainFrame(String title){
 		super(title);
 		
@@ -91,6 +99,11 @@ public class MainFrame extends JFrame{
 		}
 	}
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args will be ignored
+	 */
 	public static void main(String[] args) {
 		PropertyConfigurator.configure("log4j.properties");
 		javax.swing.SwingUtilities.invokeLater(new Runnable(){

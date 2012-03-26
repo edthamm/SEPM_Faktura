@@ -14,6 +14,9 @@ import org.apache.log4j.Logger;
 import services.InvoiceService;
 
 
+/**
+ * The Class AdministrateUserPane.
+ */
 public class AdministrateUserPane extends BasePane{
 
 	private static final long serialVersionUID = -9021971906293031516L;
@@ -23,6 +26,11 @@ public class AdministrateUserPane extends BasePane{
 	private JLabel username;
 	private JTextField usernameTextField;
 	
+	/**
+	 * Instantiates a new administrate user pane.
+	 *
+	 * @param is the InvoiceService
+	 */
 	public AdministrateUserPane(InvoiceService is){
 		super();
 		this.is = is;

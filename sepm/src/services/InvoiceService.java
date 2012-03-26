@@ -70,8 +70,18 @@ public interface InvoiceService {
 	 */
 	public Invoice getInvoiceById(int id) throws InvoiceServiceException;
 
+	/**
+	 * Gets the list of open invoices.
+	 *
+	 * @return the list of open invoices
+	 */
 	public List<Invoice> getListOfOpenInvoices();
 
+	/**
+	 * Sets the open invoices.
+	 *
+	 * @param openInvoices the new open invoices
+	 */
 	public void setOpenInvoices(List<Invoice> openInvoices);
 
 }
