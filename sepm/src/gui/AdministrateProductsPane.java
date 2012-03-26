@@ -296,6 +296,7 @@ public class AdministrateProductsPane extends BasePane {
 			try {
 				ps.increasePriceByFivePercent(l);
 			} catch (ProductServiceException e1) {
+			    e1.printStackTrace();
 				logger.error("Could not increase price of Products");
 				JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
 			}

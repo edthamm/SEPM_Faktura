@@ -84,9 +84,9 @@ public class ProductDetailsPopup extends JOptionPane {
 	}
 
 	private void createButtons() {
-		deleteButton = new JButton("Produkt lÃ¶schen");
+		deleteButton = new JButton("Produkt löschen");
 		deleteButton.addActionListener(new deleteListener(this));
-		storeChangesButton = new JButton("Ã„nderungen Ã¼bernehmen");
+		storeChangesButton = new JButton("Änderungen Übernehmen");
 		storeChangesButton.addActionListener(new storeChangeListener());
 		
 	}
@@ -140,12 +140,15 @@ public class ProductDetailsPopup extends JOptionPane {
 		public void actionPerformed(ActionEvent arg0) {
 			try{
 				updateProduct();
+				storeProductToDb();
 			}
 			catch(IllegalArgumentException e){
 				return;
-			}
-			storeProductToDb();
-			JOptionPane.showMessageDialog(null, "Ã„nderungen Ã¼bernommen");
+			} catch (ProductServiceException e) {
+			    return;
+            }
+			
+			JOptionPane.showMessageDialog(null, "Änderungen Übernommen");
 			
 		}
 
@@ -155,7 +158,7 @@ public class ProductDetailsPopup extends JOptionPane {
 				p.setRetailPrice(Double.parseDouble(rpriceField.getText()));
 			}
 			catch(Exception e){
-				JOptionPane.showMessageDialog(null, "Bitte Ã¼berprÃ¼fen Sie die Preisfelder auf Fehler");
+				JOptionPane.showMessageDialog(null, "Bitte Überprüfen Sie die Preisfelder auf Fehler");
 				throw new IllegalArgumentException();
 			}
 			p.setSupplier(supplierField.getText());
@@ -163,12 +166,18 @@ public class ProductDetailsPopup extends JOptionPane {
 			
 		}
 
-		private void storeProductToDb() {
+		private void storeProductToDb() throws ProductServiceException{
 			try {
 				ps.updateProduct(p);
 			} catch (ProductServiceException e) {
 				logger.error("Could not update Product");
 				JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
+				throw new ProductServiceException();
+			}
+			catch (IllegalArgumentException e1){
+			    logger.warn("Someone tried to store an illegal argument");
+			    JOptionPane.showMessageDialog(null, "Bitte geben Sie positive Preise ein");
+			    throw new ProductServiceException();
 			}
 			
 		}
@@ -177,15 +186,13 @@ public class ProductDetailsPopup extends JOptionPane {
 	
 	private class deleteListener implements ActionListener{
 		
-		private ProductDetailsPopup popup;
 		
 		private deleteListener(ProductDetailsPopup popup){
-			this.popup = popup;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int respone = JOptionPane.showConfirmDialog(null, "Dieses Produkt wirklich LÃ¶schen?", "Bitte bestÃ¤tigen" , JOptionPane.YES_NO_OPTION);
+			int respone = JOptionPane.showConfirmDialog(null, "Dieses Produkt wirklich Löschen?", "Bitte bestätigen" , JOptionPane.YES_NO_OPTION);
 			if(respone == JOptionPane.YES_OPTION){
 				logger.debug("Deleting Product now");
 				try {
@@ -194,8 +201,6 @@ public class ProductDetailsPopup extends JOptionPane {
 					logger.error("Could not delete Product");
 					JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");
 				}
-				//TODO this does not work
-				popup.setVisible(false);
 			}
 		}
 		

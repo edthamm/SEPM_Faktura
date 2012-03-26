@@ -128,6 +128,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	@Override
 	public void updateProduct(Product toUpdate) throws JDBCProductDAOImplException {
 		try {
+		    logger.info("upadeint Product");
 			updateProductStmt.setString(1, toUpdate.getLabel());
 			updateProductStmt.setDouble(2, toUpdate.getPurchasePrice());
 			updateProductStmt.setDouble(3, toUpdate.getRetailPrice());

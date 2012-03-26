@@ -42,7 +42,7 @@ public class AdministrateUserPane extends BasePane{
 	}
 	private void setUpButtons() {
 		logger.info("Setting up buttons");
-		confirmUser = new JButton("<html>Benutzer<br>Ãœbernehmen</html>");
+		confirmUser = new JButton("<html>Benutzer<br>Übernehmen</html>");
 		confirmUser.addActionListener(new usernameChangeListener());
 	}	
 	

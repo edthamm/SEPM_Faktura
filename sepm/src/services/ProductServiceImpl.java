@@ -83,7 +83,15 @@ public class ProductServiceImpl implements ProductService {
 	
 	protected double roundTwoDecimals(double d) {
 		DecimalFormat twoDForm = new DecimalFormat("#.##");
-		return Double.valueOf(twoDForm.format(d));
+		double r = 0;
+		try{
+		    r = Double.valueOf(twoDForm.format(d));
+		}
+		catch(Exception e){
+		    return d;
+		}
+		
+		return r;
 	}
 
 	/* (non-Javadoc)
@@ -96,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
 				increasePriceByFivePercent(p);
 			}
 		}
-		catch(Exception e){
+		catch(ProductServiceException e){
 			throw new ProductServiceException("Could not persist product");
 
 		}
@@ -122,7 +130,11 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	public void updateProduct(Product p) throws ProductServiceException {
-		try {
+		if(p.getPurchasePrice() < 0 || p.getRetailPrice() < 0){
+		    throw new IllegalArgumentException("Preise müssen positiv sein");
+		}
+	    
+	    try {
 			dao.updateProduct(p);
 		} catch (JDBCProductDAOImplException e) {
 			logger.error("Could not persist Product");
