@@ -2,6 +2,8 @@ package gui;
 
 import gui.AdministrateInvoicePane.searchListener;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 
@@ -9,6 +11,11 @@ public class AdministrateInvoicePaneTests {
 
 	private AdministrateInvoicePane  ip = new AdministrateInvoicePane(null, null);
 	private searchListener sl = ip.getSearchListener();
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+	    PropertyConfigurator.configure("tests/log4jtest.properties");
+	}
 	
 	@Test
 	public void testRegexSuccess() {
