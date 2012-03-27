@@ -284,6 +284,7 @@ public class AdministrateProductsPane extends BasePane {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			sorter.setRowFilter(null);
 			updateResultsOfProductSearch(stats.getTopThreeProductsOfLastThirtyDays());
 		}
 		
@@ -341,11 +342,13 @@ public class AdministrateProductsPane extends BasePane {
 		private RowFilter<? super TableModel, Object> createIdFilter() {
 			try{
 				logger.debug("Creating id filter");
-				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, Integer.parseInt(pnrField.getText()), 0);
+				int i = Integer.parseInt(pnrField.getText());
+				if(i < 0){ throw new IllegalArgumentException();}
+				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, i , 0);
 			}
 			catch(Exception e){
 				if(!pnrField.getText().isEmpty()){
-					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die ID. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie die ID. Es scheint sich um keine Zahl >0 zu handeln. Der Wert wird ignoriert.");
 				}
 			}
 			return null;
@@ -376,11 +379,13 @@ public class AdministrateProductsPane extends BasePane {
 				if(v == 0){ct = ct.EQUAL;}
 				if(v == 1){ct = ct.BEFORE;}
 				if(v == 2){ct = ct.AFTER;}
-				return RowFilter.numberFilter(ct, Double.parseDouble(rpriceField.getText()), 2);
+				double d = Double.parseDouble(rpriceField.getText());
+				if(d < 0){throw new IllegalArgumentException();}
+				return RowFilter.numberFilter(ct, d, 2);
 			}
 			catch(Exception e){
 				if(!rpriceField.getText().isEmpty()){
-					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie den Verkaufspreis. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie den Verkaufspreis. Es scheint sich um keine Zahl >0 zu handeln. Der Wert wird ignoriert.");
 				}
 			}
 			return null;
@@ -395,11 +400,13 @@ public class AdministrateProductsPane extends BasePane {
 				if(v == 0){ct = ct.EQUAL;}
 				if(v == 1){ct = ct.BEFORE;}
 				if(v == 2){ct = ct.AFTER;}
-				return RowFilter.numberFilter(ct, Double.parseDouble(ppriceField.getText()), 3);
+				double d = Double.parseDouble(ppriceField.getText());
+				if(d < 0){throw new IllegalArgumentException();}
+				return RowFilter.numberFilter(ct, d, 3);
 			}
 			catch(Exception e){
 				if(!ppriceField.getText().isEmpty()){
-					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie den Einkaufspreis. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+					JOptionPane.showMessageDialog(null, "Bitte überprüfen Sie den Einkaufspreis. Es scheint sich um keine Zahl >0 zu handeln. Der Wert wird ignoriert.");
 				}
 			}
 			return null;
