@@ -183,12 +183,7 @@ public class AdministrateInvoicePane extends BasePane {
 		super.eastButtons.setLayout(new MigLayout("","grow",":push[]"));
 	}
 	
-	/**
-	 * Update results of invoice search.
-	 *
-	 * @param invoices the invoices to be displayed
-	 */
-	public void updateResultsOfInvoiceSearch(List<Invoice> invoices){
+	private void updateResultsOfInvoiceSearch(List<Invoice> invoices){
 		logger.info("Updating Result Table");
 		resetTableModel();
 		if(invoices == null || invoices.isEmpty()){}
@@ -237,7 +232,7 @@ public class AdministrateInvoicePane extends BasePane {
 			}
 			catch(Exception e){
 				logger.warn("User tried invalid date");
-				JOptionPane.showMessageDialog(null, "Bitte Überprüfen Sie Ihre Datumseingabe auf korrekte Formatierung.");
+				JOptionPane.showMessageDialog(null, "Bitte ï¿½berprï¿½fen Sie Ihre Datumseingabe auf korrekte Formatierung.");
 				return;
 			}
 			filterTable();
@@ -277,7 +272,7 @@ public class AdministrateInvoicePane extends BasePane {
 			}
 			catch(Exception e){
 				if(!inrField.getText().isEmpty()){
-					JOptionPane.showMessageDialog(null, "Bitte Überprüfen Sie die ID. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+					JOptionPane.showMessageDialog(null, "Bitte ï¿½berprï¿½fen Sie die ID. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
 				}
 			}
 			return null;

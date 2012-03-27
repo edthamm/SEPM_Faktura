@@ -366,7 +366,7 @@ public class AdministrateProductsPane extends BasePane {
 			return null;
 		}
 		
-		@SuppressWarnings({ "static-access", "null" })
+		@SuppressWarnings({ "static-access" })
 		private RowFilter<? super TableModel, Object> createRPriceFilter() {
 			try{
 				logger.debug("Creating RPrice filter");
@@ -385,7 +385,7 @@ public class AdministrateProductsPane extends BasePane {
 			return null;
 		}
 		
-		@SuppressWarnings({ "static-access", "null" })
+		@SuppressWarnings({ "static-access" })
 		private RowFilter<? super TableModel, Object> createPPriceFilter() {
 			try{
 				logger.debug("Creating PPrice filter");

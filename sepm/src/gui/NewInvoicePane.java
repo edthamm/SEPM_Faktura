@@ -99,9 +99,9 @@ public class NewInvoicePane extends BasePane{
 		logger.info("Creating Buttons");
 		newInvoice = new JButton("<html>Neue<br>Rechnung</html>");
 		newInvoice.addActionListener(new newInvoiceListener());
-		addProduct = new JButton("Hinzufügen");
+		addProduct = new JButton("Hinzufï¿½gen");
 		addProduct.addActionListener(new addProductListener());
-		closeInvoice = new JButton("<html>Rechnung<br>abschließen<html>");
+		closeInvoice = new JButton("<html>Rechnung<br>abschlieï¿½en<html>");
 		closeInvoice.addActionListener(new closeInvoiceListener());
 		search = new JButton("Suchen");
 		search.addActionListener(new searchListener());
@@ -182,23 +182,12 @@ public class NewInvoicePane extends BasePane{
 		wf.add(qtyField,"right, w 100");
 	}
 	
-	/**
-	 * Adds the invoice to open invoices box.
-	 *
-	 * @param invoiceName the invoice name
-	 */
-	public void addInvoiceToOpenInvoices(String invoiceName){
+	private void addInvoiceToOpenInvoices(String invoiceName){
 		logger.info("Adding to open Invoices box");
 		openInvoicesBox.addItem(invoiceName);
 	}
 	
-	
-	/**
-	 * Update results of product search.
-	 *
-	 * @param products the products to be displayed
-	 */
-	public void updateResultsOfProductSearch(List<Product> products){
+	private void updateResultsOfProductSearch(List<Product> products){
 		logger.info("Updating Result Table");
 		resetTableModel();
 		if(products == null || products.isEmpty()){}
@@ -267,7 +256,7 @@ public class NewInvoicePane extends BasePane{
 			}
 			catch(ArrayIndexOutOfBoundsException  e1){
 				logger.debug("Someone did not select a product to add");
-				JOptionPane.showMessageDialog(null, "Bitte wählen Sie ein Produkt aus.");
+				JOptionPane.showMessageDialog(null, "Bitte wï¿½hlen Sie ein Produkt aus.");
 				return;
 			}
 			String qtyString = qtyField.getText();

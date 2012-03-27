@@ -36,11 +36,12 @@ public class MainFrame extends JFrame{
 	private InvoiceDAO idao;
 	private InvoiceService is;
 	private ProductService ps;
+	private JDBCProductDAOImpl pdao;
+	private StatisticService stats;
 	
 
 	private JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
-	private JDBCProductDAOImpl pdao;
-	private StatisticService stats;
+
 	
 	/**
 	 * Instantiates a new main frame.
@@ -58,6 +59,21 @@ public class MainFrame extends JFrame{
 		
 	}
 
+	private void handleAllTheSetup(){
+		try {
+			pdao = new JDBCProductDAOImpl(dbc);
+			ps = new ProductServiceImpl(pdao);
+			idao = new JDBCInvoiceDAOImpl(dbc);
+			is = new InvoiceServiceImpl(idao, ps);
+			stats = new StatisticServiceImpl(ps, is);
+		} catch (JDBCInvoiceDAOImplException e) {
+		} catch (JDBCProductDAOImplException e) {
+			JOptionPane.showMessageDialog(null, "Es konnte keine Datenbankverbindung aufgebaut werden. Das Programm wird geschlossen.");
+			logger.fatal("Could not connect to persistence Layer terminating");
+			System.exit(1);
+		}
+	}
+	
 	private void setLayoutOfMainFrame() {
 		logger.info("Setting Layout");
 		MigLayout layout = new MigLayout();
@@ -84,21 +100,7 @@ public class MainFrame extends JFrame{
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
-	private void handleAllTheSetup(){
-		try {
-			pdao = new JDBCProductDAOImpl(dbc);
-			ps = new ProductServiceImpl(pdao);
-			idao = new JDBCInvoiceDAOImpl(dbc);
-			is = new InvoiceServiceImpl(idao, ps);
-			stats = new StatisticServiceImpl(ps, is);
-		} catch (JDBCInvoiceDAOImplException e) {
-		} catch (JDBCProductDAOImplException e) {
-			JOptionPane.showMessageDialog(null, "Es konnte keine Datenbankverbindung aufgebaut werden. Das Programm wird geschlossen.");
-			logger.fatal("Could not connect to persistence Layer terminating");
-			System.exit(1);
-		}
-	}
-	
+
 	/**
 	 * The main method.
 	 *
