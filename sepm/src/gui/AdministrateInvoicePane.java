@@ -232,7 +232,7 @@ public class AdministrateInvoicePane extends BasePane {
 			}
 			catch(Exception e){
 				logger.warn("User tried invalid date");
-				JOptionPane.showMessageDialog(null, "Bitte ï¿½berprï¿½fen Sie Ihre Datumseingabe auf korrekte Formatierung.");
+				JOptionPane.showMessageDialog(null, "Bitte Überprüfen Sie Ihre Datumseingabe auf korrekte Formatierung.");
 				return;
 			}
 			filterTable();
@@ -268,11 +268,13 @@ public class AdministrateInvoicePane extends BasePane {
 		private RowFilter<? super TableModel, Object> createIdFilter() {
 			try{
 				logger.debug("Creating id filter");
-				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, Integer.parseInt(inrField.getText()), 0);
+				int i = Integer.parseInt(inrField.getText());
+				if (i <0){throw new IllegalArgumentException();}
+				return RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, i, 0);
 			}
 			catch(Exception e){
 				if(!inrField.getText().isEmpty()){
-					JOptionPane.showMessageDialog(null, "Bitte ï¿½berprï¿½fen Sie die ID. Es scheint sich um keine Zahl zu handeln. Der Wert wird ignoriert.");
+					JOptionPane.showMessageDialog(null, "Bitte Überprüfen Sie die ID. Es scheint sich um keine Zahl >0 zu handeln. Der Wert wird ignoriert.");
 				}
 			}
 			return null;
