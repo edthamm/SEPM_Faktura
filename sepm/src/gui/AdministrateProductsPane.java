@@ -90,7 +90,7 @@ public class AdministrateProductsPane extends BasePane {
 		newProduct.addActionListener(new newProductListener());
 		search = new JButton("Suchen");
 		search.addActionListener(new searchListener());
-		increasePriceOfTopsellers = new JButton("Preis der Top 3 um 5% erhÃ¶hen");
+		increasePriceOfTopsellers = new JButton("Preis der Top 3 um 5% erhöhen");
 		increasePriceOfTopsellers.addActionListener(new top3increaserListener());
 		showTopsellers = new JButton("Top 3 der letzten 30 Tage anzeigen");
 		showTopsellers.addActionListener(new top3listListener());
@@ -269,6 +269,7 @@ public class AdministrateProductsPane extends BasePane {
 			Product p;
 			try {
 				p = ps.generateNewProduct();
+				logger.debug("Generated new Product with id: " +p.getId());
 			} catch (ProductServiceException e1) {
 				logger.error("Could not create Product");
 				JOptionPane.showMessageDialog(null, "Scheinbar gibt es ein Datenbank Problem. Bitte mal nen Techniker holen");

@@ -58,8 +58,7 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	
 	private void prepareStatements() throws SQLException{
 		createStatement = c.prepareStatement("insert into products values (NULL,?,?,?,?,?)");
-		getPidAfterCreate = c.prepareStatement("select pid from products where label = ? and" +
-				" purchasePrice = ? and retailPrice = ? and supplier = ?");
+		getPidAfterCreate = c.prepareStatement("select max(pid) as pid from products");
 		updateProductStmt = c.prepareStatement("update products set label = ?, purchasePrice = ?, retailPrice = ?," +
 				" supplier = ? where pid = ?");
 		markProductDeleted = c.prepareStatement("update products set inSale = false where pid = ?");
@@ -112,10 +111,6 @@ public class JDBCProductDAOImpl implements ProductDAO{
 	}
 
 	private int getIdOfJustInsertedProduct(ProductImpl newProduct) throws SQLException {
-		getPidAfterCreate.setString(1,newProduct.getLabel());
-		getPidAfterCreate.setDouble(2,newProduct.getPurchasePrice());
-		getPidAfterCreate.setDouble(3,newProduct.getRetailPrice());
-		getPidAfterCreate.setString(4,newProduct.getSupplier());
 		
 		ResultSet r = getPidAfterCreate.executeQuery();
 		r.next();

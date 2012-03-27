@@ -99,9 +99,9 @@ public class NewInvoicePane extends BasePane{
 		logger.info("Creating Buttons");
 		newInvoice = new JButton("<html>Neue<br>Rechnung</html>");
 		newInvoice.addActionListener(new newInvoiceListener());
-		addProduct = new JButton("Hinzufï¿½gen");
+		addProduct = new JButton("Hinzufügen");
 		addProduct.addActionListener(new addProductListener());
-		closeInvoice = new JButton("<html>Rechnung<br>abschlieï¿½en<html>");
+		closeInvoice = new JButton("<html>Rechnung<br>abschließen<html>");
 		closeInvoice.addActionListener(new closeInvoiceListener());
 		search = new JButton("Suchen");
 		search.addActionListener(new searchListener());

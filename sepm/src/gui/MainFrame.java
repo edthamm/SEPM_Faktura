@@ -67,12 +67,17 @@ public class MainFrame extends JFrame{
 			is = new InvoiceServiceImpl(idao, ps);
 			stats = new StatisticServiceImpl(ps, is);
 		} catch (JDBCInvoiceDAOImplException e) {
+		    abortWithDbNotFoundMessage();
 		} catch (JDBCProductDAOImplException e) {
-			JOptionPane.showMessageDialog(null, "Es konnte keine Datenbankverbindung aufgebaut werden. Das Programm wird geschlossen.");
-			logger.fatal("Could not connect to persistence Layer terminating");
-			System.exit(1);
+			abortWithDbNotFoundMessage();
 		}
 	}
+
+    private void abortWithDbNotFoundMessage() {
+        JOptionPane.showMessageDialog(null, "Es konnte keine Datenbankverbindung aufgebaut werden. Das Programm wird geschlossen.");
+        logger.fatal("Could not connect to persistence Layer terminating");
+        System.exit(1);
+    }
 	
 	private void setLayoutOfMainFrame() {
 		logger.info("Setting Layout");

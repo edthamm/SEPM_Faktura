@@ -63,8 +63,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 	
 	private void prepareStatements() throws SQLException {
 		createStatement = c.prepareStatement("INSERT INTO INVOICE VALUES (NULL,?,0,?,?)");//date waiter time
-		getIdAfterCreate = c.prepareStatement("SELECT iid FROM invoice WHERE total = 0 AND" +
-											  " date = ? AND waiter = ? AND time = ?");
+		getIdAfterCreate = c.prepareStatement("select max(iid) as iid from invoice");
 		updateInvoice = c.prepareStatement("UPDATE INVOICE SET date = ?, waiter = ?, time = ?, total = ? where iid = ?");
 		insertIntoContains = c.prepareStatement("INSERT INTO contains VALUES (?,?,?,?)");
 		delete = c.prepareStatement("delete from invoice where iid = ? and total = 0");
@@ -114,10 +113,7 @@ public class JDBCInvoiceDAOImpl implements InvoiceDAO {
 
 	private int getIdOfJustInsertedInvoice(Invoice newInvoice)
 			throws SQLException {
-		getIdAfterCreate.setDate(1, newInvoice.getDate());
-		getIdAfterCreate.setString(2, newInvoice.getWaiter());
-		getIdAfterCreate.setTime(3, newInvoice.getTime());
-		
+	    
 		ResultSet r = getIdAfterCreate.executeQuery();
 		r.next();
 		int id = r.getInt("iid");

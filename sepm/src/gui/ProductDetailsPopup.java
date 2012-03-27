@@ -120,7 +120,9 @@ public class ProductDetailsPopup extends JOptionPane {
 	 * @param t the product to be displayed
 	 */
 	public void forProduct(Product t){
-		p = ps.getProductbyId(t.getId());
+	    logger.debug("Got product with id: " +t.getId());
+	    p = t;
+	    logger.debug("Id of internal Product now is: " +p.getId());
 		init();
 	}
 
