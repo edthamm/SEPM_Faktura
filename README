@@ -1,0 +1,28 @@
+############################################################
+Faktura - A simple program to manage Products and Invoices
+############################################################
+
+    Copyright (C) 2012  Eduard Thamm
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+This progam is full of bugs and glitches and the code is really ugly in most parts of the programm.
+This is not a coincedent, since it basically is a throw away application which I wrote for a University course, DO NOT GO IN TO ANYTHING THAT IS REMOTELY PRODUCTION LIKE WITH THIS.
+
+That beeing said I am uploading this for other students so they can see how I handeled and interpreted the FDD that where handed down to us by the faculty.
+
+Now go kick your brains out reading some code.
+
+And most of all have fun.
