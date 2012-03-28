@@ -1,3 +1,0 @@
-java -cp lib\hsqldb.jar org.hsqldb.server.Server -database.0 mydb -dbname.0 productiondb
-java -cp lib\hsqldb.jar org.hsqldb.server.Server -database.0 mytestdb -dbname.0 testdb
-java -cp lib\hsqldb.jar org.hsqldb.util.DatabaseManagerSwing
