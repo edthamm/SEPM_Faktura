@@ -19,6 +19,8 @@ Faktura - A simple program to manage Products and Invoices
 
 Licenses of the used libs are in the lib directory and can be viewed on their respective homepages.
 
+This pice of software is atm neither actively maintained or developed any more.
+
 
 This progam is full of bugs and glitches and the code is really ugly in most parts of the programm.
 This is not a coincedent, since it basically is a throw away application which I wrote for a University course, DO NOT GO IN TO ANYTHING THAT IS REMOTELY PRODUCTION LIKE WITH THIS.
